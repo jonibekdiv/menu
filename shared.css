@@ -1,19 +1,18 @@
 /* Osh Markazi menyu: shared tokens and surfaces for index.html and admin.html */
 :root{
   color-scheme:light;
-  /* brand palette: cream #F3EEE3, ink black #111111, burnt orange #D9541E */
-  --paper:#F3EEE3; --paper-2:#F9F6EF; --paper-3:#E8E1D2;
-  --ink:#111111; --ink-2:#2A2724; --muted:#5C564D;
-  --rule:#DCD4C3;
-  --accent:#D9541E; --accent-ink:#111111; --focus:#D9541E;
-  --gold:#D9541E;
-  --ok:#2E7D4F; --danger:#B3261E;
-  --blob-1:transparent; --blob-2:transparent; --blob-3:transparent;
-  --glass:oklch(100% 0 0 / .55); --glass-strong:oklch(100% 0 0 / .8);
-  --glass-edge:oklch(100% 0 0 / .9); --glass-line:oklch(15% 0 0 / .09);
+  --paper:oklch(97.5% 0.012 85); --paper-2:oklch(99.2% 0.005 85); --paper-3:oklch(93.5% 0.022 80);
+  --ink:oklch(30% 0.05 50); --ink-2:oklch(40% 0.045 50); --muted:oklch(50% 0.05 55);
+  --rule:oklch(89% 0.025 78);
+  --accent:oklch(54% 0.20 24); --accent-ink:oklch(98% 0.01 85); --focus:oklch(54% 0.20 24);
+  --gold:oklch(74% 0.14 75);
+  --ok:oklch(52% 0.12 150); --danger:oklch(52% 0.19 27);
+  --blob-1:oklch(88% 0.09 80 / .55); --blob-2:oklch(86% 0.08 35 / .4); --blob-3:oklch(92% 0.05 140 / .35);
+  --glass:oklch(100% 0 0 / .6); --glass-strong:oklch(100% 0 0 / .82);
+  --glass-edge:oklch(100% 0 0 / .85); --glass-line:oklch(30% 0.05 50 / .09);
   --glass-hi:inset 0 1px 0 oklch(100% 0 0 / .9);
-  --shadow:0 8px 28px oklch(20% 0.02 60 / .08); --shadow-lift:0 18px 44px oklch(20% 0.02 60 / .14);
-  --scrim:oklch(10% 0 0 / .45);
+  --shadow:0 8px 28px oklch(35% 0.06 50 / .10); --shadow-lift:0 18px 44px oklch(35% 0.06 50 / .16);
+  --scrim:oklch(25% 0.04 50 / .45);
   --blur:blur(18px) saturate(160%);
 
   --font-display:"Yeseva One",ui-serif,Georgia,serif;
@@ -29,17 +28,17 @@
 }
 html[data-theme="dark"]{
   color-scheme:dark;
-  --paper:#111111; --paper-2:#1B1B1B; --paper-3:#0A0A0A;
-  --ink:#F3EEE3; --ink-2:#DAD3C6; --muted:#A9A296;
-  --rule:#333333;
-  --accent:#D9541E; --accent-ink:#111111; --focus:#D9541E; --gold:#D9541E;
-  --ok:#5FBF85; --danger:#F07167;
-  --blob-1:transparent; --blob-2:transparent; --blob-3:transparent;
-  --glass:oklch(100% 0 0 / .05); --glass-strong:oklch(18% 0 0 / .88);
-  --glass-edge:oklch(100% 0 0 / .1); --glass-line:oklch(100% 0 0 / .08);
-  --glass-hi:inset 0 1px 0 oklch(100% 0 0 / .06);
-  --shadow:0 8px 28px oklch(0% 0 0 / .4); --shadow-lift:0 18px 44px oklch(0% 0 0 / .55);
-  --scrim:oklch(0% 0 0 / .6);
+  --paper:oklch(26% 0.045 40); --paper-2:oklch(31% 0.05 40); --paper-3:oklch(22% 0.04 40);
+  --ink:oklch(95% 0.03 80); --ink-2:oklch(86% 0.03 80); --muted:oklch(76% 0.04 70);
+  --rule:oklch(42% 0.05 50);
+  --focus:oklch(84% 0.11 80); --gold:oklch(78% 0.14 80);
+  --ok:oklch(76% 0.14 150); --danger:oklch(74% 0.16 27);
+  --blob-1:oklch(45% 0.09 70 / .45); --blob-2:oklch(40% 0.10 30 / .4); --blob-3:oklch(38% 0.05 140 / .3);
+  --glass:oklch(38% 0.04 45 / .5); --glass-strong:oklch(33% 0.04 45 / .86);
+  --glass-edge:oklch(100% 0 0 / .14); --glass-line:oklch(100% 0 0 / .09);
+  --glass-hi:inset 0 1px 0 oklch(100% 0 0 / .12);
+  --shadow:0 8px 28px oklch(10% 0.02 40 / .35); --shadow-lift:0 18px 44px oklch(10% 0.02 40 / .5);
+  --scrim:oklch(10% 0.02 40 / .6);
 }
 
 *,*::before,*::after{box-sizing:border-box}
