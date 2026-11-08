@@ -1,0 +1,255 @@
+{
+  "version": 1,
+  "updatedAt": "2026-11-08T00:00:00.000Z",
+  "settings": {
+    "name": "Osh Markazi",
+    "phone": "+998 90 123 45 67",
+    "telegram": "oshmarkazi",
+    "hours": "Har kuni 09:00 dan 22:00 gacha",
+    "address": "",
+    "currency": "so'm"
+  },
+  "cats": [
+    {
+      "id": "plov",
+      "name": "Plov",
+      "icon": "bowl"
+    },
+    {
+      "id": "shashlik",
+      "name": "Shashlik",
+      "icon": "skewer"
+    },
+    {
+      "id": "manti",
+      "name": "Manti",
+      "icon": "dumpling"
+    },
+    {
+      "id": "lagmon",
+      "name": "Lag'mon",
+      "icon": "noodles"
+    },
+    {
+      "id": "non",
+      "name": "Non va somsa",
+      "icon": "bread"
+    },
+    {
+      "id": "ichimlik",
+      "name": "Ichimliklar",
+      "icon": "cup"
+    }
+  ],
+  "dishes": [
+    {
+      "id": "plov-1",
+      "name": "Toshkent oshi",
+      "desc": "An'anaviy to'y oshi: devzira guruch, qo'zichoq, sabzi",
+      "price": 45000,
+      "cat": "plov",
+      "tag": "Mashhur",
+      "ing": "Guruch, qo'zichoq, sabzi, piyoz, zira",
+      "imgs": [],
+      "available": true
+    },
+    {
+      "id": "plov-2",
+      "name": "Chayxona oshi",
+      "desc": "Choyxona uslubidagi to'yimli osh, no'xat bilan",
+      "price": 52000,
+      "cat": "plov",
+      "tag": "Hit",
+      "ing": "Guruch, qo'zichoq, no'xat, mayiz, sabzi",
+      "imgs": [],
+      "available": true
+    },
+    {
+      "id": "plov-3",
+      "name": "Bayram oshi",
+      "desc": "Bedana tuxumi va za'faron bilan bayram dasturxoni",
+      "price": 65000,
+      "cat": "plov",
+      "tag": "Yangi",
+      "ing": "Guruch, qo'zichoq, bedana tuxumi, za'faron",
+      "imgs": [],
+      "available": true
+    },
+    {
+      "id": "shashlik-4",
+      "name": "Qiyma shashlik",
+      "desc": "Yangi maydalangan go'shtdan, ko'mirda pishirilgan",
+      "price": 25000,
+      "cat": "shashlik",
+      "tag": "Mashhur",
+      "ing": "Qiyma, piyoz, ziravorlar, non",
+      "imgs": [],
+      "available": true
+    },
+    {
+      "id": "shashlik-5",
+      "name": "Qo'y shashlik",
+      "desc": "Yumshoq qo'zichoq bo'laklari, dudlangan ta'm bilan",
+      "price": 35000,
+      "cat": "shashlik",
+      "tag": "Hit",
+      "ing": "Qo'zichoq go'shti, tuz, zira, piyoz",
+      "imgs": [],
+      "available": true
+    },
+    {
+      "id": "shashlik-6",
+      "name": "Tovuq shashlik",
+      "desc": "Marinadlangan tovuq filesi, yengil va sharbatli",
+      "price": 28000,
+      "cat": "shashlik",
+      "tag": "",
+      "ing": "Tovuq filesi, sarimsoq, ziravorlar",
+      "imgs": [],
+      "available": true
+    },
+    {
+      "id": "shashlik-7",
+      "name": "Jigar shashlik",
+      "desc": "Jigar shashlik, achchiq-qalampir ta'm bilan",
+      "price": 22000,
+      "cat": "shashlik",
+      "tag": "",
+      "ing": "Jigar, piyoz, ziravorlar",
+      "imgs": [],
+      "available": true
+    },
+    {
+      "id": "manti-8",
+      "name": "Bug'doy manti",
+      "desc": "Yupqa xamir, suvli qiyma, bug'da pishirilgan",
+      "price": 30000,
+      "cat": "manti",
+      "tag": "Mashhur",
+      "ing": "Xamir, go'sht, piyoz, qovoq",
+      "imgs": [],
+      "available": true
+    },
+    {
+      "id": "manti-9",
+      "name": "Tandir manti",
+      "desc": "Tandirda qizartirilgan, qarsildoq manti",
+      "price": 38000,
+      "cat": "manti",
+      "tag": "Yangi",
+      "ing": "Xamir, go'sht, piyoz, kunjut",
+      "imgs": [],
+      "available": true
+    },
+    {
+      "id": "manti-10",
+      "name": "Xonim",
+      "desc": "Yupqa xamir o'ramidagi sabzavotli taom",
+      "price": 32000,
+      "cat": "manti",
+      "tag": "",
+      "ing": "Xamir, kartoshka, qovoq, piyoz",
+      "imgs": [],
+      "available": true
+    },
+    {
+      "id": "lagmon-11",
+      "name": "Qo'l lag'mon",
+      "desc": "Qo'lda cho'zilgan xamir, sabzavotli qovurma",
+      "price": 42000,
+      "cat": "lagmon",
+      "tag": "Hit",
+      "ing": "Xamir, go'sht, sabzavot, sarimsoq",
+      "imgs": [],
+      "available": true
+    },
+    {
+      "id": "lagmon-12",
+      "name": "Qovurma lag'mon",
+      "desc": "Qozonda qovurilgan, achchiqroq ta'm",
+      "price": 38000,
+      "cat": "lagmon",
+      "tag": "",
+      "ing": "Xamir, go'sht, bulg'or qalampiri",
+      "imgs": [],
+      "available": true
+    },
+    {
+      "id": "lagmon-13",
+      "name": "Sho'rva lag'mon",
+      "desc": "Issiq sho'rva bilan, sovuq kunlar uchun",
+      "price": 40000,
+      "cat": "lagmon",
+      "tag": "",
+      "ing": "Xamir, go'sht, sabzavot, ko'kat",
+      "imgs": [],
+      "available": true
+    },
+    {
+      "id": "non-14",
+      "name": "Obi non",
+      "desc": "Tandirdan yangi chiqqan, qarsildoq non",
+      "price": 5000,
+      "cat": "non",
+      "tag": "Mashhur",
+      "ing": "Un, suv, xamirturush, tuz",
+      "imgs": [],
+      "available": true
+    },
+    {
+      "id": "non-15",
+      "name": "Patir",
+      "desc": "Qatlamli, sariyog'li tandir patiri",
+      "price": 8000,
+      "cat": "non",
+      "tag": "",
+      "ing": "Un, sariyog', sut, kunjut",
+      "imgs": [],
+      "available": true
+    },
+    {
+      "id": "non-16",
+      "name": "Tandir somsa",
+      "desc": "Tandirda pishirilgan, go'shtli somsa",
+      "price": 12000,
+      "cat": "non",
+      "tag": "",
+      "ing": "Xamir, go'sht, piyoz, zira",
+      "imgs": [],
+      "available": true
+    },
+    {
+      "id": "ichimlik-17",
+      "name": "Ko'k choy",
+      "desc": "Choynakda damlangan ko'k choy",
+      "price": 5000,
+      "cat": "ichimlik",
+      "tag": "Mashhur",
+      "ing": "Ko'k choy bargi, qaynoq suv",
+      "imgs": [],
+      "available": true
+    },
+    {
+      "id": "ichimlik-18",
+      "name": "Ayron",
+      "desc": "Uy ayroni, salqin va foydali",
+      "price": 10000,
+      "cat": "ichimlik",
+      "tag": "",
+      "ing": "Qatiq, tuz, suv, ko'kat",
+      "imgs": [],
+      "available": true
+    },
+    {
+      "id": "ichimlik-19",
+      "name": "Kompot",
+      "desc": "Mevali uy kompoti, tabiiy shirinlik",
+      "price": 12000,
+      "cat": "ichimlik",
+      "tag": "",
+      "ing": "Olma, o'rik, uzum, suv",
+      "imgs": [],
+      "available": true
+    }
+  ]
+}

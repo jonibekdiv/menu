@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="uz" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Osh Markazi menyusini boshqarish paneli.">
+<title>Admin panel: menyu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Yeseva+One&family=Archivo:wght@400;500&family=Archivo+Narrow:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+main{padding-block:var(--s6) var(--s8)}
+@media (max-width:520px){
+  #previewLink{width:44px;padding:0}
+  #previewLink span:last-child{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+}
+.login{max-width:400px;margin:var(--s7) auto 0;padding:var(--s6);border-radius:var(--r-xl);text-align:center}
+.login .lock{width:64px;height:64px;margin:0 auto var(--s4);display:grid;place-items:center;border-radius:var(--r-pill);background:var(--ink);color:var(--paper)}
+.login h1{font-size:var(--t-2xl);margin-bottom:var(--s2)}
+.login p{color:var(--muted);margin-bottom:var(--s5)}
+.login .field{text-align:left}
+.pin-input{letter-spacing:.4em;font-size:var(--t-xl);text-align:center}
+
+.panel-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:var(--s3);margin-bottom:var(--s5)}
+.panel-head h1{font-size:var(--t-2xl)}
+.status{color:var(--muted);font-size:var(--t-sm)}
+.notice{padding:var(--s3) var(--s4);border-radius:var(--r-md);margin-bottom:var(--s5);font-size:var(--t-sm);color:var(--ink-2);display:flex;flex-wrap:wrap;gap:var(--s3);align-items:center;justify-content:space-between}
+.tabs{display:flex;gap:var(--s1);padding:var(--s1);border-radius:var(--r-pill);overflow-x:auto;scrollbar-width:none;margin-bottom:var(--s5)}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:1 0 auto;min-height:44px;padding:0 var(--s4);border-radius:var(--r-pill);font:600 var(--t-sm)/1 var(--font-label);color:var(--ink-2);white-space:nowrap;
+  transition:background var(--dur) var(--ease),color var(--dur) var(--ease)}
+.tab:hover{background:var(--glass-strong)}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--paper)}
+
+.bar{display:flex;flex-wrap:wrap;gap:var(--s3);align-items:center;margin-bottom:var(--s4)}
+.bar .input{flex:1 1 200px;width:auto}
+.bar select.input{flex:0 1 220px}
+.list{list-style:none;margin:0;padding:0;display:grid;gap:var(--s2)}
+.row{display:flex;align-items:center;gap:var(--s3);padding:var(--s2) var(--s3) var(--s2) var(--s2);border-radius:var(--r-lg)}
+.row.off{opacity:.62}
+.row .thumb{width:56px;height:56px;flex:0 0 auto;border-radius:var(--r-sm);overflow:hidden;background:var(--paper-3);display:grid;place-items:center;color:var(--ink-2)}
+.row .thumb img{width:100%;height:100%;object-fit:cover}
+.row-main{flex:1;min-width:0}
+.row-name{font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row-sub{font-size:var(--t-sm);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row-actions{display:flex;align-items:center;gap:var(--s2);flex:0 0 auto}
+@media (max-width:520px){.row{flex-wrap:wrap}.row-actions{width:100%;justify-content:flex-end}}
+
+.card{padding:var(--s5);border-radius:var(--r-xl);margin-bottom:var(--s5)}
+.card h2{font-size:var(--t-xl);margin-bottom:var(--s2)}
+.card > p{color:var(--ink-2);margin-bottom:var(--s4);max-width:62ch}
+.actions{display:flex;flex-wrap:wrap;gap:var(--s3)}
+.steps{margin:0 0 var(--s4);padding-left:1.2em;color:var(--ink-2);max-width:62ch}
+.steps li{margin-bottom:var(--s1)}
+
+.imgs{list-style:none;margin:0 0 var(--s3);padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:var(--s2)}
+.img-item{position:relative;aspect-ratio:1;border-radius:var(--r-md);overflow:hidden;background:var(--paper-3)}
+.img-item img{width:100%;height:100%;object-fit:cover}
+.img-item .first{position:absolute;left:var(--s1);top:var(--s1)}
+.img-tools{position:absolute;right:var(--s1);bottom:var(--s1);display:flex;gap:var(--s1)}
+.img-tools .icon-btn{width:36px;height:36px}
+.img-empty{padding:var(--s4);border-radius:var(--r-md);border:1px dashed var(--rule);color:var(--muted);font-size:var(--t-sm);margin-bottom:var(--s3)}
+.file-btn{position:relative;overflow:hidden}
+.file-btn input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.file-btn:focus-within{outline:2px solid var(--focus);outline-offset:2px}
+.icon-grid{display:flex;flex-wrap:wrap;gap:var(--s2)}
+.icon-opt{width:48px;height:48px;display:grid;place-items:center;border-radius:var(--r-sm);border:1px solid var(--glass-line);background:var(--glass-strong);color:var(--ink)}
+.icon-opt[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.switch-row{display:flex;align-items:center;justify-content:space-between;gap:var(--s3);padding:var(--s3) 0;margin-bottom:var(--s4);border-top:1px solid var(--glass-line);border-bottom:1px solid var(--glass-line)}
+.sheet-foot{display:flex;flex-wrap:wrap;gap:var(--s3);justify-content:space-between;margin-top:var(--s5)}
+.sheet-foot .btn-primary{flex:1 1 200px}
+</style>
+</head>
+<body>
+
+<header class="top glass">
+  <div class="wrap">
+    <span class="brand">
+      <span class="brand-mark" id="brandMark"></span>
+      <span class="brand-name">Admin panel</span>
+    </span>
+    <div class="top-actions">
+      <a class="btn btn-ghost" href="index.html?draft=1" target="_blank" rel="noopener" id="previewLink" hidden><span id="eyeIco"></span><span>Ko'rish</span></a>
+      <button class="icon-btn" id="logoutBtn" type="button" aria-label="Chiqish" hidden></button>
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="Qorong'i rejim"></button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- LOGIN -->
+  <section class="login glass" id="login" aria-labelledby="loginTitle">
+    <div class="lock" id="lockIco"></div>
+    <h1 id="loginTitle">Admin kirishi</h1>
+    <p>Menyuni o'zgartirish uchun PIN kodni kiriting.</p>
+    <form id="loginForm" novalidate>
+      <div class="field">
+        <label for="pin">PIN kod</label>
+        <input class="input pin-input" id="pin" type="password" inputmode="numeric" autocomplete="current-password" maxlength="8" required>
+        <span class="error" id="pinError" role="alert"></span>
+      </div>
+      <button class="btn btn-primary btn-block" type="submit">Kirish</button>
+    </form>
+  </section>
+
+  <!-- PANEL -->
+  <section id="panel" hidden aria-labelledby="panelTitle">
+    <div class="panel-head">
+      <h1 id="panelTitle">Menyuni boshqarish</h1>
+      <span class="status" id="status" role="status"></span>
+    </div>
+    <div class="notice glass" id="pinNotice" hidden>
+      <span>PIN hali standart (1234). Uni Sozlamalar bo'limida almashtiring.</span>
+      <button class="btn btn-ghost" type="button" data-goto="settings">Almashtirish</button>
+    </div>
+
+    <div class="tabs glass" role="tablist" aria-label="Bo'limlar">
+      <button class="tab" role="tab" id="tab-dishes" aria-controls="p-dishes" aria-selected="true" data-tab="dishes">Taomlar</button>
+      <button class="tab" role="tab" id="tab-cats" aria-controls="p-cats" aria-selected="false" data-tab="cats" tabindex="-1">Kategoriyalar</button>
+      <button class="tab" role="tab" id="tab-settings" aria-controls="p-settings" aria-selected="false" data-tab="settings" tabindex="-1">Sozlamalar</button>
+      <button class="tab" role="tab" id="tab-publish" aria-controls="p-publish" aria-selected="false" data-tab="publish" tabindex="-1">Nashr qilish</button>
+    </div>
+
+    <div role="tabpanel" id="p-dishes" aria-labelledby="tab-dishes"></div>
+    <div role="tabpanel" id="p-cats" aria-labelledby="tab-cats" hidden></div>
+    <div role="tabpanel" id="p-settings" aria-labelledby="tab-settings" hidden></div>
+    <div role="tabpanel" id="p-publish" aria-labelledby="tab-publish" hidden></div>
+  </section>
+</main>
+
+<div class="backdrop" id="backdrop"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" tabindex="-1"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="common.js"></script>
+<script>
+const SESSION_KEY = 'oshmarkazi.menyu.admin';
+const LOCK_KEY = 'oshmarkazi.menyu.lock';
+const DEFAULT_PIN = '1234';
+let M = null;
+let dishQuery = '', dishCat = 'all';
+
+/* ---------- PIN (stored only as a hash in this browser) ---------- */
+async function hashPin(pin) {
+  const text = 'oshmarkazi:' + pin;
+  if (window.crypto && crypto.subtle) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+  let h = 2166136261;
+  for (let i = 0; i < text.length; i++) { h ^= text.charCodeAt(i); h = Math.imul(h, 16777619); }
+  return 'f' + (h >>> 0).toString(16);
+}
+function storedPinHash() { try { return localStorage.getItem(PIN_KEY); } catch (e) { return null; } }
+async function checkPin(pin) {
+  const stored = storedPinHash();
+  return stored ? (await hashPin(pin)) === stored : pin === DEFAULT_PIN;
+}
+
+function lockState() {
+  try { return JSON.parse(sessionStorage.getItem(LOCK_KEY)) || { fails: 0, until: 0 }; } catch (e) { return { fails: 0, until: 0 }; }
+}
+function setLockState(s) { try { sessionStorage.setItem(LOCK_KEY, JSON.stringify(s)); } catch (e) {} }
+
+async function onLogin(e) {
+  e.preventDefault();
+  const input = $('#pin'), err = $('#pinError');
+  const lock = lockState();
+  if (lock.until > Date.now()) {
+    err.textContent = `Ko'p urinish. ${Math.ceil((lock.until - Date.now()) / 1000)} soniyadan keyin qayta urinib ko'ring.`;
+    return;
+  }
+  const pin = input.value.trim();
+  if (!/^\d{4,8}$/.test(pin)) { err.textContent = 'PIN 4 dan 8 tagacha raqamdan iborat.'; input.setAttribute('aria-invalid', 'true'); input.focus(); return; }
+  if (await checkPin(pin)) {
+    setLockState({ fails: 0, until: 0 });
+    try { sessionStorage.setItem(SESSION_KEY, '1'); } catch (er) {}
+    input.value = ''; err.textContent = ''; input.removeAttribute('aria-invalid');
+    await enterPanel();
+  } else {
+    lock.fails += 1;
+    if (lock.fails >= 5) { lock.until = Date.now() + 30000; lock.fails = 0; }
+    setLockState(lock);
+    err.textContent = lock.until > Date.now() ? "Ko'p noto'g'ri urinish. 30 soniya kuting." : "PIN noto'g'ri.";
+    input.setAttribute('aria-invalid', 'true');
+    input.select();
+  }
+}
+
+/* ---------- boot ---------- */
+async function boot() {
+  initTheme();
+  initSheet();
+  $('#brandMark').innerHTML = svg('lock', 20);
+  $('#lockIco').innerHTML = svg('lock', 28);
+  $('#logoutBtn').innerHTML = svg('logout', 20);
+  $('#eyeIco').innerHTML = svg('eye', 18);
+  $('#loginForm').addEventListener('submit', onLogin);
+  $('#pin').addEventListener('input', () => { $('#pinError').textContent = ''; $('#pin').removeAttribute('aria-invalid'); });
+  $('#logoutBtn').addEventListener('click', logout);
+  $('#panel').addEventListener('click', e => { const g = e.target.closest('[data-goto]'); if (g) selectTab(g.dataset.goto); });
+  initTabs();
+
+  let authed = false;
+  try { authed = sessionStorage.getItem(SESSION_KEY) === '1'; } catch (e) {}
+  if (authed) await enterPanel(); else $('#pin').focus();
+}
+
+async function enterPanel() {
+  M = loadDraft();
+  if (!M) {
+    M = (await loadPublished()) || defaultMenu();
+    saveDraft(M);
+  }
+  $('#login').hidden = true;
+  $('#panel').hidden = false;
+  $('#previewLink').hidden = false;
+  $('#logoutBtn').hidden = false;
+  $('#pinNotice').hidden = !!storedPinHash();
+  renderAll();
+}
+function logout() {
+  try { sessionStorage.removeItem(SESSION_KEY); } catch (e) {}
+  location.reload();
+}
+
+function commit(msg) {
+  if (saveDraft(M)) { toast(msg || 'Saqlandi'); renderStatus(); }
+}
+function renderStatus() {
+  const t = new Date(M.updatedAt);
+  $('#status').textContent = `${M.dishes.length} ta taom, ${M.cats.length} ta kategoriya. Oxirgi o'zgarish: ${t.toLocaleString('ru-RU', { dateStyle: 'short', timeStyle: 'short' })}`;
+}
+function renderAll() { renderStatus(); renderDishes(); renderCats(); renderSettings(); renderPublish(); }
+
+/* ---------- tabs ---------- */
+function initTabs() {
+  const tabs = $$('.tab');
+  tabs.forEach(t => t.addEventListener('click', () => selectTab(t.dataset.tab)));
+  $('.tabs').addEventListener('keydown', e => {
+    const i = tabs.indexOf(document.activeElement);
+    if (i < 0) return;
+    let n = null;
+    if (e.key === 'ArrowRight') n = (i + 1) % tabs.length;
+    if (e.key === 'ArrowLeft') n = (i - 1 + tabs.length) % tabs.length;
+    if (e.key === 'Home') n = 0;
+    if (e.key === 'End') n = tabs.length - 1;
+    if (n !== null) { e.preventDefault(); selectTab(tabs[n].dataset.tab); tabs[n].focus(); }
+  });
+}
+function selectTab(name) {
+  $$('.tab').forEach(t => {
+    const on = t.dataset.tab === name;
+    t.setAttribute('aria-selected', on ? 'true' : 'false');
+    t.tabIndex = on ? 0 : -1;
+  });
+  $$('[role="tabpanel"]').forEach(p => { p.hidden = p.id !== 'p-' + name; });
+}
+
+/* ---------- dishes ---------- */
+const catName = id => (M.cats.find(c => c.id === id) || {}).name || 'Kategoriyasiz';
+
+function renderDishes() {
+  const p = $('#p-dishes');
+  if (!p.dataset.ready) {
+    p.innerHTML = `
+      <div class="bar">
+        <label class="vh" for="dq">Taom qidirish</label>
+        <input class="input" id="dq" type="search" placeholder="Taom qidirish">
+        <label class="vh" for="dc">Kategoriya bo'yicha</label>
+        <select class="input" id="dc"></select>
+        <button class="btn btn-primary" type="button" id="addDish">${svg('plus', 18)}Yangi taom</button>
+      </div>
+      <ul class="list" id="dishList"></ul>`;
+    p.dataset.ready = '1';
+    $('#dq').addEventListener('input', e => { dishQuery = norm(e.target.value); renderDishList(); });
+    $('#dc').addEventListener('change', e => { dishCat = e.target.value; renderDishList(); });
+    $('#addDish').addEventListener('click', () => openDishForm(null));
+    $('#dishList').addEventListener('click', e => {
+      const ed = e.target.closest('[data-edit]'); if (ed) return openDishForm(ed.dataset.edit);
+      const del = e.target.closest('[data-del]'); if (del) return confirmDeleteDish(del.dataset.del);
+    });
+    $('#dishList').addEventListener('change', e => {
+      const sw = e.target.closest('[data-avail]');
+      if (!sw) return;
+      const d = M.dishes.find(x => x.id === sw.dataset.avail);
+      if (!d) return;
+      d.available = sw.checked;
+      sw.closest('.row').classList.toggle('off', !d.available);
+      commit(d.available ? `${d.name} menyuda ko'rinadi` : `${d.name} menyudan yashirildi`);
+    });
+  }
+  $('#dc').innerHTML = `<option value="all">Barcha kategoriyalar</option>` +
+    M.cats.map(c => `<option value="${esc(c.id)}"${dishCat === c.id ? ' selected' : ''}>${esc(c.name)}</option>`).join('');
+  if (dishCat !== 'all' && !M.cats.some(c => c.id === dishCat)) dishCat = 'all';
+  renderDishList();
+}
+
+function renderDishList() {
+  const cur = M.settings.currency;
+  const order = new Map(M.cats.map((c, i) => [c.id, i]));
+  const list = M.dishes
+    .filter(d => (dishCat === 'all' || d.cat === dishCat) && (!dishQuery || norm(d.name + ' ' + d.ing).includes(dishQuery)))
+    .sort((a, b) => (order.get(a.cat) ?? 99) - (order.get(b.cat) ?? 99));
+  $('#dishList').innerHTML = list.length ? list.map(d => {
+    const src = dishImage(d);
+    const cat = M.cats.find(c => c.id === d.cat);
+    return `<li class="row glass${d.available ? '' : ' off'}">
+      <span class="thumb">${src ? `<img src="${esc(src)}" alt="" loading="lazy">` : svg(cat ? cat.icon : 'plate', 24)}</span>
+      <span class="row-main">
+        <span class="row-name">${esc(d.name)}</span>
+        <span class="row-sub">${esc(catName(d.cat))}, ${esc(fmtPrice(d.price, cur))}${d.tag ? ', ' + esc(d.tag) : ''}</span>
+      </span>
+      <span class="row-actions">
+        <span class="switch"><input type="checkbox" data-avail="${esc(d.id)}" ${d.available ? 'checked' : ''} aria-label="${esc(d.name)} menyuda ko'rinsin"><span></span></span>
+        <button class="icon-btn" type="button" data-edit="${esc(d.id)}" aria-label="${esc(d.name)}: tahrirlash">${svg('edit', 18)}</button>
+        <button class="icon-btn danger" type="button" data-del="${esc(d.id)}" aria-label="${esc(d.name)}: o'chirish">${svg('trash', 18)}</button>
+      </span>
+    </li>`;
+  }).join('') : `<li class="empty"><h3>Taom topilmadi</h3><p>Qidiruvni o'zgartiring yoki yangi taom qo'shing.</p></li>`;
+}
+
+let pendingImgs = [];
+function openDishForm(id) {
+  const d = id ? M.dishes.find(x => x.id === id) : null;
+  if (!M.cats.length) { toast("Avval kategoriya qo'shing"); selectTab('cats'); return; }
+  pendingImgs = d ? [...d.imgs] : [];
+  const sheet = openSheet(`
+    <div class="sheet-head">
+      <h2>${d ? 'Taomni tahrirlash' : 'Yangi taom'}</h2>
+      <button class="icon-btn" type="button" data-close aria-label="Yopish">${svg('x', 20)}</button>
+    </div>
+    <form id="dishForm" novalidate>
+      <div class="field"><label for="fName">Nomi</label>
+        <input class="input" id="fName" required maxlength="60" value="${esc(d ? d.name : '')}" placeholder="Toshkent oshi">
+        <span class="error" id="eName"></span></div>
+      <div class="row-2">
+        <div class="field"><label for="fPrice">Narxi (${esc(M.settings.currency)})</label>
+          <input class="input" id="fPrice" type="number" inputmode="numeric" min="0" step="500" required value="${d ? d.price : ''}" placeholder="45000">
+          <span class="error" id="ePrice"></span></div>
+        <div class="field"><label for="fCat">Kategoriya</label>
+          <select class="input" id="fCat">${M.cats.map(c => `<option value="${esc(c.id)}"${(d ? d.cat : (dishCat !== 'all' ? dishCat : '')) === c.id ? ' selected' : ''}>${esc(c.name)}</option>`).join('')}</select></div>
+      </div>
+      <div class="field"><label for="fDesc">Qisqa tavsif</label>
+        <textarea class="input" id="fDesc" maxlength="160" placeholder="An'anaviy to'y oshi: devzira guruch, qo'zichoq">${esc(d ? d.desc : '')}</textarea></div>
+      <div class="field"><label for="fIng">Tarkibi (mahsulotlar)</label>
+        <input class="input" id="fIng" maxlength="200" value="${esc(d ? d.ing : '')}" placeholder="Guruch, qo'zichoq, sabzi" aria-describedby="hIng">
+        <span class="hint" id="hIng">Mahsulotlarni vergul bilan ajrating. Menyuda har biri alohida ko'rinadi.</span></div>
+      <div class="field"><label for="fTag">Belgi</label>
+        <select class="input" id="fTag">
+          <option value="">Belgisiz</option>
+          ${Object.keys(TAGS).map(t => `<option${d && d.tag === t ? ' selected' : ''}>${t}</option>`).join('')}
+        </select></div>
+      <div class="field">
+        <span class="label" id="imgLabel">Rasmlar (${MAX_IMGS} tagacha)</span>
+        <div role="group" aria-labelledby="imgLabel">
+          <ul class="imgs" id="imgList"></ul>
+          <span class="btn btn-ghost file-btn" id="addImgBtn">${svg('upload', 18)}Rasm qo'shish<input type="file" id="fImg" accept="image/*" multiple aria-label="Rasm qo'shish"></span>
+        </div>
+        <span class="hint">Birinchi rasm menyu kartasida chiqadi, qolganlari taom ichidagi karuselda. Har bir rasm 720px gacha kichraytiriladi.</span>
+      </div>
+      <div class="switch-row">
+        <label for="fAvail">Menyuda ko'rinsin</label>
+        <span class="switch"><input type="checkbox" id="fAvail" ${!d || d.available ? 'checked' : ''}><span></span></span>
+      </div>
+      <div class="sheet-foot">
+        ${d ? `<button class="btn btn-danger" type="button" id="fDelete">${svg('trash', 18)}O'chirish</button>` : ''}
+        <button class="btn btn-primary btn-block" type="submit">Saqlash</button>
+      </div>
+    </form>`);
+
+  const showImgs = () => {
+    const n = pendingImgs.length;
+    $('#imgList').innerHTML = n ? pendingImgs.map((src, i) => `<li class="img-item">
+        <img src="${esc(src)}" alt="${i + 1}-rasm">
+        ${i === 0 ? '<span class="pill first">Asosiy</span>' : ''}
+        <span class="img-tools">
+          ${i > 0 ? `<button class="icon-btn" type="button" data-first="${i}" aria-label="${i + 1}-rasmni asosiy qilish">${svg('star', 16)}</button>` : ''}
+          <button class="icon-btn danger" type="button" data-rm="${i}" aria-label="${i + 1}-rasmni olib tashlash">${svg('trash', 16)}</button>
+        </span></li>`).join('')
+      : `<li class="img-empty">Rasm yo'q. Menyuda kategoriya rasmi ko'rinadi.</li>`;
+    $('#addImgBtn').hidden = n >= MAX_IMGS;
+  };
+  showImgs();
+  $('#imgList').addEventListener('click', e => {
+    const rm = e.target.closest('[data-rm]');
+    if (rm) { pendingImgs.splice(Number(rm.dataset.rm), 1); showImgs(); $('#fImg').focus(); return; }
+    const f = e.target.closest('[data-first]');
+    if (f) { const [x] = pendingImgs.splice(Number(f.dataset.first), 1); pendingImgs.unshift(x); showImgs(); }
+  });
+  $('#fImg').addEventListener('change', async e => {
+    const files = Array.from(e.target.files).slice(0, MAX_IMGS - pendingImgs.length);
+    for (const file of files) {
+      try { pendingImgs.push(await resizeImage(file, 720)); }
+      catch (er) { toast(`${file.name}: rasmni o'qib bo'lmadi`); }
+    }
+    if (e.target.files.length > files.length) toast(`Bitta taomga ${MAX_IMGS} tagacha rasm`);
+    e.target.value = '';
+    showImgs();
+  });
+  if (d) $('#fDelete').addEventListener('click', () => confirmDeleteDish(d.id));
+  sheet.querySelector('#dishForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const name = $('#fName').value.trim();
+    const price = Number($('#fPrice').value);
+    let ok = true;
+    $('#eName').textContent = name ? '' : 'Taom nomini yozing.';
+    $('#fName').setAttribute('aria-invalid', name ? 'false' : 'true');
+    if (!name) ok = false;
+    const priceOk = $('#fPrice').value !== '' && Number.isFinite(price) && price >= 0;
+    $('#ePrice').textContent = priceOk ? '' : 'Narxni raqamda yozing.';
+    $('#fPrice').setAttribute('aria-invalid', priceOk ? 'false' : 'true');
+    if (!priceOk) ok = false;
+    if (!ok) { (name ? $('#fPrice') : $('#fName')).focus(); return; }
+
+    const data = {
+      name, price: Math.round(price), cat: $('#fCat').value, desc: $('#fDesc').value.trim(),
+      ing: $('#fIng').value.trim(), tag: $('#fTag').value, imgs: [...pendingImgs], available: $('#fAvail').checked
+    };
+    if (d) Object.assign(d, data); else M.dishes.push({ id: uid(), ...data });
+    commit(d ? 'Taom yangilandi' : "Taom qo'shildi");
+    closeSheet();
+    renderDishList();
+  });
+}
+
+function confirmDeleteDish(id) {
+  const d = M.dishes.find(x => x.id === id);
+  if (!d) return;
+  openSheet(`
+    <div class="sheet-head"><h2>Taomni o'chirasizmi?</h2>
+      <button class="icon-btn" type="button" data-close aria-label="Yopish">${svg('x', 20)}</button></div>
+    <p style="color:var(--ink-2)">"${esc(d.name)}" menyudan butunlay o'chiriladi. Faqat vaqtincha yashirish uchun "Menyuda ko'rinsin" tugmasini o'chiring.</p>
+    <div class="sheet-foot">
+      <button class="btn btn-ghost" type="button" data-close>Bekor qilish</button>
+      <button class="btn btn-danger" type="button" id="yesDel">${svg('trash', 18)}O'chirish</button>
+    </div>`);
+  $('#yesDel').addEventListener('click', () => {
+    M.dishes = M.dishes.filter(x => x.id !== id);
+    commit("Taom o'chirildi");
+    closeSheet();
+    renderDishList();
+  });
+}
+
+function resizeImage(file, max) {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onerror = reject;
+    r.onload = () => {
+      const img = new Image();
+      img.onerror = reject;
+      img.onload = () => {
+        const k = Math.min(1, max / Math.max(img.width, img.height));
+        const c = document.createElement('canvas');
+        c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+        resolve(c.toDataURL('image/jpeg', 0.78));
+      };
+      img.src = r.result;
+    };
+    r.readAsDataURL(file);
+  });
+}
+
+/* ---------- categories ---------- */
+function renderCats() {
+  const p = $('#p-cats');
+  const counts = id => M.dishes.filter(d => d.cat === id).length;
+  p.innerHTML = `
+    <div class="bar"><button class="btn btn-primary" type="button" id="addCat">${svg('plus', 18)}Yangi kategoriya</button></div>
+    <ul class="list">
+      ${M.cats.map((c, i) => `<li class="row glass">
+        <span class="thumb">${svg(c.icon, 24)}</span>
+        <span class="row-main"><span class="row-name">${esc(c.name)}</span><span class="row-sub">${counts(c.id)} ta taom</span></span>
+        <span class="row-actions">
+          <button class="icon-btn" type="button" data-move="${i}" data-dir="-1" aria-label="${esc(c.name)}: yuqoriga" ${i === 0 ? 'disabled' : ''}>${svg('up', 18)}</button>
+          <button class="icon-btn" type="button" data-move="${i}" data-dir="1" aria-label="${esc(c.name)}: pastga" ${i === M.cats.length - 1 ? 'disabled' : ''}>${svg('down', 18)}</button>
+          <button class="icon-btn" type="button" data-cedit="${esc(c.id)}" aria-label="${esc(c.name)}: tahrirlash">${svg('edit', 18)}</button>
+          <button class="icon-btn danger" type="button" data-cdel="${esc(c.id)}" aria-label="${esc(c.name)}: o'chirish">${svg('trash', 18)}</button>
+        </span>
+      </li>`).join('') || `<li class="empty"><h3>Kategoriya yo'q</h3><p>Menyu bo'limlarini qo'shing: Plov, Shashlik va hokazo.</p></li>`}
+    </ul>`;
+  $('#addCat').addEventListener('click', () => openCatForm(null));
+  p.querySelector('.list').addEventListener('click', e => {
+    const mv = e.target.closest('[data-move]');
+    if (mv) {
+      const i = Number(mv.dataset.move), j = i + Number(mv.dataset.dir);
+      [M.cats[i], M.cats[j]] = [M.cats[j], M.cats[i]];
+      commit('Tartib saqlandi');
+      renderCats(); renderDishes();
+      const again = $(`[data-move="${j}"][data-dir="${mv.dataset.dir}"]`) || $(`[data-move="${j}"]`);
+      if (again && !again.disabled) again.focus();
+      return;
+    }
+    const ed = e.target.closest('[data-cedit]'); if (ed) return openCatForm(ed.dataset.cedit);
+    const del = e.target.closest('[data-cdel]');
+    if (del) {
+      const c = M.cats.find(x => x.id === del.dataset.cdel);
+      const n = counts(c.id);
+      if (n) { toast(`"${c.name}" ichida ${n} ta taom bor. Avval ularni boshqa kategoriyaga o'tkazing.`); return; }
+      M.cats = M.cats.filter(x => x.id !== c.id);
+      commit("Kategoriya o'chirildi");
+      renderCats(); renderDishes();
+    }
+  });
+}
+
+function openCatForm(id) {
+  const c = id ? M.cats.find(x => x.id === id) : null;
+  let icon = c ? c.icon : 'plate';
+  openSheet(`
+    <div class="sheet-head"><h2>${c ? 'Kategoriyani tahrirlash' : 'Yangi kategoriya'}</h2>
+      <button class="icon-btn" type="button" data-close aria-label="Yopish">${svg('x', 20)}</button></div>
+    <form id="catForm" novalidate>
+      <div class="field"><label for="cName">Nomi</label>
+        <input class="input" id="cName" maxlength="40" required value="${esc(c ? c.name : '')}" placeholder="Shirinliklar">
+        <span class="error" id="eCat"></span></div>
+      <div class="field"><span class="label" id="iconLabel">Belgi</span>
+        <div class="icon-grid" role="group" aria-labelledby="iconLabel">
+          ${ICON_CHOICES.map(([k, l]) => `<button type="button" class="icon-opt" data-icon="${k}" aria-pressed="${k === icon}" aria-label="${l}">${svg(k, 22)}</button>`).join('')}
+        </div></div>
+      <div class="sheet-foot"><button class="btn btn-primary btn-block" type="submit">Saqlash</button></div>
+    </form>`);
+  $('.icon-grid').addEventListener('click', e => {
+    const b = e.target.closest('[data-icon]'); if (!b) return;
+    icon = b.dataset.icon;
+    $$('.icon-opt').forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
+  });
+  $('#catForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const name = $('#cName').value.trim();
+    if (!name) { $('#eCat').textContent = 'Kategoriya nomini yozing.'; $('#cName').setAttribute('aria-invalid', 'true'); $('#cName').focus(); return; }
+    if (c) Object.assign(c, { name, icon });
+    else M.cats.push({ id: 'c-' + uid(), name, icon });
+    commit(c ? 'Kategoriya yangilandi' : "Kategoriya qo'shildi");
+    closeSheet();
+    renderCats(); renderDishes();
+  });
+}
+
+/* ---------- settings ---------- */
+function renderSettings() {
+  const s = M.settings;
+  $('#p-settings').innerHTML = `
+    <form class="card glass" id="setForm" novalidate>
+      <h2>Kafe ma'lumotlari</h2>
+      <p>Bular menyu sahifasining yuqorisida va pastida chiqadi.</p>
+      <div class="row-2">
+        <div class="field"><label for="sName">Kafe nomi</label><input class="input" id="sName" maxlength="40" value="${esc(s.name)}"></div>
+        <div class="field"><label for="sCur">Valyuta</label><input class="input" id="sCur" maxlength="8" value="${esc(s.currency)}"></div>
+      </div>
+      <div class="row-2">
+        <div class="field"><label for="sPhone">Telefon</label><input class="input" id="sPhone" type="tel" value="${esc(s.phone)}" placeholder="+998 90 123 45 67"></div>
+        <div class="field"><label for="sTg">Telegram</label><input class="input" id="sTg" value="${esc(s.telegram)}" placeholder="@username"><span class="error" id="eTg"></span></div>
+      </div>
+      <div class="field"><label for="sHours">Ish vaqti</label><input class="input" id="sHours" value="${esc(s.hours)}" placeholder="Har kuni 09:00 dan 22:00 gacha"></div>
+      <div class="field"><label for="sAddr">Manzil</label><input class="input" id="sAddr" value="${esc(s.address)}" placeholder="Toshkent, Chilonzor 9"></div>
+      <button class="btn btn-primary" type="submit">Saqlash</button>
+    </form>
+
+    <form class="card glass" id="pinForm" novalidate>
+      <h2>PIN kodni almashtirish</h2>
+      <p>PIN faqat shu brauzerda xeshlangan holda saqlanadi va menu.json ga kirmaydi.</p>
+      <div class="field"><label for="pOld">Hozirgi PIN</label><input class="input" id="pOld" type="password" inputmode="numeric" autocomplete="current-password" maxlength="8"></div>
+      <div class="row-2">
+        <div class="field"><label for="pNew">Yangi PIN</label><input class="input" id="pNew" type="password" inputmode="numeric" autocomplete="new-password" maxlength="8"></div>
+        <div class="field"><label for="pNew2">Yangi PIN (qayta)</label><input class="input" id="pNew2" type="password" inputmode="numeric" autocomplete="new-password" maxlength="8"></div>
+      </div>
+      <span class="error" id="ePin" role="alert"></span>
+      <button class="btn btn-primary" type="submit">PIN ni almashtirish</button>
+    </form>`;
+
+  $('#setForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const tg = $('#sTg').value.trim();
+    if (tg && !telegramHref(tg)) { $('#eTg').textContent = '@username yoki https://t.me/username ko’rinishida yozing.'; $('#sTg').focus(); return; }
+    $('#eTg').textContent = '';
+    Object.assign(M.settings, {
+      name: $('#sName').value.trim() || DEFAULT_SETTINGS.name,
+      currency: $('#sCur').value.trim() || DEFAULT_SETTINGS.currency,
+      phone: $('#sPhone').value.trim(), telegram: tg,
+      hours: $('#sHours').value.trim(), address: $('#sAddr').value.trim()
+    });
+    commit('Sozlamalar saqlandi');
+    renderDishes();
+  });
+
+  $('#pinForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const err = $('#ePin');
+    const oldPin = $('#pOld').value.trim(), a = $('#pNew').value.trim(), b = $('#pNew2').value.trim();
+    if (!(await checkPin(oldPin))) { err.textContent = "Hozirgi PIN noto'g'ri."; $('#pOld').focus(); return; }
+    if (!/^\d{4,8}$/.test(a)) { err.textContent = 'Yangi PIN 4 dan 8 tagacha raqam bo’lsin.'; $('#pNew').focus(); return; }
+    if (a === DEFAULT_PIN) { err.textContent = '1234 dan boshqa PIN tanlang.'; $('#pNew').focus(); return; }
+    if (a !== b) { err.textContent = 'Yangi PIN lar bir xil emas.'; $('#pNew2').focus(); return; }
+    try { localStorage.setItem(PIN_KEY, await hashPin(a)); } catch (er) { err.textContent = "Saqlab bo'lmadi."; return; }
+    err.textContent = '';
+    e.target.reset();
+    $('#pinNotice').hidden = true;
+    toast('PIN almashtirildi');
+  });
+}
+
+/* ---------- publish ---------- */
+function renderPublish() {
+  $('#p-publish').innerHTML = `
+    <section class="card glass" aria-labelledby="pubTitle">
+      <h2 id="pubTitle">Mijozlarga chiqarish</h2>
+      <p>O'zgarishlar avval faqat shu brauzerda saqlanadi. Mijozlar saytdagi <code>menu.json</code> faylidagi menyuni ko'radi.</p>
+      <ol class="steps">
+        <li>"menu.json ni yuklab olish" tugmasini bosing.</li>
+        <li>Saytingizdagi <code>menyu/menu.json</code> faylini shu yangi fayl bilan almashtiring (hosting, GitHub yoki FTP orqali).</li>
+        <li>Menyu sahifasini yangilang: hamma yangi narx va taomlarni ko'radi.</li>
+      </ol>
+      <div class="actions">
+        <button class="btn btn-primary" type="button" id="exportBtn">${svg('download', 18)}menu.json ni yuklab olish</button>
+        <a class="btn btn-ghost" href="index.html?draft=1" target="_blank" rel="noopener">${svg('eye', 18)}Qoralamani ko'rish</a>
+      </div>
+    </section>
+    <section class="card glass" aria-labelledby="impTitle">
+      <h2 id="impTitle">Import va tiklash</h2>
+      <p>Boshqa qurilmada ishlash uchun menu.json faylini shu yerga yuklang yoki saytdagi menyuni qayta o'qing.</p>
+      <div class="actions">
+        <span class="btn btn-ghost file-btn">${svg('upload', 18)}Fayldan import<input type="file" id="importFile" accept="application/json,.json" aria-label="menu.json faylini tanlash"></span>
+        <button class="btn btn-ghost" type="button" id="pullBtn">${svg('rotate', 18)}Saytdagi menyuni yuklash</button>
+        <button class="btn btn-danger" type="button" id="resetBtn">Standart menyuga qaytarish</button>
+      </div>
+    </section>`;
+
+  $('#exportBtn').addEventListener('click', () => {
+    const blob = new Blob([JSON.stringify(normalizeMenu(M), null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'menu.json';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+    toast('menu.json yuklab olindi');
+  });
+  $('#importFile').addEventListener('change', async e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    try {
+      const data = JSON.parse(await file.text());
+      if (!Array.isArray(data.dishes) || !Array.isArray(data.cats)) throw new Error('shape');
+      replaceMenu(normalizeMenu(data), 'Menyu fayldan yuklandi');
+    } catch (er) { toast("Bu fayl menyu fayliga o'xshamaydi"); }
+    e.target.value = '';
+  });
+  $('#pullBtn').addEventListener('click', async () => {
+    const pub = await loadPublished();
+    if (!pub) { toast("Saytda menu.json topilmadi"); return; }
+    confirmReplace('Saytdagi menyuni yuklaysizmi?', "Shu brauzerdagi saqlanmagan o'zgarishlar saytdagi menu.json bilan almashtiriladi.", () => replaceMenu(pub, 'Saytdagi menyu yuklandi'));
+  });
+  $('#resetBtn').addEventListener('click', () => {
+    confirmReplace('Standart menyuga qaytarasizmi?', "Barcha taom va kategoriyalar boshlang'ich holatga qaytadi. Avval menu.json ni yuklab olib qo'ying.", () => replaceMenu(defaultMenu(), 'Standart menyu tiklandi'));
+  });
+}
+function confirmReplace(title, text, yes) {
+  openSheet(`
+    <div class="sheet-head"><h2>${esc(title)}</h2>
+      <button class="icon-btn" type="button" data-close aria-label="Yopish">${svg('x', 20)}</button></div>
+    <p style="color:var(--ink-2)">${esc(text)}</p>
+    <div class="sheet-foot"><button class="btn btn-ghost" type="button" data-close>Bekor qilish</button>
+      <button class="btn btn-danger" type="button" id="yesReplace">Ha, almashtirish</button></div>`);
+  $('#yesReplace').addEventListener('click', () => { closeSheet(); yes(); });
+}
+function replaceMenu(menu, msg) {
+  M = menu;
+  dishCat = 'all';
+  commit(msg);
+  renderAll();
+}
+
+boot();
+</script>
+</body>
+</html>
