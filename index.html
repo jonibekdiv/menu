@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Osh Markazi menyusi: plov, shashlik, manti, lag'mon, non va ichimliklar narxlari bilan.">
-<meta name="theme-color" content="#F7F1E8">
+<meta name="theme-color" content="#F3EEE3">
 <title>Osh Markazi menyusi</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,7 +37,7 @@ html{scroll-padding-top:0}
   background:var(--glass-strong);border:1px solid var(--glass-line);font:500 var(--t-sm)/1 var(--font-body);text-decoration:none;white-space:nowrap;
   transition:background var(--dur) var(--ease),color var(--dur) var(--ease),border-color var(--dur) var(--ease)}
 .cat-link:hover{border-color:var(--ink)}
-.cat-link[aria-current="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.cat-link[aria-current="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 
 /* sections and cards: picture, name, price */
 .section{padding-top:var(--s6)}
@@ -56,8 +56,7 @@ html{scroll-padding-top:0}
 .photo .many{position:absolute;right:var(--s2);bottom:var(--s2);display:inline-flex;align-items:center;gap:var(--s1);padding:var(--s1) var(--s2);border-radius:var(--r-pill);
   background:var(--glass-strong);font:600 var(--t-xs)/1 var(--font-label);color:var(--ink)}
 .dish-name{font:400 var(--t-md)/1.25 var(--font-display);padding:var(--s3) var(--s1) var(--s1)}
-.dish-price{margin-top:auto;padding:0 var(--s1) var(--s1);font:600 var(--t-md)/1.3 var(--font-label);color:var(--accent);font-variant-numeric:tabular-nums}
-html[data-theme="dark"] .dish-price{color:var(--gold)}
+.dish-price{margin-top:auto;padding:0 var(--s1) var(--s1);font:600 var(--t-md)/1.3 var(--font-label);color:var(--ink);font-variant-numeric:tabular-nums}
 @media (min-width:640px){.dish-name{font-size:var(--t-lg)}}
 
 /* dish detail: carousel, price, ingredients */
@@ -73,11 +72,10 @@ html[data-theme="dark"] .dish-price{color:var(--gold)}
 .dots{display:flex;justify-content:center;gap:var(--s1);margin-top:var(--s2)}
 .dot{width:28px;height:28px;display:grid;place-items:center;border-radius:var(--r-pill)}
 .dot::before{content:"";width:8px;height:8px;border-radius:var(--r-pill);background:var(--rule);transition:background var(--dur) var(--ease),width var(--dur) var(--ease)}
-.dot[aria-current="true"]::before{background:var(--ink);width:20px}
+.dot[aria-current="true"]::before{background:var(--accent);width:20px}
 .counter{position:absolute;left:var(--s3);top:var(--s3);z-index:2;padding:var(--s1) var(--s2);border-radius:var(--r-pill);background:var(--glass-strong);font:600 var(--t-xs)/1 var(--font-label)}
 .detail-price{display:flex;align-items:baseline;justify-content:space-between;gap:var(--s3);padding:var(--s3) 0;border-bottom:1px solid var(--glass-line);margin-bottom:var(--s4)}
-.detail-price strong{font:400 var(--t-2xl)/1 var(--font-display);color:var(--accent)}
-html[data-theme="dark"] .detail-price strong{color:var(--gold)}
+.detail-price strong{font:400 var(--t-2xl)/1 var(--font-display);color:var(--ink)}
 .detail-desc{color:var(--ink-2);margin-bottom:var(--s4)}
 .ing-title{font:600 var(--t-sm)/1.3 var(--font-label);color:var(--ink-2);margin:0 0 var(--s2)}
 .ing{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:var(--s2)}
