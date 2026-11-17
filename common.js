@@ -1,11 +1,12 @@
 /* Osh Markazi menyu: shared data, icons, translations and UI helpers for index.html and admin.html */
 'use strict';
 
-const STORE_KEY = 'oshmarkazi.menyu.v1';   // admin qoralamasi (shu brauzerda)
-const PIN_KEY   = 'oshmarkazi.menyu.pin';  // PIN xeshi (shu brauzerda)
+/* Supabase: the publishable key is meant to be public; row level security decides who may write. */
+const SUPABASE_URL = 'https://cvupoiootopeidgvdwru.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_U5oP2Sr-eqX-tzh5zYba0Q_lD-X5kdb';
 const THEME_KEY = 'oshmarkazi.menyu.theme';
 const LANG_KEY  = 'oshmarkazi.menyu.lang';
-const PUBLISHED_URL = 'menu.json';         // saytdagi nashr qilingan menyu
+const PUBLISHED_URL = 'menu.json';         // zaxira: Supabase javob bermasa
 const DEFAULT_LOGO = 'logo.png';           // kafe logotipi; admin boshqasini yuklashi mumkin
 
 const $  = (s, r = document) => r.querySelector(s);
@@ -82,8 +83,7 @@ const T = {
     open: 'Hozir ochiq', closed: 'Hozir yopiq', until: x => `${x} gacha`, opensAt: x => `${x} da ochiladi`, allDay: 'Kecha-kunduz',
     daily: 'Har kuni', seeMenu: "Menyuni ko'rish", call: "Qo'ng'iroq", onMap: 'Xaritada ochish',
     featured: 'Kun taomi', details: 'Batafsil', spicy: 'Achchiq', veg: 'Vegetarian',
-    currencyNote: c => `Narxlar ${c}da.`, draft: "Bu admin qoralamasi, faqat shu brauzerda ko'rinadi.",
-    lang: 'Til', light: "Yorug' rejim", dark: "Qorong'i rejim", toTop: 'Menyu boshiga', loading: 'Menyu yuklanmoqda'
+    currencyNote: c => `Narxlar ${c}da.`,     lang: 'Til', light: "Yorug' rejim", dark: "Qorong'i rejim", toTop: 'Menyu boshiga', loading: 'Menyu yuklanmoqda'
   },
   ru: {
     menuOf: n => `Меню «${n}»`, search: 'Поиск блюд', searchPh: 'Блюдо или продукт: манты, морковь',
@@ -94,8 +94,7 @@ const T = {
     open: 'Сейчас открыто', closed: 'Сейчас закрыто', until: x => `до ${x}`, opensAt: x => `откроется в ${x}`, allDay: 'Круглосуточно',
     daily: 'Ежедневно', seeMenu: 'Смотреть меню', call: 'Позвонить', onMap: 'Открыть на карте',
     featured: 'Блюдо дня', details: 'Подробнее', spicy: 'Острое', veg: 'Вегетарианское',
-    currencyNote: c => `Цены в ${c}.`, draft: 'Это черновик администратора, виден только в этом браузере.',
-    lang: 'Язык', light: 'Светлая тема', dark: 'Тёмная тема', toTop: 'К началу меню', loading: 'Меню загружается'
+    currencyNote: c => `Цены в ${c}.`,     lang: 'Язык', light: 'Светлая тема', dark: 'Тёмная тема', toTop: 'К началу меню', loading: 'Меню загружается'
   },
   en: {
     menuOf: n => `${n} menu`, search: 'Search dishes', searchPh: 'Dish or ingredient: manti, carrot',
@@ -106,8 +105,7 @@ const T = {
     open: 'Open now', closed: 'Closed now', until: x => `until ${x}`, opensAt: x => `opens at ${x}`, allDay: 'Open 24/7',
     daily: 'Every day', seeMenu: 'See the menu', call: 'Call us', onMap: 'Open in maps',
     featured: 'Dish of the day', details: 'Details', spicy: 'Spicy', veg: 'Vegetarian',
-    currencyNote: c => `Prices in ${c}.`, draft: 'This is the admin draft, visible only in this browser.',
-    lang: 'Language', light: 'Light theme', dark: 'Dark theme', toTop: 'Back to menu top', loading: 'Loading the menu'
+    currencyNote: c => `Prices in ${c}.`,     lang: 'Language', light: 'Light theme', dark: 'Dark theme', toTop: 'Back to menu top', loading: 'Loading the menu'
   }
 };
 let LANG = 'uz';
@@ -260,17 +258,12 @@ function normalizeMenu(m) {
 }
 
 /* ---------- storage ---------- */
-function loadDraft() {
-  try { const raw = localStorage.getItem(STORE_KEY); return raw ? normalizeMenu(JSON.parse(raw)) : null; }
-  catch (e) { return null; }
-}
-function saveDraft(menu) {
-  menu.updatedAt = new Date().toISOString();
-  try { localStorage.setItem(STORE_KEY, JSON.stringify(menu)); return true; }
-  catch (e) { toast("Saqlab bo'lmadi: brauzer xotirasi to'lgan bo'lishi mumkin. Kattaroq rasmlarni olib tashlang."); return false; }
-}
-function clearDraft() { try { localStorage.removeItem(STORE_KEY); } catch (e) {} }
+/* The live menu comes from Supabase; menu.json is only a fallback if the database is unreachable. */
 async function loadPublished() {
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/menu?id=eq.1&select=data`, { headers: { apikey: SUPABASE_KEY }, cache: 'no-store' });
+    if (res.ok) { const rows = await res.json(); if (rows[0] && rows[0].data) return normalizeMenu(rows[0].data); }
+  } catch (e) {}
   try {
     const res = await fetch(PUBLISHED_URL, { cache: 'no-store' });
     if (!res.ok) return null;

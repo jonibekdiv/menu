@@ -23,7 +23,6 @@ main{padding-block:var(--s6) var(--s8)}
 .login h1{font-size:var(--t-2xl);margin-bottom:var(--s2)}
 .login p{color:var(--muted);margin-bottom:var(--s5)}
 .login .field{text-align:left}
-.pin-input{letter-spacing:.4em;font-size:var(--t-xl);text-align:center}
 
 .panel-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:var(--s3);margin-bottom:var(--s5)}
 .panel-head h1{font-size:var(--t-2xl)}
@@ -116,7 +115,7 @@ details.tr[open]{padding-bottom:var(--s3)}
       <span class="brand-name">Admin panel</span>
     </span>
     <div class="top-actions">
-      <a class="btn btn-ghost" href="index.html?draft=1" target="_blank" rel="noopener" id="previewLink" hidden><span id="eyeIco"></span><span>Ko'rish</span></a>
+      <a class="btn btn-ghost" href="index.html" target="_blank" rel="noopener" id="previewLink" hidden><span id="eyeIco"></span><span>Saytni ko'rish</span></a>
       <button class="icon-btn" id="logoutBtn" type="button" aria-label="Chiqish" hidden></button>
       <button class="icon-btn" id="themeBtn" type="button"></button>
     </div>
@@ -128,14 +127,14 @@ details.tr[open]{padding-bottom:var(--s3)}
   <section class="login glass" id="login" aria-labelledby="loginTitle">
     <div class="lock" id="lockIco"></div>
     <h1 id="loginTitle">Admin kirishi</h1>
-    <p>Menyuni o'zgartirish uchun PIN kodni kiriting.</p>
+    <p>Menyuni o'zgartirish uchun admin akkauntingiz bilan kiring.</p>
     <form id="loginForm" novalidate>
-      <div class="field">
-        <label for="pin">PIN kod</label>
-        <input class="input pin-input" id="pin" type="password" inputmode="numeric" autocomplete="current-password" maxlength="8" required>
-        <span class="error" id="pinError" role="alert"></span>
-      </div>
-      <button class="btn btn-primary btn-block" type="submit">Kirish</button>
+      <div class="field"><label for="email">Email</label>
+        <input class="input" id="email" type="email" autocomplete="username" required></div>
+      <div class="field"><label for="password">Parol</label>
+        <input class="input" id="password" type="password" autocomplete="current-password" required>
+        <span class="error" id="loginError" role="alert"></span></div>
+      <button class="btn btn-primary btn-block" type="submit" id="loginBtn">Kirish</button>
     </form>
   </section>
 
@@ -145,17 +144,13 @@ details.tr[open]{padding-bottom:var(--s3)}
       <h1 id="panelTitle">Menyuni boshqarish</h1>
       <span class="status" id="status" role="status"></span>
     </div>
-    <div class="notice glass" id="pinNotice" hidden>
-      <span>PIN hali standart (1234). Uni Sozlamalar bo'limida almashtiring.</span>
-      <button class="btn btn-ghost" type="button" data-goto="settings">Almashtirish</button>
-    </div>
 
     <div class="tabs glass" role="tablist" aria-label="Bo'limlar">
       <button class="tab" role="tab" id="tab-dishes" aria-controls="p-dishes" aria-selected="true" data-tab="dishes">Taomlar</button>
       <button class="tab" role="tab" id="tab-cats" aria-controls="p-cats" aria-selected="false" data-tab="cats" tabindex="-1">Kategoriyalar</button>
       <button class="tab" role="tab" id="tab-settings" aria-controls="p-settings" aria-selected="false" data-tab="settings" tabindex="-1">Sozlamalar</button>
       <button class="tab" role="tab" id="tab-qr" aria-controls="p-qr" aria-selected="false" data-tab="qr" tabindex="-1">QR kod</button>
-      <button class="tab" role="tab" id="tab-publish" aria-controls="p-publish" aria-selected="false" data-tab="publish" tabindex="-1">Nashr qilish</button>
+      <button class="tab" role="tab" id="tab-publish" aria-controls="p-publish" aria-selected="false" data-tab="publish" tabindex="-1">Zaxira</button>
     </div>
 
     <div role="tabpanel" id="p-dishes" aria-labelledby="tab-dishes"></div>
@@ -173,56 +168,57 @@ details.tr[open]{padding-bottom:var(--s3)}
 <script src="common.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
 <script>
-const SESSION_KEY = 'oshmarkazi.menyu.admin';
-const LOCK_KEY = 'oshmarkazi.menyu.lock';
-const DEFAULT_PIN = '1234';
 let M = null;
 let dishQuery = '', dishCat = 'all';
 
-/* ---------- PIN (stored only as a hash in this browser) ---------- */
-async function hashPin(pin) {
-  const text = 'oshmarkazi:' + pin;
-  if (window.crypto && crypto.subtle) {
-    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
-    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
-  }
-  let h = 2166136261;
-  for (let i = 0; i < text.length; i++) { h ^= text.charCodeAt(i); h = Math.imul(h, 16777619); }
-  return 'f' + (h >>> 0).toString(16);
+/* ---------- Supabase session: email and password; the database's row rules decide who may write ---------- */
+const AUTH_KEY = 'oshmarkazi.menyu.auth';
+let SESSION = null;
+const loadSession = () => { try { return JSON.parse(localStorage.getItem(AUTH_KEY)); } catch (e) { return null; } };
+function storeSession(sess) {
+  SESSION = sess;
+  try { if (sess) localStorage.setItem(AUTH_KEY, JSON.stringify(sess)); else localStorage.removeItem(AUTH_KEY); } catch (e) {}
 }
-function storedPinHash() { try { return localStorage.getItem(PIN_KEY); } catch (e) { return null; } }
-async function checkPin(pin) {
-  const stored = storedPinHash();
-  return stored ? (await hashPin(pin)) === stored : pin === DEFAULT_PIN;
+async function authRequest(grant, body) {
+  const res = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=${grant}`, {
+    method: 'POST', headers: { apikey: SUPABASE_KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error_description || data.msg || data.error || String(res.status));
+  return { access_token: data.access_token, refresh_token: data.refresh_token, expires_at: Date.now() + (data.expires_in - 60) * 1000 };
 }
-function lockState() {
-  try { return JSON.parse(sessionStorage.getItem(LOCK_KEY)) || { fails: 0, until: 0 }; } catch (e) { return { fails: 0, until: 0 }; }
+async function accessToken() {
+  if (!SESSION) throw new Error('signed out');
+  if (Date.now() > SESSION.expires_at) storeSession(await authRequest('refresh_token', { refresh_token: SESSION.refresh_token }));
+  return SESSION.access_token;
 }
-function setLockState(s) { try { sessionStorage.setItem(LOCK_KEY, JSON.stringify(s)); } catch (e) {} }
-
+async function api(path, opts = {}) {
+  const res = await fetch(SUPABASE_URL + path, { ...opts, headers: { apikey: SUPABASE_KEY, Authorization: 'Bearer ' + await accessToken(), ...(opts.headers || {}) } });
+  if (res.status === 401) { storeSession(null); location.reload(); }
+  return res;
+}
 async function onLogin(e) {
   e.preventDefault();
-  const input = $('#pin'), err = $('#pinError');
-  const lock = lockState();
-  if (lock.until > Date.now()) {
-    err.textContent = `Ko'p urinish. ${Math.ceil((lock.until - Date.now()) / 1000)} soniyadan keyin qayta urinib ko'ring.`;
-    return;
-  }
-  const pin = input.value.trim();
-  if (!/^\d{4,8}$/.test(pin)) { err.textContent = 'PIN 4 dan 8 tagacha raqamdan iborat.'; input.setAttribute('aria-invalid', 'true'); input.focus(); return; }
-  if (await checkPin(pin)) {
-    setLockState({ fails: 0, until: 0 });
-    try { sessionStorage.setItem(SESSION_KEY, '1'); } catch (er) {}
-    input.value = ''; err.textContent = ''; input.removeAttribute('aria-invalid');
+  const email = $('#email').value.trim(), password = $('#password').value, err = $('#loginError');
+  if (!email || !password) { err.textContent = 'Email va parolni kiriting.'; (email ? $('#password') : $('#email')).focus(); return; }
+  const btn = $('#loginBtn');
+  btn.disabled = true; err.textContent = '';
+  try {
+    storeSession(await authRequest('password', { email, password }));
+    $('#password').value = '';
     await enterPanel();
-  } else {
-    lock.fails += 1;
-    if (lock.fails >= 5) { lock.until = Date.now() + 30000; lock.fails = 0; }
-    setLockState(lock);
-    err.textContent = lock.until > Date.now() ? "Ko'p noto'g'ri urinish. 30 soniya kuting." : "PIN noto'g'ri.";
-    input.setAttribute('aria-invalid', 'true');
-    input.select();
-  }
+  } catch (er) {
+    err.textContent = /invalid/i.test(er.message) ? "Email yoki parol noto'g'ri." : "Kirib bo'lmadi: " + er.message;
+  } finally { btn.disabled = false; }
+}
+/* Pictures go to the public Supabase bucket; the menu keeps only their links.
+   shortcut: a removed picture stays in the bucket, clean it from the dashboard if storage ever fills. */
+async function uploadImage(dataUrl) {
+  const blob = await (await fetch(dataUrl)).blob();
+  const name = `${uid()}.${blob.type === 'image/png' ? 'png' : 'jpg'}`;
+  const r = await api(`/storage/v1/object/menu-images/${name}`, { method: 'POST', headers: { 'Content-Type': blob.type }, body: blob });
+  if (!r.ok) throw new Error('upload ' + r.status);
+  return `${SUPABASE_URL}/storage/v1/object/public/menu-images/${name}`;
 }
 
 /* ---------- boot ---------- */
@@ -234,32 +230,40 @@ async function boot() {
   $('#logoutBtn').innerHTML = svg('logout', 20);
   $('#eyeIco').innerHTML = svg('eye', 18);
   $('#loginForm').addEventListener('submit', onLogin);
-  $('#pin').addEventListener('input', () => { $('#pinError').textContent = ''; $('#pin').removeAttribute('aria-invalid'); });
   $('#logoutBtn').addEventListener('click', logout);
   $('#panel').addEventListener('click', e => { const g = e.target.closest('[data-goto]'); if (g) selectTab(g.dataset.goto); });
   initTabs();
-
-  let authed = false;
-  try { authed = sessionStorage.getItem(SESSION_KEY) === '1'; } catch (e) {}
-  if (authed) await enterPanel(); else $('#pin').focus();
+  SESSION = loadSession();
+  if (SESSION) await enterPanel(); else $('#email').focus();
 }
 
 async function enterPanel() {
-  M = loadDraft();
-  if (!M) { M = (await loadPublished()) || defaultMenu(); saveDraft(M); }
+  let isAdmin = false;
+  try { const r = await api('/rest/v1/admins?select=user_id'); isAdmin = r.ok && (await r.json()).length > 0; }
+  catch (e) { $('#loginError').textContent = "Server bilan bog'lanib bo'lmadi."; return; }
+  if (!isAdmin) { storeSession(null); $('#loginError').textContent = "Bu akkauntga menyuni o'zgartirish ruxsati berilmagan."; return; }
+  M = (await loadPublished()) || defaultMenu();
   $('#login').hidden = true;
   $('#panel').hidden = false;
   $('#previewLink').hidden = false;
   $('#logoutBtn').hidden = false;
-  $('#pinNotice').hidden = !!storedPinHash();
   renderAll();
 }
 function logout() {
-  try { sessionStorage.removeItem(SESSION_KEY); } catch (e) {}
+  storeSession(null);
   location.reload();
 }
+/* Every change saves the whole menu to Supabase; saves run one after another so none overtakes another. */
+let saving = Promise.resolve();
 function commit(msg) {
-  if (saveDraft(M)) { toast(msg || 'Saqlandi'); renderStatus(); }
+  M.updatedAt = new Date().toISOString();
+  const body = JSON.stringify({ data: normalizeMenu(M), updated_at: M.updatedAt });
+  saving = saving.then(async () => {
+    const r = await api('/rest/v1/menu?id=eq.1', { method: 'PATCH', headers: { 'Content-Type': 'application/json', Prefer: 'return=minimal' }, body });
+    if (!r.ok) throw new Error(String(r.status));
+    toast(`${msg || 'Saqlandi'}. Saytda yangilandi`);
+  }).catch(() => toast("Saqlab bo'lmadi. Internetni tekshirib, qayta urinib ko'ring."));
+  renderStatus();
 }
 function renderStatus() {
   const d = new Date(M.updatedAt);
@@ -499,8 +503,8 @@ function openDishForm(id) {
   $('#fImg').addEventListener('change', async e => {
     const files = Array.from(e.target.files).slice(0, MAX_IMGS - pendingImgs.length);
     for (const file of files) {
-      try { pendingImgs.push(await resizeImage(file, 720)); }
-      catch (er) { toast(`${file.name}: rasmni o'qib bo'lmadi`); }
+      try { pendingImgs.push(await uploadImage(await resizeImage(file, 720))); }
+      catch (er) { toast(`${file.name}: rasmni yuklab bo'lmadi`); }
     }
     if (e.target.files.length > files.length) toast(`Bitta taomga ${MAX_IMGS} tagacha rasm`);
     e.target.value = '';
@@ -697,19 +701,7 @@ function renderSettings() {
       <p>Hozir kafe logotipi (logo.png) turibdi. O'zingiznikini yuklasangiz, sarlavhada, pastda va QR kartada chiqadi.</p>
       ${mediaField('logo', 'Logotip', 'Kvadrat PNG yoki SVG, shaffof fonda yaxshi chiqadi. 256px gacha kichraytiriladi.', false)}
       ${mediaField('cover', 'Bosh rasm', "Keng surat: kafe ichi yoki eng chiroyli taom. 1600px gacha kichraytiriladi.", true)}
-    </section>
-
-    <form class="card glass" id="pinForm" novalidate>
-      <h2>PIN kodni almashtirish</h2>
-      <p>PIN faqat shu brauzerda xeshlangan holda saqlanadi va menu.json ga kirmaydi.</p>
-      <div class="field"><label for="pOld">Hozirgi PIN</label><input class="input" id="pOld" type="password" inputmode="numeric" autocomplete="current-password" maxlength="8"></div>
-      <div class="row-2">
-        <div class="field"><label for="pNew">Yangi PIN</label><input class="input" id="pNew" type="password" inputmode="numeric" autocomplete="new-password" maxlength="8"></div>
-        <div class="field"><label for="pNew2">Yangi PIN (qayta)</label><input class="input" id="pNew2" type="password" inputmode="numeric" autocomplete="new-password" maxlength="8"></div>
-      </div>
-      <span class="error" id="ePin" role="alert"></span>
-      <button class="btn btn-primary" type="submit">PIN ni almashtirish</button>
-    </form>`;
+    </section>`;
 
   $('#setForm').addEventListener('submit', e => {
     e.preventDefault();
@@ -734,10 +726,10 @@ function renderSettings() {
     const key = e.target.dataset.media, file = e.target.files[0];
     if (!file) return;
     try {
-      M.settings[key] = await resizeImage(file, key === 'logo' ? 256 : 1600, 0.8);
+      M.settings[key] = await uploadImage(await resizeImage(file, key === 'logo' ? 256 : 1600, 0.8));
       commit(key === 'logo' ? 'Logotip yangilandi' : 'Bosh rasm yangilandi');
       renderSettings(); renderQr();
-    } catch (er) { toast("Rasmni o'qib bo'lmadi"); }
+    } catch (er) { toast("Rasmni yuklab bo'lmadi"); }
   }));
   $('#p-settings').querySelectorAll('[data-media-rm]').forEach(b => b.addEventListener('click', () => {
     M.settings[b.dataset.mediaRm] = '';
@@ -745,20 +737,6 @@ function renderSettings() {
     renderSettings(); renderQr();
   }));
 
-  $('#pinForm').addEventListener('submit', async e => {
-    e.preventDefault();
-    const err = $('#ePin');
-    const oldPin = $('#pOld').value.trim(), a = $('#pNew').value.trim(), b = $('#pNew2').value.trim();
-    if (!(await checkPin(oldPin))) { err.textContent = "Hozirgi PIN noto'g'ri."; $('#pOld').focus(); return; }
-    if (!/^\d{4,8}$/.test(a)) { err.textContent = "Yangi PIN 4 dan 8 tagacha raqam bo'lsin."; $('#pNew').focus(); return; }
-    if (a === DEFAULT_PIN) { err.textContent = '1234 dan boshqa PIN tanlang.'; $('#pNew').focus(); return; }
-    if (a !== b) { err.textContent = 'Yangi PIN lar bir xil emas.'; $('#pNew2').focus(); return; }
-    try { localStorage.setItem(PIN_KEY, await hashPin(a)); } catch (er) { err.textContent = "Saqlab bo'lmadi."; return; }
-    err.textContent = '';
-    e.target.reset();
-    $('#pinNotice').hidden = true;
-    toast('PIN almashtirildi');
-  });
 }
 
 /* ---------- QR code ---------- */
@@ -827,28 +805,15 @@ function drawQr() {
   new QRCode(box, { text, width: 440, height: 440, colorDark: '#111111', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
 }
 
-/* ---------- publish ---------- */
+/* ---------- backup ---------- */
 function renderPublish() {
   $('#p-publish').innerHTML = `
     <section class="card glass" aria-labelledby="pubTitle">
-      <h2 id="pubTitle">Mijozlarga chiqarish</h2>
-      <p>O'zgarishlar avval faqat shu brauzerda saqlanadi. Mijozlar saytdagi <code>menu.json</code> faylidagi menyuni ko'radi.</p>
-      <ol class="steps">
-        <li>"menu.json ni yuklab olish" tugmasini bosing.</li>
-        <li>Saytingizdagi <code>menu.json</code> faylini shu yangi fayl bilan almashtiring (GitHub orqali, Vercel o'zi yangilaydi).</li>
-        <li>Menyu sahifasini yangilang: hamma yangi narx va taomlarni ko'radi.</li>
-      </ol>
+      <h2 id="pubTitle">Zaxira nusxa</h2>
+      <p>Har bir o'zgarish darhol saytga saqlanadi. Bu yerda ehtiyot uchun butun menyuni fayl qilib yuklab olishingiz yoki fayldan tiklashingiz mumkin.</p>
       <div class="actions">
-        <button class="btn btn-primary" type="button" id="exportBtn">${svg('download', 18)}menu.json ni yuklab olish</button>
-        <a class="btn btn-ghost" href="index.html?draft=1" target="_blank" rel="noopener">${svg('eye', 18)}Qoralamani ko'rish</a>
-      </div>
-    </section>
-    <section class="card glass" aria-labelledby="impTitle">
-      <h2 id="impTitle">Import va tiklash</h2>
-      <p>Boshqa qurilmada ishlash uchun menu.json faylini shu yerga yuklang yoki saytdagi menyuni qayta o'qing.</p>
-      <div class="actions">
-        <span class="btn btn-ghost file-btn">${svg('upload', 18)}Fayldan import<input type="file" id="importFile" accept="application/json,.json" aria-label="menu.json faylini tanlash"></span>
-        <button class="btn btn-ghost" type="button" id="pullBtn">${svg('rotate', 18)}Saytdagi menyuni yuklash</button>
+        <button class="btn btn-primary" type="button" id="exportBtn">${svg('download', 18)}Zaxira faylni yuklab olish</button>
+        <span class="btn btn-ghost file-btn">${svg('upload', 18)}Fayldan tiklash<input type="file" id="importFile" accept="application/json,.json" aria-label="Zaxira faylni tanlash"></span>
         <button class="btn btn-danger" type="button" id="resetBtn">Standart menyuga qaytarish</button>
       </div>
     </section>`;
@@ -857,10 +822,10 @@ function renderPublish() {
     const blob = new Blob([JSON.stringify(normalizeMenu(M), null, 2)], { type: 'application/json' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = 'menu.json';
+    a.download = `menu-zaxira-${new Date().toISOString().slice(0, 10)}.json`;
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(a.href), 2000);
-    toast('menu.json yuklab olindi');
+    toast('Zaxira fayl yuklab olindi');
   });
   $('#importFile').addEventListener('change', async e => {
     const file = e.target.files[0];
@@ -868,17 +833,12 @@ function renderPublish() {
     try {
       const data = JSON.parse(await file.text());
       if (!Array.isArray(data.dishes) || !Array.isArray(data.cats)) throw new Error('shape');
-      replaceMenu(normalizeMenu(data), 'Menyu fayldan yuklandi');
+      confirmReplace('Menyuni fayldan tiklaysizmi?', "Saytdagi menyu shu fayldagi menyu bilan almashtiriladi.", () => replaceMenu(normalizeMenu(data), 'Menyu fayldan tiklandi'));
     } catch (er) { toast("Bu fayl menyu fayliga o'xshamaydi"); }
     e.target.value = '';
   });
-  $('#pullBtn').addEventListener('click', async () => {
-    const pub = await loadPublished();
-    if (!pub) { toast('Saytda menu.json topilmadi'); return; }
-    confirmReplace('Saytdagi menyuni yuklaysizmi?', "Shu brauzerdagi saqlanmagan o'zgarishlar saytdagi menu.json bilan almashtiriladi.", () => replaceMenu(pub, 'Saytdagi menyu yuklandi'));
-  });
   $('#resetBtn').addEventListener('click', () => {
-    confirmReplace('Standart menyuga qaytarasizmi?', "Barcha taom va kategoriyalar boshlang'ich holatga qaytadi. Avval menu.json ni yuklab olib qo'ying.", () => replaceMenu(defaultMenu(), 'Standart menyu tiklandi'));
+    confirmReplace('Standart menyuga qaytarasizmi?', "Barcha taom va kategoriyalar boshlang'ich holatga qaytadi va saytda ham o'zgaradi. Avval zaxira faylni yuklab oling.", () => replaceMenu(defaultMenu(), 'Standart menyu tiklandi'));
   });
 }
 function confirmReplace(title, text, yes) {

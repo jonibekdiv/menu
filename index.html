@@ -48,7 +48,6 @@ html{scroll-padding-top:0}
 .facts a,.facts span{display:inline-flex;align-items:center;gap:var(--s2);min-height:36px;text-decoration:none}
 .facts a:hover{text-decoration:underline}
 .hero-actions{display:flex;flex-wrap:wrap;gap:var(--s2);margin-top:var(--s1)}
-.draft-note{margin-top:var(--s4);padding:var(--s3) var(--s4);border-radius:var(--r-md);font-size:var(--t-sm);color:var(--ink-2)}
 
 /* dish of the day */
 .featured{margin-top:var(--s6)}
@@ -186,7 +185,6 @@ html[data-theme="dark"] .detail-price strong{color:var(--gold)}
       <div class="hero-actions" id="heroActions"></div>
     </div>
   </section>
-  <p class="draft-note glass" id="draftNote" hidden></p>
 
   <section class="featured" id="featured" hidden aria-labelledby="featTitle"></section>
 
@@ -224,7 +222,6 @@ html[data-theme="dark"] .detail-price strong{color:var(--gold)}
 <script>
 let MENU = null;
 let query = '';
-let wantDraft = false;
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const scrollBehavior = () => (reduceMotion ? 'auto' : 'smooth');
 
@@ -236,11 +233,7 @@ async function boot() {
   $('#clearQ').innerHTML = svg('x', 16);
   renderStatic();
 
-  wantDraft = new URLSearchParams(location.search).has('draft');
-  const draft = loadDraft();
-  const published = wantDraft ? null : await loadPublished();
-  MENU = (wantDraft && draft) || published || draft || defaultMenu();
-  $('#draftNote').hidden = !(wantDraft && MENU === draft);
+  MENU = (await loadPublished()) || defaultMenu();
 
   renderAll();
   $('#menu').removeAttribute('aria-busy');
@@ -280,9 +273,6 @@ async function boot() {
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll, { passive: true });
   setInterval(renderStatus, 60000);
-  window.addEventListener('storage', e => {
-    if (wantDraft && e.key === STORE_KEY) { const d = loadDraft(); if (d) { MENU = d; renderAll(); } }
-  });
 }
 
 /* ---------- language-dependent chrome ---------- */
@@ -295,7 +285,6 @@ function renderStatic() {
   $('#clearQ').setAttribute('aria-label', t('clear'));
   $('#catNav').setAttribute('aria-label', t('cats'));
   $('#brandLink').setAttribute('aria-label', t('toTop'));
-  $('#draftNote').textContent = t('draft');
 }
 
 function renderAll() {

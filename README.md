@@ -32,13 +32,17 @@ Keyin `http://localhost:8000` (menyu) va `http://localhost:8000/admin.html` (adm
 
 ## Menyuni yangilash
 
-1. `admin.html` ga kiring. Standart PIN `1234`, birinchi kirishda uni almashtiring.
-2. Taom, narx, rasm va kategoriyalarni o'zgartiring. Ular avval faqat shu brauzerda saqlanadi; "Ko'rish" tugmasi qoralamani ko'rsatadi.
-3. "Nashr qilish" bo'limida `menu.json` ni yuklab oling.
-4. Saytdagi `menu.json` ni shu fayl bilan almashtiring. Shundan keyin hamma yangi menyuni ko'radi.
+Menyu Supabase bazasida saqlanadi (loyiha: `osh-markazi-menyu`). `admin.html` ga email va parol bilan kiring: har bir o'zgarish darhol saytda ko'rinadi. Rasmlar Supabase Storage'dagi `menu-images` omboriga yuklanadi.
+
+Yangi admin qo'shish: Supabase → Authentication → Users → **Add user** (email va parol, "Auto Confirm" yoqilgan), keyin SQL Editor'da:
+
+```sql
+insert into public.admins (user_id) select id from auth.users where email = 'admin@misol.uz';
+```
+
+`menu.json` faqat zaxira: baza javob bermasa sayt shu fayldan ko'rsatadi.
 
 ## Cheklovlar
 
-- PIN faqat admin brauzerida xeshlangan holda saqlanadi. Bu oddiy qulf, server himoyasi emas.
-- Rasmlar `menu.json` ichida saqlanadi (har biri 720px gacha). Brauzer xotirasi taxminan 5 MB bilan cheklangan.
-- Rasmsiz taomlarda Unsplash'dagi namuna surat ko'rinadi; o'z rasmlaringizni admin paneldan yuklang.
+- O'chirilgan rasmlar omborda qoladi; joy tugasa Supabase panelidan tozalang.
+- Bepul Supabase loyihasi bir hafta umuman ishlatilmasa pauza qilinadi; panelda "Restore" bilan qayta yoqiladi. Shu vaqtda sayt `menu.json` zaxirasini ko'rsatadi.
