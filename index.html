@@ -79,9 +79,8 @@ html[data-theme="dark"] .feat-price{color:var(--gold)}
 .search input::-webkit-search-cancel-button{display:none}
 .clear{width:36px;height:36px;border-radius:var(--r-pill);display:grid;place-items:center;color:var(--ink-2)}
 .clear:hover{background:var(--paper-3)}
-.cats{display:flex;gap:var(--s2);overflow-x:auto;scrollbar-width:none;padding:2px}
-.cats::-webkit-scrollbar{display:none}
-.cat-link{flex:0 0 auto;display:inline-flex;align-items:center;gap:var(--s2);min-height:44px;padding:0 var(--s4);border-radius:var(--r-pill);
+.cats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s2);padding:2px}
+.cat-link{min-width:0;display:flex;align-items:center;justify-content:center;gap:var(--s1);min-height:40px;padding:0 var(--s2);overflow:hidden;text-overflow:ellipsis;border-radius:var(--r-pill);
   background:var(--glass-strong);border:1px solid var(--glass-line);font:500 var(--t-sm)/1 var(--font-body);text-decoration:none;white-space:nowrap;
   transition:background var(--dur) var(--ease),color var(--dur) var(--ease),border-color var(--dur) var(--ease)}
 .cat-link:hover{border-color:var(--ink)}
@@ -327,15 +326,14 @@ function renderHeader() {
   const tel = telHref(s.phone), tg = telegramHref(s.telegram), map = mapHref(s);
   $('#facts').innerHTML =
     `<span>${svg('clock', 18)}${esc(hoursText(s))}</span>` +
-    (s.address ? (map ? `<a href="${esc(map)}" target="_blank" rel="noopener noreferrer">${svg('location', 18)}${esc(s.address)}</a>` : `<span>${svg('location', 18)}${esc(s.address)}</span>`) : '');
+    (s.address ? `<span>${svg('location', 18)}${esc(s.address)}</span>` : '');
   $('#heroActions').innerHTML =
-    `<button class="btn btn-primary" type="button" data-go-menu>${t('seeMenu')}${svg('down', 18)}</button>` +
-    (tel ? `<a class="btn btn-ghost" href="${esc(tel)}">${svg('phone', 18)}${t('call')}</a>` : '') +
-    (map ? `<a class="btn btn-ghost" href="${esc(map)}" target="_blank" rel="noopener noreferrer">${svg('map', 18)}${t('onMap')}</a>` : '');
+    `<button class="btn btn-primary" type="button" data-go-menu>${t('seeMenu')}${svg('down', 18)}</button>`;
 
   $('#foot').innerHTML = `
     <div class="foot-brand"><img src="${esc(logoImage(s))}" alt="" width="48" height="48"><div><strong>${esc(s.name)}</strong><br><small>${esc(hoursText(s))}</small></div></div>
     <div class="facts">
+      ${s.address ? `<span>${svg('location', 18)}${esc(s.address)}</span>` : ''}
       ${tel ? `<a href="${esc(tel)}">${svg('phone', 18)}${esc(s.phone)}</a>` : ''}
       ${tg ? `<a href="${esc(tg)}" target="_blank" rel="noopener noreferrer">${svg('telegram', 18)}Telegram</a>` : ''}
       ${map ? `<a href="${esc(map)}" target="_blank" rel="noopener noreferrer">${svg('map', 18)}${t('onMap')}</a>` : ''}
@@ -473,8 +471,6 @@ function setActive(id) {
     const on = a.dataset.cat === id;
     if ((a.getAttribute('aria-current') === 'true') === on) return;
     a.setAttribute('aria-current', on ? 'true' : 'false');
-    /* instant: a second smooth scroll would cancel the page's own smooth scroll in Chrome */
-    if (on) strip.scrollLeft = (a.offsetLeft - strip.offsetLeft) - (strip.clientWidth - a.offsetWidth) / 2;
   });
 }
 
