@@ -9,7 +9,16 @@ Kafe uchun onlayn menyu va admin panel. Server kerak emas: oddiy statik hostingd
 | `index.html` | Mijozlar ko'radigan menyu |
 | `admin.html` | Admin panel (saytda unga havola yo'q) |
 | `menu.json` | Saytdagi menyu: taomlar, kategoriyalar, sozlamalar |
-| `common.js`, `shared.css` | Ikkala sahifa uchun umumiy kod va dizayn |
+| `common.js`, `shared.css` | Ikkala sahifa uchun umumiy kod, tarjimalar va dizayn |
+| `logo.svg` | Test logotipi (admin paneldan o'zingiznikini yuklang) |
+
+## Imkoniyatlar
+
+- Bosh rasm, logotip, "Hozir ochiq / yopiq" belgisi (ish vaqtiga qarab o'zi o'zgaradi), qo'ng'iroq va xarita tugmalari.
+- "Kun taomi" bloki: admin taomlar ro'yxatida yulduzcha bilan tanlaydi.
+- Taom kartasi: rasm, nom, vazn, narx, achchiq yoki vegetarian belgisi. Ichida: rasmlar karuseli, porsiyalar, tarkibi.
+- Uch til: o'zbekcha, ruscha, inglizcha. Taom va kategoriya tarjimalari admin panelda yoziladi.
+- Admin panelda stol uchun QR kod: chop etish yoki PNG qilib yuklab olish.
 
 ## Kompyuterda ochish
 

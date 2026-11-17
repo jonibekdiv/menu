@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Osh Markazi (test logotipi)">
+  <title>Osh Markazi</title>
+  <circle cx="32" cy="32" r="31" fill="#B8341F"/>
+  <circle cx="32" cy="32" r="27" fill="none" stroke="#F6D9A8" stroke-width="1.5" stroke-dasharray="2 3"/>
+  <!-- steam -->
+  <path d="M24 14c-2 3 2 5 0 8M32 12c-2 3 2 5 0 8M40 14c-2 3 2 5 0 8" fill="none" stroke="#FCEFD9" stroke-width="2.4" stroke-linecap="round"/>
+  <!-- rice mound -->
+  <path d="M17 33c2-6 8-9 15-9s13 3 15 9z" fill="#FCEFD9"/>
+  <circle cx="26" cy="29" r="1.6" fill="#E9A23B"/><circle cx="33" cy="27" r="1.6" fill="#E9A23B"/><circle cx="39" cy="30" r="1.6" fill="#E9A23B"/>
+  <!-- kazan -->
+  <path d="M12 33h40c0 9-7 17-20 17S12 42 12 33z" fill="#2B1710"/>
+  <path d="M9 33h46" stroke="#F6D9A8" stroke-width="3" stroke-linecap="round"/>
+  <path d="M10 37c-3 0-4 2-4 3M54 37c3 0 4 2 4 3" fill="none" stroke="#2B1710" stroke-width="2.6" stroke-linecap="round"/>
+</svg>

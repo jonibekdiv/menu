@@ -6,12 +6,14 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="description" content="Osh Markazi menyusini boshqarish paneli.">
 <title>Admin panel: menyu</title>
+<link rel="icon" href="logo.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Yeseva+One&family=Archivo:wght@400;500&family=Archivo+Narrow:wght@600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared.css">
 <style>
 main{padding-block:var(--s6) var(--s8)}
+.brand-logo{width:40px;height:40px;border-radius:var(--r-sm);object-fit:contain}
 @media (max-width:520px){
   #previewLink{width:44px;padding:0}
   #previewLink span:last-child{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
@@ -43,10 +45,13 @@ main{padding-block:var(--s6) var(--s8)}
 .row .thumb{width:56px;height:56px;flex:0 0 auto;border-radius:var(--r-sm);overflow:hidden;background:var(--paper-3);display:grid;place-items:center;color:var(--ink-2)}
 .row .thumb img{width:100%;height:100%;object-fit:cover}
 .row-main{flex:1;min-width:0}
-.row-name{font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row-name{display:flex;align-items:center;gap:var(--s2);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .row-sub{font-size:var(--t-sm);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .row-actions{display:flex;align-items:center;gap:var(--s2);flex:0 0 auto}
-@media (max-width:520px){.row{flex-wrap:wrap}.row-actions{width:100%;justify-content:flex-end}}
+.star-btn[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.mini{color:var(--muted);display:inline-flex}
+.mini.spicy{color:var(--danger)} .mini.veg{color:var(--ok)}
+@media (max-width:560px){.row{flex-wrap:wrap}.row-actions{width:100%;justify-content:flex-end}}
 
 .card{padding:var(--s5);border-radius:var(--r-xl);margin-bottom:var(--s5)}
 .card h2{font-size:var(--t-xl);margin-bottom:var(--s2)}
@@ -71,6 +76,35 @@ main{padding-block:var(--s6) var(--s8)}
 .switch-row{display:flex;align-items:center;justify-content:space-between;gap:var(--s3);padding:var(--s3) 0;margin-bottom:var(--s4);border-top:1px solid var(--glass-line);border-bottom:1px solid var(--glass-line)}
 .sheet-foot{display:flex;flex-wrap:wrap;gap:var(--s3);justify-content:space-between;margin-top:var(--s5)}
 .sheet-foot .btn-primary{flex:1 1 200px}
+.checks{display:flex;flex-wrap:wrap;gap:var(--s2)}
+.check{display:inline-flex;align-items:center;gap:var(--s2);min-height:44px;padding:0 var(--s4);border-radius:var(--r-pill);border:1px solid var(--glass-line);background:var(--glass-strong);cursor:pointer}
+.check input{width:18px;height:18px;accent-color:var(--accent);margin:0}
+.check:has(input:focus-visible){outline:2px solid var(--focus);outline-offset:2px}
+.variants{list-style:none;margin:0 0 var(--s2);padding:0;display:grid;gap:var(--s2)}
+.variant{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,140px) auto;gap:var(--s2);align-items:center}
+details.tr{border:1px solid var(--glass-line);border-radius:var(--r-md);padding:0 var(--s4);margin-bottom:var(--s4);background:var(--glass)}
+details.tr summary{min-height:48px;display:flex;align-items:center;gap:var(--s2);cursor:pointer;font:600 var(--t-sm)/1 var(--font-label);color:var(--ink-2)}
+details.tr[open]{padding-bottom:var(--s3)}
+.tr-lang{font:600 var(--t-xs)/1 var(--font-label);color:var(--muted);margin:var(--s3) 0 var(--s2)}
+.media-row{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s3)}
+.media-prev{width:96px;height:96px;border-radius:var(--r-md);overflow:hidden;background:var(--paper-3);display:grid;place-items:center;color:var(--ink-2);flex:0 0 auto}
+.media-prev.wide{width:160px}
+.media-prev img{width:100%;height:100%;object-fit:cover}
+.media-prev.logo img{object-fit:contain}
+
+.qr-wrap{display:grid;gap:var(--s5)}
+@media (min-width:768px){.qr-wrap{grid-template-columns:minmax(0,1fr) 300px;align-items:start}}
+.qr-card{display:grid;justify-items:center;gap:var(--s3);padding:var(--s5);border-radius:var(--r-xl);background:#fff;color:#111;text-align:center}
+.qr-card img.qr-logo{width:48px;height:48px}
+.qr-card .qr-name{font:400 var(--t-xl)/1.1 var(--font-display)}
+.qr-card .qr-sub{font:600 var(--t-sm)/1.3 var(--font-label);color:#555}
+#qrBox{width:220px;height:220px;display:grid;place-items:center}
+#qrBox img,#qrBox canvas{width:220px !important;height:220px !important}
+@media print{
+  body *{visibility:hidden !important}
+  #qrPrint,#qrPrint *{visibility:visible !important}
+  #qrPrint{position:fixed;left:50%;top:40px;transform:translateX(-50%);box-shadow:none;border:2px solid #111}
+}
 </style>
 </head>
 <body>
@@ -78,13 +112,13 @@ main{padding-block:var(--s6) var(--s8)}
 <header class="top glass">
   <div class="wrap">
     <span class="brand">
-      <span class="brand-mark" id="brandMark"></span>
+      <img class="brand-logo" id="brandLogo" src="logo.svg" alt="" width="40" height="40">
       <span class="brand-name">Admin panel</span>
     </span>
     <div class="top-actions">
       <a class="btn btn-ghost" href="index.html?draft=1" target="_blank" rel="noopener" id="previewLink" hidden><span id="eyeIco"></span><span>Ko'rish</span></a>
       <button class="icon-btn" id="logoutBtn" type="button" aria-label="Chiqish" hidden></button>
-      <button class="icon-btn" id="themeBtn" type="button" aria-label="Qorong'i rejim"></button>
+      <button class="icon-btn" id="themeBtn" type="button"></button>
     </div>
   </div>
 </header>
@@ -120,12 +154,14 @@ main{padding-block:var(--s6) var(--s8)}
       <button class="tab" role="tab" id="tab-dishes" aria-controls="p-dishes" aria-selected="true" data-tab="dishes">Taomlar</button>
       <button class="tab" role="tab" id="tab-cats" aria-controls="p-cats" aria-selected="false" data-tab="cats" tabindex="-1">Kategoriyalar</button>
       <button class="tab" role="tab" id="tab-settings" aria-controls="p-settings" aria-selected="false" data-tab="settings" tabindex="-1">Sozlamalar</button>
+      <button class="tab" role="tab" id="tab-qr" aria-controls="p-qr" aria-selected="false" data-tab="qr" tabindex="-1">QR kod</button>
       <button class="tab" role="tab" id="tab-publish" aria-controls="p-publish" aria-selected="false" data-tab="publish" tabindex="-1">Nashr qilish</button>
     </div>
 
     <div role="tabpanel" id="p-dishes" aria-labelledby="tab-dishes"></div>
     <div role="tabpanel" id="p-cats" aria-labelledby="tab-cats" hidden></div>
     <div role="tabpanel" id="p-settings" aria-labelledby="tab-settings" hidden></div>
+    <div role="tabpanel" id="p-qr" aria-labelledby="tab-qr" hidden></div>
     <div role="tabpanel" id="p-publish" aria-labelledby="tab-publish" hidden></div>
   </section>
 </main>
@@ -135,6 +171,7 @@ main{padding-block:var(--s6) var(--s8)}
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="common.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
 <script>
 const SESSION_KEY = 'oshmarkazi.menyu.admin';
 const LOCK_KEY = 'oshmarkazi.menyu.lock';
@@ -158,7 +195,6 @@ async function checkPin(pin) {
   const stored = storedPinHash();
   return stored ? (await hashPin(pin)) === stored : pin === DEFAULT_PIN;
 }
-
 function lockState() {
   try { return JSON.parse(sessionStorage.getItem(LOCK_KEY)) || { fails: 0, until: 0 }; } catch (e) { return { fails: 0, until: 0 }; }
 }
@@ -191,9 +227,9 @@ async function onLogin(e) {
 
 /* ---------- boot ---------- */
 async function boot() {
+  LANG = 'uz';
   initTheme();
   initSheet();
-  $('#brandMark').innerHTML = svg('lock', 20);
   $('#lockIco').innerHTML = svg('lock', 28);
   $('#logoutBtn').innerHTML = svg('logout', 20);
   $('#eyeIco').innerHTML = svg('eye', 18);
@@ -210,10 +246,7 @@ async function boot() {
 
 async function enterPanel() {
   M = loadDraft();
-  if (!M) {
-    M = (await loadPublished()) || defaultMenu();
-    saveDraft(M);
-  }
+  if (!M) { M = (await loadPublished()) || defaultMenu(); saveDraft(M); }
   $('#login').hidden = true;
   $('#panel').hidden = false;
   $('#previewLink').hidden = false;
@@ -225,20 +258,20 @@ function logout() {
   try { sessionStorage.removeItem(SESSION_KEY); } catch (e) {}
   location.reload();
 }
-
 function commit(msg) {
   if (saveDraft(M)) { toast(msg || 'Saqlandi'); renderStatus(); }
 }
 function renderStatus() {
-  const t = new Date(M.updatedAt);
-  $('#status').textContent = `${M.dishes.length} ta taom, ${M.cats.length} ta kategoriya. Oxirgi o'zgarish: ${t.toLocaleString('ru-RU', { dateStyle: 'short', timeStyle: 'short' })}`;
+  const d = new Date(M.updatedAt);
+  $('#status').textContent = `${M.dishes.length} ta taom, ${M.cats.length} ta kategoriya. Oxirgi o'zgarish: ${d.toLocaleString('ru-RU', { dateStyle: 'short', timeStyle: 'short' })}`;
+  $('#brandLogo').src = logoImage(M.settings);
 }
-function renderAll() { renderStatus(); renderDishes(); renderCats(); renderSettings(); renderPublish(); }
+function renderAll() { renderStatus(); renderDishes(); renderCats(); renderSettings(); renderQr(); renderPublish(); }
 
 /* ---------- tabs ---------- */
 function initTabs() {
   const tabs = $$('.tab');
-  tabs.forEach(t => t.addEventListener('click', () => selectTab(t.dataset.tab)));
+  tabs.forEach(tb => tb.addEventListener('click', () => selectTab(tb.dataset.tab)));
   $('.tabs').addEventListener('keydown', e => {
     const i = tabs.indexOf(document.activeElement);
     if (i < 0) return;
@@ -251,12 +284,13 @@ function initTabs() {
   });
 }
 function selectTab(name) {
-  $$('.tab').forEach(t => {
-    const on = t.dataset.tab === name;
-    t.setAttribute('aria-selected', on ? 'true' : 'false');
-    t.tabIndex = on ? 0 : -1;
+  $$('.tab').forEach(tb => {
+    const on = tb.dataset.tab === name;
+    tb.setAttribute('aria-selected', on ? 'true' : 'false');
+    tb.tabIndex = on ? 0 : -1;
   });
   $$('[role="tabpanel"]').forEach(p => { p.hidden = p.id !== 'p-' + name; });
+  if (name === 'qr') drawQr();
 }
 
 /* ---------- dishes ---------- */
@@ -279,6 +313,15 @@ function renderDishes() {
     $('#dc').addEventListener('change', e => { dishCat = e.target.value; renderDishList(); });
     $('#addDish').addEventListener('click', () => openDishForm(null));
     $('#dishList').addEventListener('click', e => {
+      const st = e.target.closest('[data-feature]');
+      if (st) {
+        const id = st.dataset.feature;
+        M.settings.featuredId = M.settings.featuredId === id ? '' : id;
+        commit(M.settings.featuredId ? `"${M.dishes.find(d => d.id === id).name}" kun taomi qilindi` : 'Kun taomi olib tashlandi');
+        renderDishList(); renderSettings();
+        const again = $(`[data-feature="${id}"]`); if (again) again.focus();
+        return;
+      }
       const ed = e.target.closest('[data-edit]'); if (ed) return openDishForm(ed.dataset.edit);
       const del = e.target.closest('[data-del]'); if (del) return confirmDeleteDish(del.dataset.del);
     });
@@ -292,9 +335,9 @@ function renderDishes() {
       commit(d.available ? `${d.name} menyuda ko'rinadi` : `${d.name} menyudan yashirildi`);
     });
   }
+  if (dishCat !== 'all' && !M.cats.some(c => c.id === dishCat)) dishCat = 'all';
   $('#dc').innerHTML = `<option value="all">Barcha kategoriyalar</option>` +
     M.cats.map(c => `<option value="${esc(c.id)}"${dishCat === c.id ? ' selected' : ''}>${esc(c.name)}</option>`).join('');
-  if (dishCat !== 'all' && !M.cats.some(c => c.id === dishCat)) dishCat = 'all';
   renderDishList();
 }
 
@@ -307,13 +350,16 @@ function renderDishList() {
   $('#dishList').innerHTML = list.length ? list.map(d => {
     const src = dishImage(d);
     const cat = M.cats.find(c => c.id === d.cat);
+    const feat = M.settings.featuredId === d.id;
+    const price = d.variants.length ? `${fmtPrice(basePrice(d), cur)} dan` : fmtPrice(d.price, cur);
     return `<li class="row glass${d.available ? '' : ' off'}">
       <span class="thumb">${src ? `<img src="${esc(src)}" alt="" loading="lazy">` : svg(cat ? cat.icon : 'plate', 24)}</span>
       <span class="row-main">
-        <span class="row-name">${esc(d.name)}</span>
-        <span class="row-sub">${esc(catName(d.cat))}, ${esc(fmtPrice(d.price, cur))}${d.tag ? ', ' + esc(d.tag) : ''}</span>
+        <span class="row-name">${esc(d.name)}${d.flags.map(f => `<span class="mini ${f}" title="${f === 'spicy' ? 'Achchiq' : 'Vegetarian'}">${svg(FLAGS[f], 14)}</span>`).join('')}</span>
+        <span class="row-sub">${esc(catName(d.cat))}, ${esc(price)}${d.weight ? ', ' + esc(d.weight) : ''}${d.tag ? ', ' + esc(d.tag) : ''}</span>
       </span>
       <span class="row-actions">
+        <button class="icon-btn star-btn" type="button" data-feature="${esc(d.id)}" aria-pressed="${feat}" aria-label="${esc(d.name)}: kun taomi" title="Kun taomi">${svg('star', 18)}</button>
         <span class="switch"><input type="checkbox" data-avail="${esc(d.id)}" ${d.available ? 'checked' : ''} aria-label="${esc(d.name)} menyuda ko'rinsin"><span></span></span>
         <button class="icon-btn" type="button" data-edit="${esc(d.id)}" aria-label="${esc(d.name)}: tahrirlash">${svg('edit', 18)}</button>
         <button class="icon-btn danger" type="button" data-del="${esc(d.id)}" aria-label="${esc(d.name)}: o'chirish">${svg('trash', 18)}</button>
@@ -323,10 +369,14 @@ function renderDishList() {
 }
 
 let pendingImgs = [];
+let pendingVariants = [];
+const trVal = (o, l, f) => esc((o && o.tr && o.tr[l] && o.tr[l][f]) || '');
+
 function openDishForm(id) {
   const d = id ? M.dishes.find(x => x.id === id) : null;
   if (!M.cats.length) { toast("Avval kategoriya qo'shing"); selectTab('cats'); return; }
   pendingImgs = d ? [...d.imgs] : [];
+  pendingVariants = d ? d.variants.map(v => ({ ...v })) : [];
   const sheet = openSheet(`
     <div class="sheet-head">
       <h2>${d ? 'Taomni tahrirlash' : 'Yangi taom'}</h2>
@@ -338,28 +388,52 @@ function openDishForm(id) {
         <span class="error" id="eName"></span></div>
       <div class="row-2">
         <div class="field"><label for="fPrice">Narxi (${esc(M.settings.currency)})</label>
-          <input class="input" id="fPrice" type="number" inputmode="numeric" min="0" step="500" required value="${d ? d.price : ''}" placeholder="45000">
+          <input class="input" id="fPrice" type="number" inputmode="numeric" min="0" step="500" value="${d ? d.price : ''}" placeholder="45000">
           <span class="error" id="ePrice"></span></div>
         <div class="field"><label for="fCat">Kategoriya</label>
           <select class="input" id="fCat">${M.cats.map(c => `<option value="${esc(c.id)}"${(d ? d.cat : (dishCat !== 'all' ? dishCat : '')) === c.id ? ' selected' : ''}>${esc(c.name)}</option>`).join('')}</select></div>
       </div>
+      <div class="row-2">
+        <div class="field"><label for="fWeight">Vazni yoki hajmi</label>
+          <input class="input" id="fWeight" maxlength="20" value="${esc(d ? d.weight : '')}" placeholder="350 g, 0.5 l, 5 dona"></div>
+        <div class="field"><label for="fTag">Belgi</label>
+          <select class="input" id="fTag">
+            <option value="">Belgisiz</option>
+            ${Object.keys(TAGS).map(tg => `<option${d && d.tag === tg ? ' selected' : ''}>${tg}</option>`).join('')}
+          </select></div>
+      </div>
+      <div class="field"><span class="label" id="flagLabel">Xususiyatlari</span>
+        <div class="checks" role="group" aria-labelledby="flagLabel">
+          <label class="check"><input type="checkbox" id="fSpicy" ${d && d.flags.includes('spicy') ? 'checked' : ''}>${svg('chili', 18)}Achchiq</label>
+          <label class="check"><input type="checkbox" id="fVeg" ${d && d.flags.includes('veg') ? 'checked' : ''}>${svg('leaf', 18)}Vegetarian</label>
+        </div></div>
+      <div class="field"><span class="label" id="varLabel">Porsiyalar (ixtiyoriy)</span>
+        <div role="group" aria-labelledby="varLabel">
+          <ul class="variants" id="varList"></ul>
+          <button class="btn btn-ghost" type="button" id="addVar">${svg('plus', 18)}Porsiya qo'shish</button>
+        </div>
+        <span class="hint">Masalan: "1 porsiya" 45000 va "0.5 porsiya" 25000. Porsiya bo'lsa, menyuda eng arzon narx "dan" bilan chiqadi.</span></div>
       <div class="field"><label for="fDesc">Qisqa tavsif</label>
         <textarea class="input" id="fDesc" maxlength="160" placeholder="An'anaviy to'y oshi: devzira guruch, qo'zichoq">${esc(d ? d.desc : '')}</textarea></div>
       <div class="field"><label for="fIng">Tarkibi (mahsulotlar)</label>
         <input class="input" id="fIng" maxlength="200" value="${esc(d ? d.ing : '')}" placeholder="Guruch, qo'zichoq, sabzi" aria-describedby="hIng">
-        <span class="hint" id="hIng">Mahsulotlarni vergul bilan ajrating. Menyuda har biri alohida ko'rinadi.</span></div>
-      <div class="field"><label for="fTag">Belgi</label>
-        <select class="input" id="fTag">
-          <option value="">Belgisiz</option>
-          ${Object.keys(TAGS).map(t => `<option${d && d.tag === t ? ' selected' : ''}>${t}</option>`).join('')}
-        </select></div>
+        <span class="hint" id="hIng">Mahsulotlarni vergul bilan ajrating.</span></div>
+      <details class="tr">
+        <summary>${svg('globe', 18)}Tarjimalar: ruscha va inglizcha</summary>
+        <p class="hint">Bo'sh qolsa, menyuda o'zbekcha matn chiqadi.</p>
+        ${['ru', 'en'].map(l => `
+          <p class="tr-lang">${l === 'ru' ? 'Ruscha' : 'Inglizcha'}</p>
+          <div class="field"><label for="t-${l}-name">Nomi (${l.toUpperCase()})</label><input class="input" id="t-${l}-name" maxlength="60" value="${trVal(d, l, 'name')}"></div>
+          <div class="field"><label for="t-${l}-desc">Tavsif (${l.toUpperCase()})</label><textarea class="input" id="t-${l}-desc" maxlength="160">${trVal(d, l, 'desc')}</textarea></div>
+          <div class="field"><label for="t-${l}-ing">Tarkibi (${l.toUpperCase()})</label><input class="input" id="t-${l}-ing" maxlength="200" value="${trVal(d, l, 'ing')}"></div>`).join('')}
+      </details>
       <div class="field">
         <span class="label" id="imgLabel">Rasmlar (${MAX_IMGS} tagacha)</span>
         <div role="group" aria-labelledby="imgLabel">
           <ul class="imgs" id="imgList"></ul>
           <span class="btn btn-ghost file-btn" id="addImgBtn">${svg('upload', 18)}Rasm qo'shish<input type="file" id="fImg" accept="image/*" multiple aria-label="Rasm qo'shish"></span>
         </div>
-        <span class="hint">Birinchi rasm menyu kartasida chiqadi, qolganlari taom ichidagi karuselda. Har bir rasm 720px gacha kichraytiriladi.</span>
+        <span class="hint">Birinchi rasm menyu kartasida chiqadi, qolganlari taom ichidagi karuselda.</span>
       </div>
       <div class="switch-row">
         <label for="fAvail">Menyuda ko'rinsin</label>
@@ -371,6 +445,38 @@ function openDishForm(id) {
       </div>
     </form>`);
 
+  /* portions */
+  const readVariants = () => {
+    $$('.variant', $('#varList')).forEach((li, i) => {
+      pendingVariants[i] = { name: $('.v-name', li).value, price: $('.v-price', li).value };
+    });
+  };
+  const showVariants = () => {
+    $('#varList').innerHTML = pendingVariants.map((v, i) => `<li class="variant">
+      <label class="vh" for="vn${i}">Porsiya nomi ${i + 1}</label>
+      <input class="input v-name" id="vn${i}" maxlength="30" value="${esc(v.name)}" placeholder="1 porsiya">
+      <label class="vh" for="vp${i}">Porsiya narxi ${i + 1}</label>
+      <input class="input v-price" id="vp${i}" type="number" inputmode="numeric" min="0" step="500" value="${esc(v.price)}" placeholder="45000">
+      <button class="icon-btn danger" type="button" data-vrm="${i}" aria-label="${i + 1}-porsiyani olib tashlash">${svg('trash', 16)}</button>
+    </li>`).join('');
+  };
+  showVariants();
+  $('#addVar').addEventListener('click', () => {
+    readVariants();
+    pendingVariants.push({ name: '', price: '' });
+    showVariants();
+    $(`#vn${pendingVariants.length - 1}`).focus();
+  });
+  $('#varList').addEventListener('click', e => {
+    const b = e.target.closest('[data-vrm]');
+    if (!b) return;
+    readVariants();
+    pendingVariants.splice(Number(b.dataset.vrm), 1);
+    showVariants();
+    $('#addVar').focus();
+  });
+
+  /* pictures */
   const showImgs = () => {
     const n = pendingImgs.length;
     $('#imgList').innerHTML = n ? pendingImgs.map((src, i) => `<li class="img-item">
@@ -401,23 +507,37 @@ function openDishForm(id) {
     showImgs();
   });
   if (d) $('#fDelete').addEventListener('click', () => confirmDeleteDish(d.id));
+
   sheet.querySelector('#dishForm').addEventListener('submit', e => {
     e.preventDefault();
+    readVariants();
+    const variants = pendingVariants
+      .map(v => ({ name: String(v.name).trim(), price: Math.round(Number(v.price)) }))
+      .filter(v => v.name || v.price);
+    const badVariant = variants.find(v => !v.name || !Number.isFinite(v.price) || v.price < 0);
     const name = $('#fName').value.trim();
-    const price = Number($('#fPrice').value);
-    let ok = true;
+    const priceRaw = $('#fPrice').value;
+    const price = Number(priceRaw);
+    const priceOk = variants.length ? true : (priceRaw !== '' && Number.isFinite(price) && price >= 0);
     $('#eName').textContent = name ? '' : 'Taom nomini yozing.';
     $('#fName').setAttribute('aria-invalid', name ? 'false' : 'true');
-    if (!name) ok = false;
-    const priceOk = $('#fPrice').value !== '' && Number.isFinite(price) && price >= 0;
-    $('#ePrice').textContent = priceOk ? '' : 'Narxni raqamda yozing.';
+    $('#ePrice').textContent = priceOk ? '' : "Narxni raqamda yozing yoki porsiya qo'shing.";
     $('#fPrice').setAttribute('aria-invalid', priceOk ? 'false' : 'true');
-    if (!priceOk) ok = false;
-    if (!ok) { (name ? $('#fPrice') : $('#fName')).focus(); return; }
+    if (!name) { $('#fName').focus(); return; }
+    if (!priceOk) { $('#fPrice').focus(); return; }
+    if (badVariant) { toast('Har bir porsiyaga nom va narx yozing.'); $('#varList input').focus(); return; }
 
+    const trData = {};
+    for (const l of ['ru', 'en']) {
+      trData[l] = {};
+      for (const f of ['name', 'desc', 'ing']) { const v = $(`#t-${l}-${f}`).value.trim(); if (v) trData[l][f] = v; }
+    }
     const data = {
-      name, price: Math.round(price), cat: $('#fCat').value, desc: $('#fDesc').value.trim(),
-      ing: $('#fIng').value.trim(), tag: $('#fTag').value, imgs: [...pendingImgs], available: $('#fAvail').checked
+      name, price: variants.length ? Math.min(...variants.map(v => v.price)) : Math.round(price),
+      cat: $('#fCat').value, desc: $('#fDesc').value.trim(), ing: $('#fIng').value.trim(),
+      weight: $('#fWeight').value.trim(), tag: $('#fTag').value,
+      flags: [$('#fSpicy').checked && 'spicy', $('#fVeg').checked && 'veg'].filter(Boolean),
+      variants, imgs: [...pendingImgs], available: $('#fAvail').checked, tr: trData
     };
     if (d) Object.assign(d, data); else M.dishes.push({ id: uid(), ...data });
     commit(d ? 'Taom yangilandi' : "Taom qo'shildi");
@@ -439,29 +559,10 @@ function confirmDeleteDish(id) {
     </div>`);
   $('#yesDel').addEventListener('click', () => {
     M.dishes = M.dishes.filter(x => x.id !== id);
+    if (M.settings.featuredId === id) M.settings.featuredId = '';
     commit("Taom o'chirildi");
     closeSheet();
-    renderDishList();
-  });
-}
-
-function resizeImage(file, max) {
-  return new Promise((resolve, reject) => {
-    const r = new FileReader();
-    r.onerror = reject;
-    r.onload = () => {
-      const img = new Image();
-      img.onerror = reject;
-      img.onload = () => {
-        const k = Math.min(1, max / Math.max(img.width, img.height));
-        const c = document.createElement('canvas');
-        c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
-        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
-        resolve(c.toDataURL('image/jpeg', 0.78));
-      };
-      img.src = r.result;
-    };
-    r.readAsDataURL(file);
+    renderDishList(); renderSettings();
   });
 }
 
@@ -474,7 +575,7 @@ function renderCats() {
     <ul class="list">
       ${M.cats.map((c, i) => `<li class="row glass">
         <span class="thumb">${svg(c.icon, 24)}</span>
-        <span class="row-main"><span class="row-name">${esc(c.name)}</span><span class="row-sub">${counts(c.id)} ta taom</span></span>
+        <span class="row-main"><span class="row-name">${esc(c.name)}</span><span class="row-sub">${counts(c.id)} ta taom${c.tr.ru.name ? ', ' + esc(c.tr.ru.name) : ''}${c.tr.en.name ? ', ' + esc(c.tr.en.name) : ''}</span></span>
         <span class="row-actions">
           <button class="icon-btn" type="button" data-move="${i}" data-dir="-1" aria-label="${esc(c.name)}: yuqoriga" ${i === 0 ? 'disabled' : ''}>${svg('up', 18)}</button>
           <button class="icon-btn" type="button" data-move="${i}" data-dir="1" aria-label="${esc(c.name)}: pastga" ${i === M.cats.length - 1 ? 'disabled' : ''}>${svg('down', 18)}</button>
@@ -518,6 +619,10 @@ function openCatForm(id) {
       <div class="field"><label for="cName">Nomi</label>
         <input class="input" id="cName" maxlength="40" required value="${esc(c ? c.name : '')}" placeholder="Shirinliklar">
         <span class="error" id="eCat"></span></div>
+      <div class="row-2">
+        <div class="field"><label for="cRu">Nomi (RU)</label><input class="input" id="cRu" maxlength="40" value="${trVal(c, 'ru', 'name')}" placeholder="Десерты"></div>
+        <div class="field"><label for="cEn">Nomi (EN)</label><input class="input" id="cEn" maxlength="40" value="${trVal(c, 'en', 'name')}" placeholder="Desserts"></div>
+      </div>
       <div class="field"><span class="label" id="iconLabel">Belgi</span>
         <div class="icon-grid" role="group" aria-labelledby="iconLabel">
           ${ICON_CHOICES.map(([k, l]) => `<button type="button" class="icon-opt" data-icon="${k}" aria-pressed="${k === icon}" aria-label="${l}">${svg(k, 22)}</button>`).join('')}
@@ -533,8 +638,11 @@ function openCatForm(id) {
     e.preventDefault();
     const name = $('#cName').value.trim();
     if (!name) { $('#eCat').textContent = 'Kategoriya nomini yozing.'; $('#cName').setAttribute('aria-invalid', 'true'); $('#cName').focus(); return; }
-    if (c) Object.assign(c, { name, icon });
-    else M.cats.push({ id: 'c-' + uid(), name, icon });
+    const trData = { ru: {}, en: {} };
+    if ($('#cRu').value.trim()) trData.ru.name = $('#cRu').value.trim();
+    if ($('#cEn').value.trim()) trData.en.name = $('#cEn').value.trim();
+    if (c) Object.assign(c, { name, icon, tr: trData });
+    else M.cats.push({ id: 'c-' + uid(), name, icon, tr: trData });
     commit(c ? 'Kategoriya yangilandi' : "Kategoriya qo'shildi");
     closeSheet();
     renderCats(); renderDishes();
@@ -542,12 +650,24 @@ function openCatForm(id) {
 }
 
 /* ---------- settings ---------- */
+function mediaField(key, label, hint, wide) {
+  const s = M.settings;
+  const src = key === 'logo' ? logoImage(s) : coverImage(s);
+  const custom = !!s[key];
+  return `<div class="field"><span class="label" id="${key}Label">${label}</span>
+    <div class="media-row" role="group" aria-labelledby="${key}Label">
+      <span class="media-prev${wide ? ' wide' : ''}${key === 'logo' ? ' logo' : ''}"><img src="${esc(src)}" alt="${custom ? label : label + ' (standart)'}"></span>
+      <span class="btn btn-ghost file-btn">${svg('upload', 18)}Yuklash<input type="file" accept="image/*" data-media="${key}" aria-label="${label}: yuklash"></span>
+      ${custom ? `<button class="btn btn-ghost" type="button" data-media-rm="${key}">Standartga qaytarish</button>` : ''}
+    </div><span class="hint">${hint}</span></div>`;
+}
 function renderSettings() {
   const s = M.settings;
+  const feat = M.dishes.find(d => d.id === s.featuredId);
   $('#p-settings').innerHTML = `
     <form class="card glass" id="setForm" novalidate>
       <h2>Kafe ma'lumotlari</h2>
-      <p>Bular menyu sahifasining yuqorisida va pastida chiqadi.</p>
+      <p>Bular menyu sahifasining bosh qismida va pastida chiqadi.</p>
       <div class="row-2">
         <div class="field"><label for="sName">Kafe nomi</label><input class="input" id="sName" maxlength="40" value="${esc(s.name)}"></div>
         <div class="field"><label for="sCur">Valyuta</label><input class="input" id="sCur" maxlength="8" value="${esc(s.currency)}"></div>
@@ -556,10 +676,28 @@ function renderSettings() {
         <div class="field"><label for="sPhone">Telefon</label><input class="input" id="sPhone" type="tel" value="${esc(s.phone)}" placeholder="+998 90 123 45 67"></div>
         <div class="field"><label for="sTg">Telegram</label><input class="input" id="sTg" value="${esc(s.telegram)}" placeholder="@username"><span class="error" id="eTg"></span></div>
       </div>
-      <div class="field"><label for="sHours">Ish vaqti</label><input class="input" id="sHours" value="${esc(s.hours)}" placeholder="Har kuni 09:00 dan 22:00 gacha"></div>
+      <div class="row-2">
+        <div class="field"><label for="sOpen">Ochilish vaqti</label><input class="input" id="sOpen" type="time" value="${esc(s.openTime)}"></div>
+        <div class="field"><label for="sClose">Yopilish vaqti</label><input class="input" id="sClose" type="time" value="${esc(s.closeTime)}">
+          <span class="hint">Tunda yopilsa (masalan 02:00), shunday yozing. Ikkalasi bir xil bo'lsa, kecha-kunduz ochiq.</span></div>
+      </div>
       <div class="field"><label for="sAddr">Manzil</label><input class="input" id="sAddr" value="${esc(s.address)}" placeholder="Toshkent, Chilonzor 9"></div>
+      <div class="field"><label for="sMap">Xarita havolasi (ixtiyoriy)</label><input class="input" id="sMap" type="url" value="${esc(s.mapUrl)}" placeholder="https://maps.app.goo.gl/... yoki https://yandex.uz/maps/...">
+        <span class="hint">Bo'sh qolsa, manzil bo'yicha Google Maps qidiruvi ochiladi.</span><span class="error" id="eMap"></span></div>
+      <div class="field"><label for="sFeat">Kun taomi</label>
+        <select class="input" id="sFeat"><option value="">Ko'rsatilmasin</option>
+          ${M.dishes.map(d => `<option value="${esc(d.id)}"${s.featuredId === d.id ? ' selected' : ''}>${esc(d.name)}</option>`).join('')}
+        </select>
+        <span class="hint">${feat ? `Hozir: ${esc(feat.name)}.` : ''} Taomlar ro'yxatidagi yulduzcha bilan ham tanlash mumkin.</span></div>
       <button class="btn btn-primary" type="submit">Saqlash</button>
     </form>
+
+    <section class="card glass" aria-labelledby="mediaTitle">
+      <h2 id="mediaTitle">Logotip va bosh rasm</h2>
+      <p>Hozir test logotipi turibdi. O'zingiznikini yuklasangiz, sarlavhada, pastda va QR kartada chiqadi.</p>
+      ${mediaField('logo', 'Logotip', 'Kvadrat PNG yoki SVG, shaffof fonda yaxshi chiqadi. 256px gacha kichraytiriladi.', false)}
+      ${mediaField('cover', 'Bosh rasm', "Keng surat: kafe ichi yoki eng chiroyli taom. 1600px gacha kichraytiriladi.", true)}
+    </section>
 
     <form class="card glass" id="pinForm" novalidate>
       <h2>PIN kodni almashtirish</h2>
@@ -576,24 +714,43 @@ function renderSettings() {
   $('#setForm').addEventListener('submit', e => {
     e.preventDefault();
     const tg = $('#sTg').value.trim();
-    if (tg && !telegramHref(tg)) { $('#eTg').textContent = '@username yoki https://t.me/username ko’rinishida yozing.'; $('#sTg').focus(); return; }
-    $('#eTg').textContent = '';
+    const map = $('#sMap').value.trim();
+    $('#eTg').textContent = tg && !telegramHref(tg) ? "@username yoki https://t.me/username ko'rinishida yozing." : '';
+    $('#eMap').textContent = map && !/^https?:\/\//i.test(map) ? 'Havola https:// bilan boshlansin.' : '';
+    if ($('#eTg').textContent) { $('#sTg').focus(); return; }
+    if ($('#eMap').textContent) { $('#sMap').focus(); return; }
     Object.assign(M.settings, {
       name: $('#sName').value.trim() || DEFAULT_SETTINGS.name,
       currency: $('#sCur').value.trim() || DEFAULT_SETTINGS.currency,
       phone: $('#sPhone').value.trim(), telegram: tg,
-      hours: $('#sHours').value.trim(), address: $('#sAddr').value.trim()
+      openTime: $('#sOpen').value || DEFAULT_SETTINGS.openTime, closeTime: $('#sClose').value || DEFAULT_SETTINGS.closeTime,
+      address: $('#sAddr').value.trim(), mapUrl: map, featuredId: $('#sFeat').value
     });
     commit('Sozlamalar saqlandi');
-    renderDishes();
+    renderDishList(); renderQr();
   });
+
+  $('#p-settings').querySelectorAll('[data-media]').forEach(inp => inp.addEventListener('change', async e => {
+    const key = e.target.dataset.media, file = e.target.files[0];
+    if (!file) return;
+    try {
+      M.settings[key] = await resizeImage(file, key === 'logo' ? 256 : 1600, 0.8);
+      commit(key === 'logo' ? 'Logotip yangilandi' : 'Bosh rasm yangilandi');
+      renderSettings(); renderQr();
+    } catch (er) { toast("Rasmni o'qib bo'lmadi"); }
+  }));
+  $('#p-settings').querySelectorAll('[data-media-rm]').forEach(b => b.addEventListener('click', () => {
+    M.settings[b.dataset.mediaRm] = '';
+    commit('Standart rasm qaytarildi');
+    renderSettings(); renderQr();
+  }));
 
   $('#pinForm').addEventListener('submit', async e => {
     e.preventDefault();
     const err = $('#ePin');
     const oldPin = $('#pOld').value.trim(), a = $('#pNew').value.trim(), b = $('#pNew2').value.trim();
     if (!(await checkPin(oldPin))) { err.textContent = "Hozirgi PIN noto'g'ri."; $('#pOld').focus(); return; }
-    if (!/^\d{4,8}$/.test(a)) { err.textContent = 'Yangi PIN 4 dan 8 tagacha raqam bo’lsin.'; $('#pNew').focus(); return; }
+    if (!/^\d{4,8}$/.test(a)) { err.textContent = "Yangi PIN 4 dan 8 tagacha raqam bo'lsin."; $('#pNew').focus(); return; }
     if (a === DEFAULT_PIN) { err.textContent = '1234 dan boshqa PIN tanlang.'; $('#pNew').focus(); return; }
     if (a !== b) { err.textContent = 'Yangi PIN lar bir xil emas.'; $('#pNew2').focus(); return; }
     try { localStorage.setItem(PIN_KEY, await hashPin(a)); } catch (er) { err.textContent = "Saqlab bo'lmadi."; return; }
@@ -604,6 +761,72 @@ function renderSettings() {
   });
 }
 
+/* ---------- QR code ---------- */
+function menuUrl() {
+  const base = new URL('index.html', location.href);
+  base.search = ''; base.hash = '';
+  return base.href.replace(/index\.html$/, '');
+}
+function renderQr() {
+  const s = M.settings;
+  const local = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) || location.protocol === 'file:';
+  $('#p-qr').innerHTML = `
+    <div class="qr-wrap">
+      <form class="card glass" id="qrForm" novalidate>
+        <h2>Stol uchun QR kod</h2>
+        <p>Mijoz telefon kamerasini QR ga tutsa, menyu ochiladi. Chop etib, stolga qo'ying.</p>
+        <div class="field"><label for="qrUrl">Menyu manzili</label>
+          <input class="input" id="qrUrl" type="url" value="${esc(menuUrl())}">
+          <span class="hint">${local ? "Diqqat: bu kompyuterdagi manzil. Vercel'dagi sayt manzilini yozing, masalan https://menu-xxxx.vercel.app/" : 'Saytingiz manzili avtomatik olindi.'}</span></div>
+        <div class="field"><label for="qrTable">Stol raqami (ixtiyoriy)</label>
+          <input class="input" id="qrTable" inputmode="numeric" maxlength="4" placeholder="5"></div>
+        <div class="actions">
+          <button class="btn btn-primary" type="button" id="qrPrintBtn">${svg('printer', 18)}Chop etish</button>
+          <button class="btn btn-ghost" type="button" id="qrDownload">${svg('download', 18)}PNG yuklab olish</button>
+        </div>
+      </form>
+      <div class="qr-card" id="qrPrint">
+        <img class="qr-logo" src="${esc(logoImage(s))}" alt="">
+        <span class="qr-name">${esc(s.name)}</span>
+        <div id="qrBox" role="img" aria-label="Menyu QR kodi"></div>
+        <span class="qr-sub" id="qrSub">Menyuni ko'rish uchun skanerlang</span>
+      </div>
+    </div>`;
+  $('#qrUrl').addEventListener('input', drawQr);
+  $('#qrTable').addEventListener('input', drawQr);
+  $('#qrPrintBtn').addEventListener('click', () => window.print());
+  $('#qrDownload').addEventListener('click', () => {
+    const c = $('#qrBox canvas');
+    if (!c) { toast("QR hali tayyor emas"); return; }
+    const a = document.createElement('a');
+    a.href = c.toDataURL('image/png');
+    a.download = `menyu-qr${$('#qrTable').value.trim() ? '-stol-' + $('#qrTable').value.trim() : ''}.png`;
+    document.body.appendChild(a); a.click(); a.remove();
+  });
+  if (!$('#p-qr').hidden) drawQr();
+}
+function qrTarget() {
+  let url = $('#qrUrl').value.trim();
+  const table = $('#qrTable').value.trim();
+  try {
+    const u = new URL(url);
+    if (table) u.searchParams.set('stol', table); else u.searchParams.delete('stol');
+    url = u.href;
+  } catch (e) { return ''; }
+  return url;
+}
+function drawQr() {
+  const box = $('#qrBox');
+  if (!box) return;
+  const text = qrTarget();
+  const table = $('#qrTable').value.trim();
+  $('#qrSub').textContent = table ? `Stol ${table}. Menyuni ko'rish uchun skanerlang` : "Menyuni ko'rish uchun skanerlang";
+  box.innerHTML = '';
+  if (!text) { box.textContent = "Manzil noto'g'ri"; return; }
+  if (!window.QRCode) { box.textContent = 'QR kutubxonasi yuklanmoqda...'; setTimeout(drawQr, 600); return; }
+  new QRCode(box, { text, width: 440, height: 440, colorDark: '#111111', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
+}
+
 /* ---------- publish ---------- */
 function renderPublish() {
   $('#p-publish').innerHTML = `
@@ -612,7 +835,7 @@ function renderPublish() {
       <p>O'zgarishlar avval faqat shu brauzerda saqlanadi. Mijozlar saytdagi <code>menu.json</code> faylidagi menyuni ko'radi.</p>
       <ol class="steps">
         <li>"menu.json ni yuklab olish" tugmasini bosing.</li>
-        <li>Saytingizdagi <code>menyu/menu.json</code> faylini shu yangi fayl bilan almashtiring (hosting, GitHub yoki FTP orqali).</li>
+        <li>Saytingizdagi <code>menu.json</code> faylini shu yangi fayl bilan almashtiring (GitHub orqali, Vercel o'zi yangilaydi).</li>
         <li>Menyu sahifasini yangilang: hamma yangi narx va taomlarni ko'radi.</li>
       </ol>
       <div class="actions">
@@ -651,7 +874,7 @@ function renderPublish() {
   });
   $('#pullBtn').addEventListener('click', async () => {
     const pub = await loadPublished();
-    if (!pub) { toast("Saytda menu.json topilmadi"); return; }
+    if (!pub) { toast('Saytda menu.json topilmadi'); return; }
     confirmReplace('Saytdagi menyuni yuklaysizmi?', "Shu brauzerdagi saqlanmagan o'zgarishlar saytdagi menu.json bilan almashtiriladi.", () => replaceMenu(pub, 'Saytdagi menyu yuklandi'));
   });
   $('#resetBtn').addEventListener('click', () => {

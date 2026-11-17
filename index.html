@@ -6,21 +6,68 @@
 <meta name="description" content="Osh Markazi menyusi: plov, shashlik, manti, lag'mon, non va ichimliklar narxlari bilan.">
 <meta name="theme-color" content="#F7F1E8">
 <title>Osh Markazi menyusi</title>
+<link rel="icon" href="logo.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Yeseva+One&family=Archivo:wght@400;500&family=Archivo+Narrow:wght@600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared.css">
 <style>
 html{scroll-padding-top:0}
-.intro{padding:var(--s7) 0 var(--s5);display:grid;gap:var(--s4)}
-.intro h1{font-size:var(--t-3xl);max-width:14ch}
-.facts{display:flex;flex-wrap:wrap;gap:var(--s2) var(--s4);color:var(--ink-2);font-size:var(--t-sm)}
-.facts a,.facts span{display:inline-flex;align-items:center;gap:var(--s2);min-height:44px;text-decoration:none}
+.brand-logo{width:40px;height:40px;flex:0 0 auto;border-radius:var(--r-sm);object-fit:contain}
+.langs{display:flex;padding:3px;border-radius:var(--r-pill);background:var(--glass-strong);border:1px solid var(--glass-line)}
+.langs button{min-width:38px;min-height:38px;padding:0 var(--s2);border-radius:var(--r-pill);font:600 var(--t-xs)/1 var(--font-label);color:var(--ink-2);
+  transition:background var(--dur) var(--ease),color var(--dur) var(--ease)}
+.langs button:hover{color:var(--ink)}
+.langs button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+
+/* hero */
+.hero{position:relative;margin-top:var(--s4);border-radius:var(--r-xl);overflow:hidden;min-height:clamp(380px,62vh,560px);display:flex;align-items:flex-end;background:var(--paper-3)}
+.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;animation:heroZoom 1.4s var(--ease) both}
+@keyframes heroZoom{from{transform:scale(1.06);opacity:.4}to{transform:none;opacity:1}}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,oklch(15% 0.02 50 / .55) 100%);pointer-events:none}
+.hero-card{position:relative;z-index:1;margin:var(--s4);padding:var(--s5);border-radius:var(--r-lg);max-width:560px;display:grid;gap:var(--s3);
+  animation:rise .7s var(--ease) .15s both}
+@media (min-width:768px){.hero-card{margin:var(--s6);padding:var(--s6)}}
+/* phones: the photo on top, the card overlapping its lower edge, so both are seen */
+@media (max-width:767px){
+  .hero{display:block;min-height:0;background:none;overflow:visible;border-radius:0}
+  .hero-img{position:relative;display:block;aspect-ratio:4/3;height:auto;border-radius:var(--r-xl)}
+  .hero::after{display:none}
+  .hero-card{margin:calc(var(--s7) * -1) var(--s3) 0;padding:var(--s5) var(--s4)}
+  .hero-actions .btn{flex:1 1 auto}
+}
+.hero-card h1{font-size:var(--t-3xl)}
+.status{display:inline-flex;align-items:center;gap:var(--s2);width:max-content;max-width:100%;padding:var(--s1) var(--s3);border-radius:var(--r-pill);
+  font:600 var(--t-sm)/1.3 var(--font-label);border:1px solid currentColor}
+.status::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor;flex:0 0 auto}
+.status.is-open{color:var(--ok)} .status.is-closed{color:var(--danger)}
+.status.is-open::before{animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.35}}
+.facts{display:flex;flex-wrap:wrap;gap:var(--s1) var(--s4);color:var(--ink-2);font-size:var(--t-sm)}
+.facts a,.facts span{display:inline-flex;align-items:center;gap:var(--s2);min-height:36px;text-decoration:none}
 .facts a:hover{text-decoration:underline}
-.draft-note{padding:var(--s3) var(--s4);border-radius:var(--r-md);font-size:var(--t-sm);color:var(--ink-2)}
+.hero-actions{display:flex;flex-wrap:wrap;gap:var(--s2);margin-top:var(--s1)}
+.draft-note{margin-top:var(--s4);padding:var(--s3) var(--s4);border-radius:var(--r-md);font-size:var(--t-sm);color:var(--ink-2)}
+
+/* dish of the day */
+.featured{margin-top:var(--s6)}
+.kicker{display:flex;align-items:center;gap:var(--s2);font:600 var(--t-sm)/1 var(--font-label);color:var(--accent);margin-bottom:var(--s3)}
+.feat-card{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s4);width:100%;padding:var(--s3);border-radius:var(--r-xl);text-align:left;
+  transition:transform var(--dur) var(--ease),box-shadow var(--dur) var(--ease)}
+.feat-card:hover{transform:translateY(-3px);box-shadow:var(--glass-hi),var(--shadow-lift)}
+@media (min-width:768px){.feat-card{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);align-items:center;gap:var(--s6);padding:var(--s4)}}
+.feat-photo{aspect-ratio:4/3;border-radius:var(--r-lg);overflow:hidden;background:var(--paper-3)}
+.feat-photo img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
+.feat-card:hover .feat-photo img{transform:scale(1.04)}
+.feat-body{display:grid;gap:var(--s3);padding:var(--s1) var(--s2) var(--s2)}
+.feat-name{font:400 var(--t-2xl)/1.1 var(--font-display)}
+.feat-desc{color:var(--ink-2)}
+.feat-price{font:400 var(--t-xl)/1 var(--font-display);color:var(--accent)}
+html[data-theme="dark"] .feat-price{color:var(--gold)}
+.feat-cta{justify-self:start}
 
 /* sticky search and categories */
-.toolbar{position:sticky;top:64px;z-index:20;margin:0 calc(var(--s4) * -1);padding:var(--s3) var(--s4);
+.toolbar{position:sticky;top:64px;z-index:20;margin:var(--s6) calc(var(--s4) * -1) 0;padding:var(--s3) var(--s4);
   border-width:0 0 1px;border-color:var(--glass-line);box-shadow:none;display:grid;gap:var(--s3)}
 @media (min-width:640px){.toolbar{margin-inline:calc(var(--s5) * -1);padding-inline:var(--s5)}}
 @media (min-width:1024px){.toolbar{margin-inline:0;padding:var(--s3);top:72px;border-radius:var(--r-lg);border-width:1px;border-color:var(--glass-edge);grid-template-columns:minmax(220px,320px) minmax(0,1fr);align-items:center}}
@@ -39,7 +86,7 @@ html{scroll-padding-top:0}
 .cat-link:hover{border-color:var(--ink)}
 .cat-link[aria-current="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 
-/* sections and cards: picture, name, price */
+/* sections and cards */
 .section{padding-top:var(--s6)}
 .section-head{display:flex;align-items:baseline;justify-content:space-between;gap:var(--s3);padding-bottom:var(--s3);margin-bottom:var(--s4);border-bottom:1px solid var(--glass-line)}
 .section-head h2{font-size:var(--t-2xl);display:flex;align-items:center;gap:var(--s3)}
@@ -47,20 +94,36 @@ html{scroll-padding-top:0}
 .dishes{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s3)}
 @media (min-width:768px){.dishes{grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s4)}}
 @media (min-width:1100px){.dishes{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.dishes > li{animation:rise .5s var(--ease) both;animation-delay:calc(var(--i, 0) * 45ms)}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 .dish{display:flex;flex-direction:column;width:100%;height:100%;padding:var(--s2);border-radius:var(--r-lg);text-align:left;
   transition:transform var(--dur) var(--ease),box-shadow var(--dur) var(--ease)}
 .dish:hover{transform:translateY(-3px);box-shadow:var(--glass-hi),var(--shadow-lift)}
-.dish:active{transform:translateY(0)}
+.dish:active{transform:translateY(0) scale(.99)}
 .photo{position:relative;aspect-ratio:1;border-radius:var(--r-md);overflow:hidden;background:var(--paper-3);display:grid;place-items:center;color:var(--ink-2)}
-.photo img{width:100%;height:100%;object-fit:cover}
-.photo .many{position:absolute;right:var(--s2);bottom:var(--s2);display:inline-flex;align-items:center;gap:var(--s1);padding:var(--s1) var(--s2);border-radius:var(--r-pill);
+.photo img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}
+.dish:hover .photo img{transform:scale(1.05)}
+.badges{position:absolute;left:var(--s2);bottom:var(--s2);display:flex;gap:var(--s1)}
+.badge-ic{width:28px;height:28px;display:grid;place-items:center;border-radius:var(--r-pill);background:var(--glass-strong)}
+.badge-ic.spicy{color:var(--danger)} .badge-ic.veg{color:var(--ok)}
+.many{position:absolute;right:var(--s2);bottom:var(--s2);display:inline-flex;align-items:center;gap:var(--s1);padding:var(--s1) var(--s2);border-radius:var(--r-pill);
   background:var(--glass-strong);font:600 var(--t-xs)/1 var(--font-label);color:var(--ink)}
-.dish-name{font:400 var(--t-md)/1.25 var(--font-display);padding:var(--s3) var(--s1) var(--s1)}
-.dish-price{margin-top:auto;padding:0 var(--s1) var(--s1);font:600 var(--t-md)/1.3 var(--font-label);color:var(--accent);font-variant-numeric:tabular-nums}
+.dish-name{font:400 var(--t-md)/1.25 var(--font-display);padding:var(--s3) var(--s1) 0}
+.dish-weight{padding:var(--s1) var(--s1) 0;font-size:var(--t-xs);color:var(--muted)}
+.dish-price{margin-top:auto;padding:var(--s2) var(--s1) var(--s1);font:600 var(--t-md)/1.3 var(--font-label);color:var(--accent);font-variant-numeric:tabular-nums}
 html[data-theme="dark"] .dish-price{color:var(--gold)}
 @media (min-width:640px){.dish-name{font-size:var(--t-lg)}}
 
-/* dish detail: carousel, price, ingredients */
+/* loading skeleton */
+.sk{background:linear-gradient(100deg,var(--paper-3) 30%,var(--paper-2) 50%,var(--paper-3) 70%);background-size:300% 100%;animation:shimmer 1.4s linear infinite;border-radius:var(--r-sm)}
+@keyframes shimmer{to{background-position:-150% 0}}
+.sk-card{padding:var(--s2);border-radius:var(--r-lg)}
+.sk-photo{aspect-ratio:1;border-radius:var(--r-md)}
+.sk-line{height:14px;margin:var(--s3) var(--s1) 0}
+.sk-line.short{width:45%}
+.sk-head{height:32px;width:40%;margin:var(--s6) 0 var(--s4)}
+
+/* dish detail */
 .carousel{position:relative;margin:0 0 var(--s4)}
 .track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;border-radius:var(--r-lg);background:var(--paper-3);overscroll-behavior-x:contain}
 .track::-webkit-scrollbar{display:none}
@@ -75,16 +138,25 @@ html[data-theme="dark"] .dish-price{color:var(--gold)}
 .dot::before{content:"";width:8px;height:8px;border-radius:var(--r-pill);background:var(--rule);transition:background var(--dur) var(--ease),width var(--dur) var(--ease)}
 .dot[aria-current="true"]::before{background:var(--ink);width:20px}
 .counter{position:absolute;left:var(--s3);top:var(--s3);z-index:2;padding:var(--s1) var(--s2);border-radius:var(--r-pill);background:var(--glass-strong);font:600 var(--t-xs)/1 var(--font-label)}
+.meta{display:flex;flex-wrap:wrap;gap:var(--s2);margin-bottom:var(--s4)}
+.meta .pill.spicy{color:var(--danger)} .meta .pill.veg{color:var(--ok)}
 .detail-price{display:flex;align-items:baseline;justify-content:space-between;gap:var(--s3);padding:var(--s3) 0;border-bottom:1px solid var(--glass-line);margin-bottom:var(--s4)}
 .detail-price strong{font:400 var(--t-2xl)/1 var(--font-display);color:var(--accent)}
 html[data-theme="dark"] .detail-price strong{color:var(--gold)}
+.portions{list-style:none;margin:0 0 var(--s4);padding:0;border-radius:var(--r-md);overflow:hidden;border:1px solid var(--glass-line)}
+.portions li{display:flex;justify-content:space-between;gap:var(--s3);padding:var(--s3) var(--s4);background:var(--paper-2)}
+.portions li + li{border-top:1px solid var(--glass-line)}
+.portions strong{font:600 var(--t-md)/1.3 var(--font-label);color:var(--accent);font-variant-numeric:tabular-nums}
 .detail-desc{color:var(--ink-2);margin-bottom:var(--s4)}
-.ing-title{font:600 var(--t-sm)/1.3 var(--font-label);color:var(--ink-2);margin:0 0 var(--s2)}
+.sub-title{font:600 var(--t-sm)/1.3 var(--font-label);color:var(--ink-2);margin:0 0 var(--s2)}
 .ing{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:var(--s2)}
 .ing li{padding:var(--s2) var(--s3);border-radius:var(--r-pill);background:var(--paper-2);border:1px solid var(--glass-line);font-size:var(--t-sm)}
 
 .foot{margin-top:var(--s8);padding:var(--s6) 0 calc(var(--s6) + env(safe-area-inset-bottom));border-width:1px 0 0;border-color:var(--glass-line);box-shadow:none}
-.foot .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:var(--s4)}
+.foot .wrap{display:grid;gap:var(--s4)}
+@media (min-width:768px){.foot .wrap{grid-template-columns:auto 1fr auto;align-items:center}}
+.foot-brand{display:flex;align-items:center;gap:var(--s3)}
+.foot-brand img{width:48px;height:48px}
 .foot strong{font:400 var(--t-xl)/1.1 var(--font-display)}
 .foot small{color:var(--muted);font-size:var(--t-xs)}
 </style>
@@ -93,35 +165,51 @@ html[data-theme="dark"] .detail-price strong{color:var(--gold)}
 
 <header class="top glass">
   <div class="wrap">
-    <a class="brand" href="#top" aria-label="Menyu boshiga">
-      <span class="brand-mark" id="brandMark"></span>
+    <a class="brand" href="#top" id="brandLink">
+      <img class="brand-logo" id="brandLogo" src="logo.svg" alt="" width="40" height="40">
       <span class="brand-name" id="brandName">Osh Markazi</span>
     </a>
     <div class="top-actions">
-      <button class="icon-btn" id="themeBtn" type="button" aria-label="Qorong'i rejim"></button>
+      <div class="langs" role="group" id="langs"></div>
+      <button class="icon-btn" id="themeBtn" type="button"></button>
     </div>
   </div>
 </header>
 
 <main class="wrap" id="top">
-  <section class="intro" aria-labelledby="menuTitle">
-    <h1 id="menuTitle">Menyu</h1>
-    <div class="facts" id="facts"></div>
-    <p class="draft-note glass" id="draftNote" hidden>Bu admin qoralamasi, faqat shu brauzerda ko'rinadi. Mijozlar <code>menu.json</code> dagi menyuni ko'radi.</p>
+  <section class="hero" aria-labelledby="menuTitle">
+    <img class="hero-img" id="heroImg" alt="" decoding="async" fetchpriority="high">
+    <div class="hero-card glass">
+      <span class="status" id="status" hidden></span>
+      <h1 id="menuTitle">Osh Markazi</h1>
+      <div class="facts" id="facts"></div>
+      <div class="hero-actions" id="heroActions"></div>
+    </div>
   </section>
+  <p class="draft-note glass" id="draftNote" hidden></p>
+
+  <section class="featured" id="featured" hidden aria-labelledby="featTitle"></section>
 
   <div class="toolbar glass" id="toolbar">
     <div class="search" role="search">
       <span id="searchIco" aria-hidden="true"></span>
-      <label class="vh" for="q">Taom qidirish</label>
-      <input id="q" type="search" placeholder="Taom yoki mahsulot: manti, sabzi" autocomplete="off" enterkeyhint="search">
-      <button class="clear" id="clearQ" type="button" aria-label="Qidiruvni tozalash" hidden></button>
+      <label class="vh" for="q" id="qLabel">Taom qidirish</label>
+      <input id="q" type="search" autocomplete="off" enterkeyhint="search">
+      <button class="clear" id="clearQ" type="button" hidden></button>
     </div>
-    <nav class="cats" id="catNav" aria-label="Kategoriyalar"></nav>
+    <nav class="cats" id="catNav"></nav>
   </div>
   <p class="vh" id="searchStatus" aria-live="polite"></p>
 
-  <div id="menu"></div>
+  <div id="menu" aria-busy="true">
+    <div class="sk sk-head"></div>
+    <ul class="dishes" aria-hidden="true">
+      <li><div class="sk-card glass"><div class="sk sk-photo"></div><div class="sk sk-line"></div><div class="sk sk-line short"></div></div></li>
+      <li><div class="sk-card glass"><div class="sk sk-photo"></div><div class="sk sk-line"></div><div class="sk sk-line short"></div></div></li>
+      <li><div class="sk-card glass"><div class="sk sk-photo"></div><div class="sk sk-line"></div><div class="sk sk-line short"></div></div></li>
+      <li><div class="sk-card glass"><div class="sk sk-photo"></div><div class="sk sk-line"></div><div class="sk sk-line short"></div></div></li>
+    </ul>
+  </div>
 </main>
 
 <footer class="foot glass">
@@ -136,24 +224,26 @@ html[data-theme="dark"] .detail-price strong{color:var(--gold)}
 <script>
 let MENU = null;
 let query = '';
+let wantDraft = false;
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const scrollBehavior = () => (reduceMotion ? 'auto' : 'smooth');
 
 async function boot() {
+  initLang();
   initTheme();
   initSheet();
-  $('#brandMark').innerHTML = svg('bowl', 22);
   $('#searchIco').innerHTML = svg('search', 18);
   $('#clearQ').innerHTML = svg('x', 16);
+  renderStatic();
 
-  const wantDraft = new URLSearchParams(location.search).has('draft');
+  wantDraft = new URLSearchParams(location.search).has('draft');
   const draft = loadDraft();
   const published = wantDraft ? null : await loadPublished();
   MENU = (wantDraft && draft) || published || draft || defaultMenu();
   $('#draftNote').hidden = !(wantDraft && MENU === draft);
 
-  renderHeader();
-  renderSections();
+  renderAll();
+  $('#menu').removeAttribute('aria-busy');
 
   let typing = 0;
   $('#q').addEventListener('input', e => {
@@ -169,51 +259,134 @@ async function boot() {
     q.value = ''; query = ''; $('#clearQ').hidden = true;
     renderSections(); announce(); q.focus();
   });
+  $('#langs').addEventListener('click', e => {
+    const b = e.target.closest('[data-lang]');
+    if (!b || b.dataset.lang === LANG) return;
+    setLang(b.dataset.lang);
+    applyTheme(document.documentElement.getAttribute('data-theme'));
+    renderStatic();
+    renderAll();
+    $(`#langs [data-lang="${LANG}"]`).focus();
+  });
   $('#catNav').addEventListener('click', onCatClick);
-  $('#menu').addEventListener('click', e => {
+  document.addEventListener('click', e => {
     const b = e.target.closest('[data-dish]');
     if (b) openDish(b.dataset.dish);
+    if (e.target.closest('[data-go-menu]')) {
+      const y = $('#toolbar').getBoundingClientRect().top + scrollY - parseFloat(getComputedStyle($('#toolbar')).top);
+      window.scrollTo({ top: Math.max(0, y), behavior: scrollBehavior() });
+    }
   });
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll, { passive: true });
+  setInterval(renderStatus, 60000);
   window.addEventListener('storage', e => {
-    if (wantDraft && e.key === STORE_KEY) { const d = loadDraft(); if (d) { MENU = d; renderHeader(); renderSections(); } }
+    if (wantDraft && e.key === STORE_KEY) { const d = loadDraft(); if (d) { MENU = d; renderAll(); } }
   });
 }
 
-/* ---------- header and footer ---------- */
+/* ---------- language-dependent chrome ---------- */
+function renderStatic() {
+  $('#langs').setAttribute('aria-label', t('lang'));
+  $('#langs').innerHTML = LANGS.map(l =>
+    `<button type="button" data-lang="${l}" aria-pressed="${l === LANG}" lang="${l}" aria-label="${LANG_NAMES[l]}">${LANG_SHORT[l]}</button>`).join('');
+  $('#qLabel').textContent = t('search');
+  $('#q').placeholder = t('searchPh');
+  $('#clearQ').setAttribute('aria-label', t('clear'));
+  $('#catNav').setAttribute('aria-label', t('cats'));
+  $('#brandLink').setAttribute('aria-label', t('toTop'));
+  $('#draftNote').textContent = t('draft');
+}
+
+function renderAll() {
+  renderHeader();
+  renderFeatured();
+  renderSections();
+}
+
+/* ---------- hero and footer ---------- */
+function renderStatus() {
+  if (!MENU) return;
+  const st = openState(MENU.settings);
+  const el = $('#status');
+  el.hidden = false;
+  el.className = 'status ' + (st.open ? 'is-open' : 'is-closed');
+  el.textContent = st.allDay ? t('allDay') : `${st.open ? t('open') : t('closed')}, ${st.open ? t('until', st.at) : t('opensAt', st.at)}`;
+}
 function renderHeader() {
-  const st = MENU.settings;
-  document.title = `${st.name} menyusi`;
-  $('#brandName').textContent = st.name;
-  $('#menuTitle').textContent = `${st.name} menyusi`;
-  const tel = telHref(st.phone), tg = telegramHref(st.telegram);
-  const contact = (tel ? `<a href="${esc(tel)}">${svg('phone', 18)}${esc(st.phone)}</a>` : '') +
-    (tg ? `<a href="${esc(tg)}" target="_blank" rel="noopener noreferrer">${svg('telegram', 18)}Telegram</a>` : '');
+  const s = MENU.settings;
+  document.title = t('menuOf', s.name);
+  $('#brandName').textContent = s.name;
+  $('#brandLogo').src = logoImage(s);
+  $('#menuTitle').textContent = t('menuOf', s.name);
+  const hero = $('#heroImg');
+  if (hero.getAttribute('src') !== coverImage(s)) hero.src = coverImage(s);
+  renderStatus();
+
+  const tel = telHref(s.phone), tg = telegramHref(s.telegram), map = mapHref(s);
   $('#facts').innerHTML =
-    (st.hours ? `<span>${svg('clock', 18)}${esc(st.hours)}</span>` : '') +
-    (st.address ? `<span>${svg('location', 18)}${esc(st.address)}</span>` : '') + contact;
+    `<span>${svg('clock', 18)}${esc(hoursText(s))}</span>` +
+    (s.address ? (map ? `<a href="${esc(map)}" target="_blank" rel="noopener noreferrer">${svg('location', 18)}${esc(s.address)}</a>` : `<span>${svg('location', 18)}${esc(s.address)}</span>`) : '');
+  $('#heroActions').innerHTML =
+    `<button class="btn btn-primary" type="button" data-go-menu>${t('seeMenu')}${svg('down', 18)}</button>` +
+    (tel ? `<a class="btn btn-ghost" href="${esc(tel)}">${svg('phone', 18)}${t('call')}</a>` : '') +
+    (map ? `<a class="btn btn-ghost" href="${esc(map)}" target="_blank" rel="noopener noreferrer">${svg('map', 18)}${t('onMap')}</a>` : '');
+
   $('#foot').innerHTML = `
-    <div><strong>${esc(st.name)}</strong><br><small>${esc(st.hours || '')}</small></div>
-    <div class="facts">${contact}</div>
-    <small>Narxlar ${esc(st.currency)}da.</small>`;
+    <div class="foot-brand"><img src="${esc(logoImage(s))}" alt="" width="48" height="48"><div><strong>${esc(s.name)}</strong><br><small>${esc(hoursText(s))}</small></div></div>
+    <div class="facts">
+      ${tel ? `<a href="${esc(tel)}">${svg('phone', 18)}${esc(s.phone)}</a>` : ''}
+      ${tg ? `<a href="${esc(tg)}" target="_blank" rel="noopener noreferrer">${svg('telegram', 18)}Telegram</a>` : ''}
+      ${map ? `<a href="${esc(map)}" target="_blank" rel="noopener noreferrer">${svg('map', 18)}${t('onMap')}</a>` : ''}
+    </div>
+    <small>${esc(t('currencyNote', s.currency))}</small>`;
+}
+
+/* ---------- prices ---------- */
+function priceLabel(d) {
+  const cur = MENU.settings.currency;
+  if (!d.variants.length) return fmtPrice(d.price, cur);
+  const p = fmtPrice(basePrice(d), cur);
+  return LANG === 'uz' ? `${p} ${t('from')}` : `${t('from')} ${p}`;
+}
+const flagBadges = d => d.flags.length
+  ? `<span class="badges">${d.flags.map(f => `<span class="badge-ic ${f}" title="${esc(t(f))}">${svg(FLAGS[f], 16)}<span class="vh">${esc(t(f))}</span></span>`).join('')}</span>`
+  : '';
+
+/* ---------- dish of the day ---------- */
+function renderFeatured() {
+  const d = MENU.dishes.find(x => x.id === MENU.settings.featuredId && x.available);
+  const box = $('#featured');
+  box.hidden = !d;
+  if (!d) { box.innerHTML = ''; return; }
+  const img = dishImage(d, 1000);
+  box.innerHTML = `
+    <p class="kicker">${svg('star', 16)}<span id="featTitle">${t('featured')}</span></p>
+    <button type="button" class="feat-card glass" data-dish="${esc(d.id)}">
+      <span class="feat-photo">${img ? `<img src="${esc(img)}" alt="" loading="lazy">` : ''}</span>
+      <span class="feat-body">
+        <span class="feat-name">${esc(tr(d, 'name'))}</span>
+        ${tr(d, 'desc') ? `<span class="feat-desc">${esc(tr(d, 'desc'))}</span>` : ''}
+        <span class="feat-price">${esc(priceLabel(d))}</span>
+        <span class="btn btn-ghost feat-cta">${t('details')}${svg('chevronRight', 18)}</span>
+      </span>
+    </button>`;
 }
 
 /* ---------- search ---------- */
-function matches(d, catLabel) {
+function matches(d, c) {
   if (!query) return true;
-  return [d.name, d.desc, d.ing, catLabel].some(t => norm(t).includes(query));
+  return [d.name, d.desc, d.ing, tr(d, 'name'), tr(d, 'desc'), tr(d, 'ing'), c.name, tr(c, 'name')].some(x => norm(x).includes(query));
 }
 function groups() {
   return MENU.cats
-    .map(c => ({ c, list: MENU.dishes.filter(d => d.available && d.cat === c.id && matches(d, c.name)) }))
+    .map(c => ({ c, list: MENU.dishes.filter(d => d.available && d.cat === c.id && matches(d, c)) }))
     .filter(g => g.list.length);
 }
 function announce() {
   const n = $$('.dish').length;
-  $('#searchStatus').textContent = query ? (n ? `${n} ta taom topildi` : 'Hech narsa topilmadi') : '';
+  $('#searchStatus').textContent = query ? (n ? t('found', n) : t('nothing')) : '';
 }
-/* When the search bar is stuck at the top, bring the first result up to it. */
 function revealResults() {
   const y = $('#menu').getBoundingClientRect().top + scrollY - stickyBottom() - 8;
   if (scrollY > y) window.scrollTo({ top: Math.max(0, y), behavior: 'auto' });
@@ -221,30 +394,30 @@ function revealResults() {
 
 /* ---------- sections ---------- */
 function renderSections() {
-  const cur = MENU.settings.currency;
   const gs = groups();
-
   $('#catNav').innerHTML = gs.map(({ c }) =>
-    `<a class="cat-link" href="#cat-${esc(c.id)}" data-cat="${esc(c.id)}" aria-current="false">${svg(c.icon, 16)}${esc(c.name)}</a>`).join('');
+    `<a class="cat-link" href="#cat-${esc(c.id)}" data-cat="${esc(c.id)}" aria-current="false">${svg(c.icon, 16)}${esc(tr(c, 'name'))}</a>`).join('');
 
   if (!gs.length) {
-    $('#menu').innerHTML = `<div class="empty"><h3>Hech narsa topilmadi</h3><p>Boshqa so'z bilan qidiring yoki qidiruvni tozalang.</p></div>`;
+    $('#menu').innerHTML = `<div class="empty"><h3>${t('nothing')}</h3><p>${t('nothingSub')}</p></div>`;
     return;
   }
   $('#menu').innerHTML = gs.map(({ c, list }) => `
     <section class="section" id="cat-${esc(c.id)}" data-cat="${esc(c.id)}" aria-labelledby="h-${esc(c.id)}">
       <div class="section-head">
-        <h2 id="h-${esc(c.id)}">${svg(c.icon, 24)}${esc(c.name)}</h2>
-        <span class="count">${list.length} ta taom</span>
+        <h2 id="h-${esc(c.id)}">${svg(c.icon, 24)}${esc(tr(c, 'name'))}</h2>
+        <span class="count">${esc(t('dishes', list.length))}</span>
       </div>
       <ul class="dishes">
-        ${list.map(d => {
+        ${list.map((d, i) => {
           const imgs = dishImages(d, 600);
-          return `<li><button type="button" class="dish glass" data-dish="${esc(d.id)}" aria-label="${esc(d.name)}, ${esc(fmtPrice(d.price, cur))}">
+          return `<li style="--i:${Math.min(i, 8)}"><button type="button" class="dish glass" data-dish="${esc(d.id)}" aria-label="${esc(tr(d, 'name'))}, ${esc(priceLabel(d))}">
             <span class="photo">${imgs.length ? `<img src="${esc(imgs[0])}" alt="" loading="lazy" decoding="async">` : svg(c.icon, 40)}
+              ${flagBadges(d)}
               ${imgs.length > 1 ? `<span class="many">${svg('image', 12)}${imgs.length}</span>` : ''}</span>
-            <span class="dish-name">${esc(d.name)}</span>
-            <span class="dish-price">${esc(fmtPrice(d.price, cur))}</span>
+            <span class="dish-name">${esc(tr(d, 'name'))}</span>
+            ${d.weight ? `<span class="dish-weight">${esc(d.weight)}</span>` : ''}
+            <span class="dish-price">${esc(priceLabel(d))}</span>
           </button></li>`;
         }).join('')}
       </ul>
@@ -274,20 +447,24 @@ function onCatClick(e) {
   window.scrollTo({ top: Math.max(0, y), behavior: scrollBehavior() });
   history.replaceState(null, '', '#cat-' + a.dataset.cat);
 }
-let ticking = false;
+/* Throttled by time, not by animation frames, so it also runs in background or throttled tabs. */
+let lastSpy = 0, spyTrail = 0;
 function onScroll() {
-  if (ticking || navLock) return;
-  ticking = true;
-  requestAnimationFrame(() => {
-    ticking = false;
-    const secs = $$('.section');
-    if (!secs.length) return;
-    const line = stickyBottom() + 24;
-    let cur = secs[0];
-    for (const s of secs) { if (s.getBoundingClientRect().top <= line) cur = s; else break; }
-    if (innerHeight + scrollY >= document.documentElement.scrollHeight - 4) cur = secs[secs.length - 1];
-    setActive(cur.dataset.cat);
-  });
+  if (navLock) return;
+  clearTimeout(spyTrail);
+  const now = performance.now();
+  if (now - lastSpy > 80) { lastSpy = now; updateActive(); }
+  else spyTrail = setTimeout(updateActive, 100);
+}
+function updateActive() {
+  if (navLock) return;
+  const secs = $$('.section');
+  if (!secs.length) return;
+  const line = stickyBottom() + 24;
+  let cur = secs[0];
+  for (const s of secs) { if (s.getBoundingClientRect().top <= line) cur = s; else break; }
+  if (innerHeight + scrollY >= document.documentElement.scrollHeight - 4) cur = secs[secs.length - 1];
+  setActive(cur.dataset.cat);
 }
 function setActive(id) {
   const strip = $('#catNav');
@@ -296,7 +473,7 @@ function setActive(id) {
     if ((a.getAttribute('aria-current') === 'true') === on) return;
     a.setAttribute('aria-current', on ? 'true' : 'false');
     /* instant: a second smooth scroll would cancel the page's own smooth scroll in Chrome */
-    if (on) strip.scrollLeft = a.offsetLeft - (strip.clientWidth - a.offsetWidth) / 2;
+    if (on) strip.scrollLeft = (a.offsetLeft - strip.offsetLeft) - (strip.clientWidth - a.offsetWidth) / 2;
   });
 }
 
@@ -304,29 +481,37 @@ function setActive(id) {
 function openDish(id) {
   const d = MENU.dishes.find(x => x.id === id);
   if (!d) return;
+  const name = tr(d, 'name');
   const imgs = dishImages(d, 1000);
-  const ings = ingList(d.ing);
+  const ings = ingList(tr(d, 'ing'));
   const many = imgs.length > 1;
+  const cur = MENU.settings.currency;
   openSheet(`
     <div class="sheet-head">
-      <h2>${esc(d.name)}</h2>
-      <button class="icon-btn" type="button" data-close aria-label="Yopish">${svg('x', 20)}</button>
+      <h2>${esc(name)}</h2>
+      <button class="icon-btn" type="button" data-close aria-label="${t('close')}">${svg('x', 20)}</button>
     </div>
     ${imgs.length ? `
-    <div class="carousel" role="region" aria-roledescription="karusel" aria-label="${esc(d.name)} rasmlari">
+    <div class="carousel" role="region" aria-roledescription="carousel" aria-label="${esc(t('photos', name))}">
       ${many ? `<span class="counter" id="counter" aria-hidden="true">1 / ${imgs.length}</span>` : ''}
-      <div class="track" id="track" ${many ? 'tabindex="0" aria-label="Rasmlar: chap va o\'ng tugmalar bilan almashtiring"' : ''}>
-        ${imgs.map((src, i) => `<figure class="slide" role="group" aria-roledescription="slayd" aria-label="${i + 1}-rasm, jami ${imgs.length}">
-          <img src="${esc(src)}" alt="${esc(d.name)}, ${i + 1}-rasm" ${i ? 'loading="lazy"' : ''}></figure>`).join('')}
+      <div class="track" id="track" ${many ? `tabindex="0" aria-label="${esc(t('photos', name))}"` : ''}>
+        ${imgs.map((src, i) => `<figure class="slide" role="group" aria-roledescription="slide" aria-label="${esc(t('photoN', i + 1, imgs.length))}">
+          <img src="${esc(src)}" alt="${esc(name)}, ${i + 1}" ${i ? 'loading="lazy"' : ''}></figure>`).join('')}
       </div>
       ${many ? `
-      <button class="icon-btn nav-btn prev" type="button" id="prev" aria-label="Oldingi rasm" disabled>${svg('chevronLeft', 20)}</button>
-      <button class="icon-btn nav-btn next" type="button" id="next" aria-label="Keyingi rasm">${svg('chevronRight', 20)}</button>
-      <div class="dots">${imgs.map((_, i) => `<button class="dot" type="button" data-go="${i}" aria-label="${i + 1}-rasm" aria-current="${i === 0}"></button>`).join('')}</div>` : ''}
+      <button class="icon-btn nav-btn prev" type="button" id="prev" aria-label="${t('prev')}" disabled>${svg('chevronLeft', 20)}</button>
+      <button class="icon-btn nav-btn next" type="button" id="next" aria-label="${t('next')}">${svg('chevronRight', 20)}</button>
+      <div class="dots">${imgs.map((_, i) => `<button class="dot" type="button" data-go="${i}" aria-label="${esc(t('photoN', i + 1, imgs.length))}" aria-current="${i === 0}"></button>`).join('')}</div>` : ''}
     </div>` : ''}
-    <div class="detail-price"><span class="label">Narxi</span><strong>${esc(fmtPrice(d.price, MENU.settings.currency))}</strong></div>
-    ${d.desc ? `<p class="detail-desc">${esc(d.desc)}</p>` : ''}
-    ${ings.length ? `<h3 class="ing-title">Tarkibi</h3><ul class="ing">${ings.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}
+    ${(d.weight || d.flags.length) ? `<div class="meta">
+      ${d.weight ? `<span class="pill">${svg('scale', 14)}${esc(t('weight'))}: ${esc(d.weight)}</span>` : ''}
+      ${d.flags.map(f => `<span class="pill ${f}">${svg(FLAGS[f], 14)}${esc(t(f))}</span>`).join('')}
+    </div>` : ''}
+    ${d.variants.length
+      ? `<h3 class="sub-title">${t('portions')}</h3><ul class="portions">${d.variants.map(v => `<li><span>${esc(v.name)}</span><strong>${esc(fmtPrice(v.price, cur))}</strong></li>`).join('')}</ul>`
+      : `<div class="detail-price"><span class="label">${t('price')}</span><strong>${esc(fmtPrice(d.price, cur))}</strong></div>`}
+    ${tr(d, 'desc') ? `<p class="detail-desc">${esc(tr(d, 'desc'))}</p>` : ''}
+    ${ings.length ? `<h3 class="sub-title">${t('ing')}</h3><ul class="ing">${ings.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}
   `);
   if (many) initCarousel(imgs.length);
 }

@@ -1,44 +1,97 @@
 {
-  "version": 1,
-  "updatedAt": "2026-11-08T00:00:00.000Z",
+  "version": 2,
+  "updatedAt": "2026-11-16T00:00:00.000Z",
   "settings": {
     "name": "Osh Markazi",
     "phone": "+998 90 123 45 67",
     "telegram": "oshmarkazi",
-    "hours": "Har kuni 09:00 dan 22:00 gacha",
-    "address": "",
-    "currency": "so'm"
+    "openTime": "09:00",
+    "closeTime": "22:00",
+    "address": "Toshkent",
+    "mapUrl": "",
+    "currency": "so'm",
+    "logo": "",
+    "cover": "",
+    "featuredId": "plov-1"
   },
   "cats": [
     {
       "id": "plov",
       "name": "Plov",
-      "icon": "bowl"
+      "icon": "bowl",
+      "tr": {
+        "ru": {
+          "name": "Плов"
+        },
+        "en": {
+          "name": "Plov"
+        }
+      }
     },
     {
       "id": "shashlik",
       "name": "Shashlik",
-      "icon": "skewer"
+      "icon": "skewer",
+      "tr": {
+        "ru": {
+          "name": "Шашлык"
+        },
+        "en": {
+          "name": "Kebabs"
+        }
+      }
     },
     {
       "id": "manti",
       "name": "Manti",
-      "icon": "dumpling"
+      "icon": "dumpling",
+      "tr": {
+        "ru": {
+          "name": "Манты"
+        },
+        "en": {
+          "name": "Dumplings"
+        }
+      }
     },
     {
       "id": "lagmon",
       "name": "Lag'mon",
-      "icon": "noodles"
+      "icon": "noodles",
+      "tr": {
+        "ru": {
+          "name": "Лагман"
+        },
+        "en": {
+          "name": "Lagman noodles"
+        }
+      }
     },
     {
       "id": "non",
       "name": "Non va somsa",
-      "icon": "bread"
+      "icon": "bread",
+      "tr": {
+        "ru": {
+          "name": "Хлеб и самса"
+        },
+        "en": {
+          "name": "Bread and samsa"
+        }
+      }
     },
     {
       "id": "ichimlik",
       "name": "Ichimliklar",
-      "icon": "cup"
+      "icon": "cup",
+      "tr": {
+        "ru": {
+          "name": "Напитки"
+        },
+        "en": {
+          "name": "Drinks"
+        }
+      }
     }
   ],
   "dishes": [
@@ -50,8 +103,23 @@
       "cat": "plov",
       "tag": "Mashhur",
       "ing": "Guruch, qo'zichoq, sabzi, piyoz, zira",
+      "weight": "350 g",
+      "flags": [],
+      "variants": [],
       "imgs": [],
-      "available": true
+      "available": true,
+      "tr": {
+        "ru": {
+          "name": "Ташкентский плов",
+          "desc": "Традиционный свадебный плов: рис девзира, баранина, морковь",
+          "ing": "Рис, баранина, морковь, лук, зира"
+        },
+        "en": {
+          "name": "Tashkent plov",
+          "desc": "Traditional wedding plov: devzira rice, lamb, carrots",
+          "ing": "Rice, lamb, carrots, onion, cumin"
+        }
+      }
     },
     {
       "id": "plov-2",
@@ -61,8 +129,23 @@
       "cat": "plov",
       "tag": "Hit",
       "ing": "Guruch, qo'zichoq, no'xat, mayiz, sabzi",
+      "weight": "400 g",
+      "flags": [],
+      "variants": [],
       "imgs": [],
-      "available": true
+      "available": true,
+      "tr": {
+        "ru": {
+          "name": "Чайханский плов",
+          "desc": "Сытный плов в стиле чайханы, с нутом",
+          "ing": "Рис, баранина, нут, изюм, морковь"
+        },
+        "en": {
+          "name": "Teahouse plov",
+          "desc": "Hearty teahouse-style plov with chickpeas",
+          "ing": "Rice, lamb, chickpeas, raisins, carrots"
+        }
+      }
     },
     {
       "id": "plov-3",
@@ -72,8 +155,23 @@
       "cat": "plov",
       "tag": "Yangi",
       "ing": "Guruch, qo'zichoq, bedana tuxumi, za'faron",
+      "weight": "400 g",
+      "flags": [],
+      "variants": [],
       "imgs": [],
-      "available": true
+      "available": true,
+      "tr": {
+        "ru": {
+          "name": "Праздничный плов",
+          "desc": "Праздничный плов с перепелиными яйцами и шафраном",
+          "ing": "Рис, баранина, перепелиные яйца, шафран"
+        },
+        "en": {
+          "name": "Festive plov",
+          "desc": "Festive plov with quail eggs and saffron",
+          "ing": "Rice, lamb, quail eggs, saffron"
+        }
+      }
     },
     {
       "id": "shashlik-4",
@@ -83,8 +181,23 @@
       "cat": "shashlik",
       "tag": "Mashhur",
       "ing": "Qiyma, piyoz, ziravorlar, non",
+      "weight": "1 six",
+      "flags": [],
+      "variants": [],
       "imgs": [],
-      "available": true
+      "available": true,
+      "tr": {
+        "ru": {
+          "name": "Люля-кебаб",
+          "desc": "Из свежего фарша, на углях",
+          "ing": "Фарш, лук, специи, лепёшка"
+        },
+        "en": {
+          "name": "Minced kebab",
+          "desc": "Freshly minced meat, grilled over charcoal",
+          "ing": "Minced meat, onion, spices, bread"
+        }
+      }
     },
     {
       "id": "shashlik-5",
@@ -94,8 +207,23 @@
       "cat": "shashlik",
       "tag": "Hit",
       "ing": "Qo'zichoq go'shti, tuz, zira, piyoz",
+      "weight": "1 six",
+      "flags": [],
+      "variants": [],
       "imgs": [],
-      "available": true
+      "available": true,
+      "tr": {
+        "ru": {
+          "name": "Шашлык из баранины",
+          "desc": "Нежные кусочки баранины с дымком",
+          "ing": "Баранина, соль, зира, лук"
+        },
+        "en": {
+          "name": "Lamb kebab",
+          "desc": "Tender lamb pieces with a smoky taste",
+          "ing": "Lamb, salt, cumin, onion"
+        }
+      }
     },
     {
       "id": "shashlik-6",
@@ -105,19 +233,51 @@
       "cat": "shashlik",
       "tag": "",
       "ing": "Tovuq filesi, sarimsoq, ziravorlar",
+      "weight": "1 six",
+      "flags": [],
+      "variants": [],
       "imgs": [],
-      "available": true
+      "available": true,
+      "tr": {
+        "ru": {
+          "name": "Куриный шашлык",
+          "desc": "Маринованное куриное филе, лёгкое и сочное",
+          "ing": "Куриное филе, чеснок, специи"
+        },
+        "en": {
+          "name": "Chicken kebab",
+          "desc": "Marinated chicken fillet, light and juicy",
+          "ing": "Chicken fillet, garlic, spices"
+        }
+      }
     },
     {
       "id": "shashlik-7",
       "name": "Jigar shashlik",
-      "desc": "Jigar shashlik, achchiq-qalampir ta'm bilan",
+      "desc": "Jigar shashlik, achchiq qalampir ta'mi bilan",
       "price": 22000,
       "cat": "shashlik",
       "tag": "",
       "ing": "Jigar, piyoz, ziravorlar",
+      "weight": "1 six",
+      "flags": [
+        "spicy"
+      ],
+      "variants": [],
       "imgs": [],
-      "available": true
+      "available": true,
+      "tr": {
+        "ru": {
+          "name": "Шашлык из печени",
+          "desc": "Шашлык из печени, с острым перцем",
+          "ing": "Печень, лук, специи"
+        },
+        "en": {
+          "name": "Liver kebab",
+          "desc": "Liver kebab with hot pepper",
+          "ing": "Liver, onion, spices"
+        }
+      }
     },
     {
       "id": "manti-8",
@@ -127,8 +287,23 @@
       "cat": "manti",
       "tag": "Mashhur",
       "ing": "Xamir, go'sht, piyoz, qovoq",
+      "weight": "5 dona",
+      "flags": [],
+      "variants": [],
       "imgs": [],
-      "available": true
+      "available": true,
+      "tr": {
+        "ru": {
+          "name": "Манты",
+          "desc": "Тонкое тесто, сочный фарш, на пару",
+          "ing": "Тесто, мясо, лук, тыква"
+        },
+        "en": {
+          "name": "Steamed manti",
+          "desc": "Thin dough, juicy filling, steamed",
+          "ing": "Dough, meat, onion, pumpkin"
+        }
+      }
     },
     {
       "id": "manti-9",
@@ -138,8 +313,23 @@
       "cat": "manti",
       "tag": "Yangi",
       "ing": "Xamir, go'sht, piyoz, kunjut",
+      "weight": "5 dona",
+      "flags": [],
+      "variants": [],
       "imgs": [],
-      "available": true
+      "available": true,
+      "tr": {
+        "ru": {
+          "name": "Тандыр-манты",
+          "desc": "Хрустящие манты из тандыра",
+          "ing": "Тесто, мясо, лук, кунжут"
+        },
+        "en": {
+          "name": "Tandoor manti",
+          "desc": "Crispy manti baked in a clay oven",
+          "ing": "Dough, meat, onion, sesame"
+        }
+      }
     },
     {
       "id": "manti-10",
@@ -149,8 +339,25 @@
       "cat": "manti",
       "tag": "",
       "ing": "Xamir, kartoshka, qovoq, piyoz",
+      "weight": "300 g",
+      "flags": [
+        "veg"
+      ],
+      "variants": [],
       "imgs": [],
-      "available": true
+      "available": true,
+      "tr": {
+        "ru": {
+          "name": "Ханум",
+          "desc": "Овощной рулет в тонком тесте",
+          "ing": "Тесто, картофель, тыква, лук"
+        },
+        "en": {
+          "name": "Khanum",
+          "desc": "Vegetable roll in thin dough",
+          "ing": "Dough, potato, pumpkin, onion"
+        }
+      }
     },
     {
       "id": "lagmon-11",
@@ -160,8 +367,23 @@
       "cat": "lagmon",
       "tag": "Hit",
       "ing": "Xamir, go'sht, sabzavot, sarimsoq",
+      "weight": "450 g",
+      "flags": [],
+      "variants": [],
       "imgs": [],
-      "available": true
+      "available": true,
+      "tr": {
+        "ru": {
+          "name": "Лагман ручной",
+          "desc": "Тянутая вручную лапша с овощной поджаркой",
+          "ing": "Тесто, мясо, овощи, чеснок"
+        },
+        "en": {
+          "name": "Hand-pulled lagman",
+          "desc": "Hand-pulled noodles with stir-fried vegetables",
+          "ing": "Dough, meat, vegetables, garlic"
+        }
+      }
     },
     {
       "id": "lagmon-12",
@@ -171,8 +393,25 @@
       "cat": "lagmon",
       "tag": "",
       "ing": "Xamir, go'sht, bulg'or qalampiri",
+      "weight": "400 g",
+      "flags": [
+        "spicy"
+      ],
+      "variants": [],
       "imgs": [],
-      "available": true
+      "available": true,
+      "tr": {
+        "ru": {
+          "name": "Жареный лагман",
+          "desc": "Обжаренный в казане, остренький",
+          "ing": "Тесто, мясо, болгарский перец"
+        },
+        "en": {
+          "name": "Fried lagman",
+          "desc": "Wok-fried in a kazan, a bit spicy",
+          "ing": "Dough, meat, bell pepper"
+        }
+      }
     },
     {
       "id": "lagmon-13",
@@ -182,8 +421,23 @@
       "cat": "lagmon",
       "tag": "",
       "ing": "Xamir, go'sht, sabzavot, ko'kat",
+      "weight": "500 ml",
+      "flags": [],
+      "variants": [],
       "imgs": [],
-      "available": true
+      "available": true,
+      "tr": {
+        "ru": {
+          "name": "Лагман с бульоном",
+          "desc": "С горячим бульоном, для холодных дней",
+          "ing": "Тесто, мясо, овощи, зелень"
+        },
+        "en": {
+          "name": "Lagman soup",
+          "desc": "With hot broth, for cold days",
+          "ing": "Dough, meat, vegetables, herbs"
+        }
+      }
     },
     {
       "id": "non-14",
@@ -193,8 +447,25 @@
       "cat": "non",
       "tag": "Mashhur",
       "ing": "Un, suv, xamirturush, tuz",
+      "weight": "1 dona",
+      "flags": [
+        "veg"
+      ],
+      "variants": [],
       "imgs": [],
-      "available": true
+      "available": true,
+      "tr": {
+        "ru": {
+          "name": "Оби нон",
+          "desc": "Свежая хрустящая лепёшка из тандыра",
+          "ing": "Мука, вода, дрожжи, соль"
+        },
+        "en": {
+          "name": "Obi non bread",
+          "desc": "Fresh crispy flatbread from the clay oven",
+          "ing": "Flour, water, yeast, salt"
+        }
+      }
     },
     {
       "id": "non-15",
@@ -204,8 +475,25 @@
       "cat": "non",
       "tag": "",
       "ing": "Un, sariyog', sut, kunjut",
+      "weight": "1 dona",
+      "flags": [
+        "veg"
+      ],
+      "variants": [],
       "imgs": [],
-      "available": true
+      "available": true,
+      "tr": {
+        "ru": {
+          "name": "Патыр",
+          "desc": "Слоёная лепёшка на сливочном масле",
+          "ing": "Мука, сливочное масло, молоко, кунжут"
+        },
+        "en": {
+          "name": "Patir",
+          "desc": "Layered butter flatbread",
+          "ing": "Flour, butter, milk, sesame"
+        }
+      }
     },
     {
       "id": "non-16",
@@ -215,8 +503,23 @@
       "cat": "non",
       "tag": "",
       "ing": "Xamir, go'sht, piyoz, zira",
+      "weight": "1 dona",
+      "flags": [],
+      "variants": [],
       "imgs": [],
-      "available": true
+      "available": true,
+      "tr": {
+        "ru": {
+          "name": "Самса из тандыра",
+          "desc": "Самса с мясом из тандыра",
+          "ing": "Тесто, мясо, лук, зира"
+        },
+        "en": {
+          "name": "Tandoor samsa",
+          "desc": "Meat pastry baked in a clay oven",
+          "ing": "Dough, meat, onion, cumin"
+        }
+      }
     },
     {
       "id": "ichimlik-17",
@@ -226,8 +529,25 @@
       "cat": "ichimlik",
       "tag": "Mashhur",
       "ing": "Ko'k choy bargi, qaynoq suv",
+      "weight": "1 choynak",
+      "flags": [
+        "veg"
+      ],
+      "variants": [],
       "imgs": [],
-      "available": true
+      "available": true,
+      "tr": {
+        "ru": {
+          "name": "Зелёный чай",
+          "desc": "Зелёный чай в чайнике",
+          "ing": "Листья зелёного чая, кипяток"
+        },
+        "en": {
+          "name": "Green tea",
+          "desc": "Green tea brewed in a teapot",
+          "ing": "Green tea leaves, hot water"
+        }
+      }
     },
     {
       "id": "ichimlik-18",
@@ -237,8 +557,25 @@
       "cat": "ichimlik",
       "tag": "",
       "ing": "Qatiq, tuz, suv, ko'kat",
+      "weight": "0.5 l",
+      "flags": [
+        "veg"
+      ],
+      "variants": [],
       "imgs": [],
-      "available": true
+      "available": true,
+      "tr": {
+        "ru": {
+          "name": "Айран",
+          "desc": "Домашний айран, прохладный и полезный",
+          "ing": "Катык, соль, вода, зелень"
+        },
+        "en": {
+          "name": "Ayran",
+          "desc": "Homemade cool yogurt drink",
+          "ing": "Yogurt, salt, water, herbs"
+        }
+      }
     },
     {
       "id": "ichimlik-19",
@@ -248,8 +585,25 @@
       "cat": "ichimlik",
       "tag": "",
       "ing": "Olma, o'rik, uzum, suv",
+      "weight": "1 l",
+      "flags": [
+        "veg"
+      ],
+      "variants": [],
       "imgs": [],
-      "available": true
+      "available": true,
+      "tr": {
+        "ru": {
+          "name": "Компот",
+          "desc": "Домашний фруктовый компот",
+          "ing": "Яблоки, абрикосы, виноград, вода"
+        },
+        "en": {
+          "name": "Kompot",
+          "desc": "Homemade fruit drink, naturally sweet",
+          "ing": "Apples, apricots, grapes, water"
+        }
+      }
     }
   ]
 }
