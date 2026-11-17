@@ -1,18 +1,19 @@
 /* Osh Markazi menyu: shared tokens and surfaces for index.html and admin.html */
 :root{
   color-scheme:light;
-  --paper:oklch(97.5% 0.012 85); --paper-2:oklch(99.2% 0.005 85); --paper-3:oklch(93.5% 0.022 80);
-  --ink:oklch(30% 0.05 50); --ink-2:oklch(40% 0.045 50); --muted:oklch(50% 0.05 55);
-  --rule:oklch(89% 0.025 78);
-  --accent:oklch(54% 0.20 24); --accent-ink:oklch(98% 0.01 85); --focus:oklch(54% 0.20 24);
-  --gold:oklch(74% 0.14 75);
+  /* Osh Markazi brendi: logodagi to'q ko'k va oltin */
+  --paper:#F7F3EA; --paper-2:#FFFDF8; --paper-3:#ECE6D6;
+  --ink:#14174A; --ink-2:#2B2F66; --muted:#5D6088;
+  --rule:#E4DDCC;
+  --accent:#F2C94C; --accent-ink:#14174A; --focus:#14174A; --price:#9A6A00;
+  --gold:#E0A41B;
   --ok:oklch(52% 0.12 150); --danger:oklch(52% 0.19 27);
-  --blob-1:oklch(88% 0.09 80 / .55); --blob-2:oklch(86% 0.08 35 / .4); --blob-3:oklch(92% 0.05 140 / .35);
-  --glass:oklch(100% 0 0 / .6); --glass-strong:oklch(100% 0 0 / .82);
-  --glass-edge:oklch(100% 0 0 / .85); --glass-line:oklch(30% 0.05 50 / .09);
-  --glass-hi:inset 0 1px 0 oklch(100% 0 0 / .9);
-  --shadow:0 8px 28px oklch(35% 0.06 50 / .10); --shadow-lift:0 18px 44px oklch(35% 0.06 50 / .16);
-  --scrim:oklch(25% 0.04 50 / .45);
+  --blob-1:rgba(242,201,76,.30); --blob-2:rgba(20,23,74,.08); --blob-3:rgba(242,201,76,.16);
+  --glass:rgba(255,255,255,.6); --glass-strong:rgba(255,255,255,.82);
+  --glass-edge:rgba(255,255,255,.85); --glass-line:rgba(20,23,74,.1);
+  --glass-hi:inset 0 1px 0 rgba(255,255,255,.9);
+  --shadow:0 8px 28px rgba(20,23,74,.10); --shadow-lift:0 18px 44px rgba(20,23,74,.16);
+  --scrim:rgba(14,16,50,.5);
   --blur:blur(18px) saturate(160%);
 
   --font-display:"Yeseva One",ui-serif,Georgia,serif;
@@ -28,17 +29,17 @@
 }
 html[data-theme="dark"]{
   color-scheme:dark;
-  --paper:oklch(26% 0.045 40); --paper-2:oklch(31% 0.05 40); --paper-3:oklch(22% 0.04 40);
-  --ink:oklch(95% 0.03 80); --ink-2:oklch(86% 0.03 80); --muted:oklch(76% 0.04 70);
-  --rule:oklch(42% 0.05 50);
-  --focus:oklch(84% 0.11 80); --gold:oklch(78% 0.14 80);
+  --paper:#0F1236; --paper-2:#181C4A; --paper-3:#0B0D2A;
+  --ink:#F4EFE3; --ink-2:#DCD6C8; --muted:#A9ACCB;
+  --rule:#2E3366;
+  --focus:#F2C94C; --gold:#F2C94C; --price:#F2C94C;
   --ok:oklch(76% 0.14 150); --danger:oklch(74% 0.16 27);
-  --blob-1:oklch(45% 0.09 70 / .45); --blob-2:oklch(40% 0.10 30 / .4); --blob-3:oklch(38% 0.05 140 / .3);
-  --glass:oklch(38% 0.04 45 / .5); --glass-strong:oklch(33% 0.04 45 / .86);
-  --glass-edge:oklch(100% 0 0 / .14); --glass-line:oklch(100% 0 0 / .09);
-  --glass-hi:inset 0 1px 0 oklch(100% 0 0 / .12);
-  --shadow:0 8px 28px oklch(10% 0.02 40 / .35); --shadow-lift:0 18px 44px oklch(10% 0.02 40 / .5);
-  --scrim:oklch(10% 0.02 40 / .6);
+  --blob-1:rgba(242,201,76,.14); --blob-2:rgba(60,70,160,.35); --blob-3:rgba(242,201,76,.08);
+  --glass:rgba(30,35,90,.5); --glass-strong:rgba(26,30,80,.88);
+  --glass-edge:rgba(255,255,255,.14); --glass-line:rgba(255,255,255,.09);
+  --glass-hi:inset 0 1px 0 rgba(255,255,255,.12);
+  --shadow:0 8px 28px rgba(0,0,0,.35); --shadow-lift:0 18px 44px rgba(0,0,0,.5);
+  --scrim:rgba(5,6,20,.6);
 }
 
 *,*::before,*::after{box-sizing:border-box}
@@ -75,7 +76,8 @@ button{cursor:pointer;background:none;border:0;padding:0}
 .top{position:sticky;top:0;z-index:30;border-width:0 0 1px;border-color:var(--glass-line);box-shadow:none}
 .top .wrap{display:flex;align-items:center;justify-content:space-between;gap:var(--s3);min-height:64px}
 .brand{display:flex;align-items:center;gap:var(--s3);min-width:0;text-decoration:none}
-.brand-mark{width:40px;height:40px;flex:0 0 auto;display:grid;place-items:center;border-radius:var(--r-sm);background:var(--ink);color:var(--paper)}
+.brand-mark{width:40px;height:40px;flex:0 0 auto;display:grid;place-items:center;border-radius:var(--r-pill);overflow:hidden;background:#14174A;color:#FFFDF8}
+.brand-mark img{width:100%;height:100%;object-fit:cover}
 .brand-name{font:400 var(--t-lg)/1.1 var(--font-display);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .top-actions{display:flex;align-items:center;gap:var(--s2)}
 
@@ -89,7 +91,7 @@ button{cursor:pointer;background:none;border:0;padding:0}
 .btn-ghost{background:var(--glass-strong);border-color:var(--glass-line);color:var(--ink)}
 .btn-ghost:hover{border-color:var(--ink)}
 .btn-danger{background:transparent;border-color:var(--danger);color:var(--danger)}
-.btn-danger:hover{background:var(--danger);color:var(--accent-ink)}
+.btn-danger:hover{background:var(--danger);color:#fff}
 .btn-block{width:100%;min-height:52px;font-size:var(--t-md)}
 .btn:disabled{background:var(--paper-3);color:var(--muted);border:1px dashed var(--rule);cursor:not-allowed;transform:none}
 .icon-btn{width:44px;height:44px;display:grid;place-items:center;border-radius:var(--r-pill);background:var(--glass-strong);border:1px solid var(--glass-line);color:var(--ink);
