@@ -6,6 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="description" content="Osh Markazi menyusini boshqarish paneli.">
 <title>Admin panel: menyu</title>
+<link rel="icon" type="image/png" href="logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Yeseva+One&family=Archivo:wght@400;500&family=Archivo+Narrow:wght@600&display=swap" rel="stylesheet">
@@ -556,7 +557,7 @@ function renderSettings() {
         <div class="field"><label for="sPhone">Telefon</label><input class="input" id="sPhone" type="tel" value="${esc(s.phone)}" placeholder="+998 90 123 45 67"></div>
         <div class="field"><label for="sTg">Telegram</label><input class="input" id="sTg" value="${esc(s.telegram)}" placeholder="@username"><span class="error" id="eTg"></span></div>
       </div>
-      <div class="field"><label for="sHours">Ish vaqti</label><input class="input" id="sHours" value="${esc(s.hours)}" placeholder="Har kuni 09:00 dan 22:00 gacha"></div>
+      <div class="field"><label for="sHours">Ish vaqti</label><input class="input" id="sHours" value="${esc(s.hours)}" placeholder="Har kuni 09:00 dan 00:00 gacha"></div>
       <div class="field"><label for="sAddr">Manzil</label><input class="input" id="sAddr" value="${esc(s.address)}" placeholder="Toshkent, Chilonzor 9"></div>
       <button class="btn btn-primary" type="submit">Saqlash</button>
     </form>

@@ -84,8 +84,8 @@ const DEFAULT_DISHES = [
   ['Kompot',          "Mevali uy kompoti, tabiiy shirinlik",                    12000, 'ichimlik', '',        "Olma, o'rik, uzum, suv"]
 ];
 const DEFAULT_SETTINGS = {
-  name: 'Osh Markazi', phone: '+998 90 123 45 67', telegram: 'oshmarkazi',
-  hours: 'Har kuni 09:00 dan 22:00 gacha', address: '', currency: "so'm"
+  name: 'Osh Markazi', phone: '+998 98 200 06 66', telegram: 'oshmarkazi',
+  hours: 'Har kuni 09:00 dan 00:00 gacha', address: 'Qashqadaryo, Shahrisabz shahri', currency: "so'm"
 };
 function defaultMenu() {
   return {
