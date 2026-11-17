@@ -6,7 +6,7 @@ const PIN_KEY   = 'oshmarkazi.menyu.pin';  // PIN xeshi (shu brauzerda)
 const THEME_KEY = 'oshmarkazi.menyu.theme';
 const LANG_KEY  = 'oshmarkazi.menyu.lang';
 const PUBLISHED_URL = 'menu.json';         // saytdagi nashr qilingan menyu
-const DEFAULT_LOGO = 'logo.svg';           // test logotipi; admin o'zinikini yuklaydi
+const DEFAULT_LOGO = 'logo.png';           // kafe logotipi; admin boshqasini yuklashi mumkin
 
 const $  = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
@@ -196,8 +196,8 @@ const DEFAULT_DISHES = [
     ['Kompot', 'Homemade fruit drink, naturally sweet', 'Apples, apricots, grapes, water']]
 ];
 const DEFAULT_SETTINGS = {
-  name: 'Osh Markazi', phone: '+998 90 123 45 67', telegram: 'oshmarkazi',
-  openTime: '09:00', closeTime: '22:00', address: 'Toshkent', mapUrl: '', currency: "so'm",
+  name: 'Osh Markazi', phone: '+998 98 200 06 66', telegram: 'oshmarkazi',
+  openTime: '09:00', closeTime: '00:00', address: 'Qashqadaryo, Shahrisabz shahri', mapUrl: '', currency: "so'm",
   logo: '', cover: '', featuredId: 'plov-1'
 };
 function defaultMenu() {

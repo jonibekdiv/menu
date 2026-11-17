@@ -1,13 +1,13 @@
 {
   "version": 2,
-  "updatedAt": "2026-11-16T00:00:00.000Z",
+  "updatedAt": "2026-11-17T00:00:00.000Z",
   "settings": {
     "name": "Osh Markazi",
-    "phone": "+998 90 123 45 67",
+    "phone": "+998 98 200 06 66",
     "telegram": "oshmarkazi",
     "openTime": "09:00",
-    "closeTime": "22:00",
-    "address": "Toshkent",
+    "closeTime": "00:00",
+    "address": "Qashqadaryo, Shahrisabz shahri",
     "mapUrl": "",
     "currency": "so'm",
     "logo": "",
