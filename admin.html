@@ -243,6 +243,7 @@ async function enterPanel() {
   catch (e) { $('#loginError').textContent = "Server bilan bog'lanib bo'lmadi."; return; }
   if (!isAdmin) { storeSession(null); $('#loginError').textContent = "Bu akkauntga menyuni o'zgartirish ruxsati berilmagan."; return; }
   M = (await loadPublished()) || defaultMenu();
+  baseStamp = M.updatedAt;
   $('#login').hidden = true;
   $('#panel').hidden = false;
   $('#previewLink').hidden = false;
@@ -253,14 +254,27 @@ function logout() {
   storeSession(null);
   location.reload();
 }
-/* Every change saves the whole menu to Supabase; saves run one after another so none overtakes another. */
+/* Every change saves the whole menu to Supabase; saves run one after another so none overtakes another.
+   A save only goes through if the stored menu is still the one this window last loaded or saved:
+   a stale window (menu changed elsewhere) is refused instead of overwriting the newer menu. */
 let saving = Promise.resolve();
+let baseStamp = null;   // updatedAt of the menu as last loaded or saved here
+let stale = false;
 function commit(msg) {
-  M.updatedAt = new Date().toISOString();
+  if (stale) return;
+  const prev = baseStamp;
+  baseStamp = M.updatedAt = new Date().toISOString();
   const body = JSON.stringify({ data: normalizeMenu(M), updated_at: M.updatedAt });
   saving = saving.then(async () => {
-    const r = await api('/rest/v1/menu?id=eq.1', { method: 'PATCH', headers: { 'Content-Type': 'application/json', Prefer: 'return=minimal' }, body });
+    if (stale) return;
+    const r = await api(`/rest/v1/menu?id=eq.1&data->>updatedAt=eq.${encodeURIComponent(prev)}&select=id`, { method: 'PATCH', headers: { 'Content-Type': 'application/json', Prefer: 'return=representation' }, body });
     if (!r.ok) throw new Error(String(r.status));
+    if (!(await r.json()).length) {
+      stale = true;
+      toast("Menyu boshqa oynada o'zgartirilgan. Hech narsa ustidan yozilmadi. Sahifa yangilanadi.");
+      setTimeout(() => location.reload(), 3500);
+      return;
+    }
     toast(`${msg || 'Saqlandi'}. Saytda yangilandi`);
   }).catch(() => toast("Saqlab bo'lmadi. Internetni tekshirib, qayta urinib ko'ring."));
   renderStatus();
