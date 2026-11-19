@@ -78,10 +78,14 @@ html[data-theme="dark"] .feat-price{color:var(--gold)}
 .search input::-webkit-search-cancel-button{display:none}
 .clear{width:36px;height:36px;border-radius:var(--r-pill);display:grid;place-items:center;color:var(--ink-2)}
 .clear:hover{background:var(--paper-3)}
-.cats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s2);padding:2px}
-.cat-link{min-width:0;display:flex;align-items:center;justify-content:center;gap:var(--s1);min-height:40px;padding:0 var(--s2);overflow:hidden;text-overflow:ellipsis;border-radius:var(--r-pill);
-  background:var(--glass-strong);border:1px solid var(--glass-line);font:500 var(--t-sm)/1 var(--font-body);text-decoration:none;white-space:nowrap;
+.cats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:2px}
+@media (min-width:640px){.cats{grid-template-columns:repeat(auto-fit,minmax(130px,1fr))}}
+/* names wrap onto two lines instead of being cut off; sentence case keeps long names short */
+.cat-link{min-width:0;display:flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:4px var(--s2);border-radius:var(--r-pill);
+  background:var(--glass-strong);border:1px solid var(--glass-line);font:500 .78rem/1.15 var(--font-body);text-decoration:none;text-align:center;
   transition:background var(--dur) var(--ease),color var(--dur) var(--ease),border-color var(--dur) var(--ease)}
+.cat-link .lbl{display:block;min-width:0;text-transform:lowercase;overflow-wrap:anywhere}
+.cat-link .lbl::first-letter{text-transform:uppercase}
 .cat-link:hover{border-color:var(--ink)}
 .cat-link[aria-current="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 
@@ -384,7 +388,7 @@ function revealResults() {
 function renderSections() {
   const gs = groups();
   $('#catNav').innerHTML = gs.map(({ c }) =>
-    `<a class="cat-link" href="#cat-${esc(c.id)}" data-cat="${esc(c.id)}" aria-current="false">${svg(c.icon, 16)}${esc(tr(c, 'name'))}</a>`).join('');
+    `<a class="cat-link" href="#cat-${esc(c.id)}" data-cat="${esc(c.id)}" aria-current="false">${svg(c.icon, 14)}<span class="lbl">${esc(tr(c, 'name'))}</span></a>`).join('');
 
   if (!gs.length) {
     $('#menu').innerHTML = `<div class="empty"><h3>${t('nothing')}</h3><p>${t('nothingSub')}</p></div>`;
